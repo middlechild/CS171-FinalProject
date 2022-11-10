@@ -1,0 +1,40 @@
+.container-fluid {
+    padding: 0;
+}
+
+section {
+    min-height: 400px;
+}
+
+
+/**  Temporary Styles for Storyboard Slides  **/
+/*  Remove once all sections are implemented  */
+
+.temp-storyboard-slide {
+    text-align: center;
+    border-bottom: 1px solid lightgrey;
+}
+
+.temp-storyboard-slide.color-green {
+    background-color: #85c094;
+}
+
+.temp-storyboard-slide.color-light-green {
+    background-color: #e6f8ec;
+}
+
+.temp-storyboard-slide.color-grey {
+    background-color: lightgrey;
+}
+
+.temp-storyboard-slide.color-black {
+    background-color: black;
+}
+
+.temp-storyboard-slide.color-white {
+    background-color: white;
+}
+
+.temp-storyboard-slide img {
+    width: 60%;
+}
