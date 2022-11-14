@@ -63,12 +63,12 @@ class ComparisonVis {
     wrangleData() {
         let vis = this;
 
-        // Create object for display data
+        // Create object for summary data
         vis.summaryStats = {};
         vis.summaryStats = {
-            extinct: {plants: 0},
-            threatened: {plants: 0},
-            both: {plants: 0}
+            extinct: {Plant: 0},
+            threatened: {Plant: 0},
+            both: {Plant: 0}
         };
         vis.animalTypes.forEach((t) => {
             vis.summaryStats.extinct[t] = 0;
@@ -76,13 +76,15 @@ class ComparisonVis {
             vis.summaryStats.both[t] = 0;
         })
 
-        // Tabulate display data for every
+        // Tabulate display data for every threat level
         for (let status in vis.statusLevels) {
+            // Count and round number of plants at level
             for (let k in vis.plantData) {
                 if (vis.statusLevels[status].includes(k)) {
-                    vis.summaryStats[status].plants += vis.plantData[k];
+                    vis.summaryStats[status].Plant += vis.boxWorth * Math.round(vis.plantData[k] / vis.boxWorth);
                 }
             }
+            // Count and round number of plants at level
             vis.animalTypes.forEach((t) => {
                 let allOfType = vis.animalData.filter((d) => d.Type === t);
                 // Might be multiple species, loop through
@@ -90,14 +92,14 @@ class ComparisonVis {
                     let species = allOfType[i];
                     for (let k in species) {
                         if (vis.statusLevels[status].includes(k)) {
-                            vis.summaryStats[status][t] += species[k];
+                            vis.summaryStats[status][t] += vis.boxWorth * Math.round(species[k] / vis.boxWorth);
                         }
                     }
                 }
             });
         }
 
-        vis.updateVis();
+        // vis.updateVis();
     }
 
     updateVis() {
@@ -109,7 +111,7 @@ class ComparisonVis {
         vis.animalTypes.forEach((t) => {
             animalCount += vis.displayData[t];
         });
-        let maxCount = vis.displayData.plants > animalCount ? vis.displayData.plants : animalCount;
+        let maxCount = vis.displayData.Plant > animalCount ? vis.displayData.Plant : animalCount;
 
         // Calculate how many boxes are needed
         let boxesNeeded = Math.ceil(maxCount / vis.boxWorth);
@@ -133,15 +135,15 @@ class ComparisonVis {
         for (let i = 0; i < numRows; i++) {
             for (let j = 0; j < numCols; j++) {
                 let cellID = `plant-row${i + 1}-col${j + 1}`;
-                let cellFill = vis.displayData.plants > 0 ? "Plant": "none";
+                let cellFill = vis.displayData.Plant > 0 ? "Plant": "none";
                 plantDisplayData[i].data.push({
                     "id": cellID,
                     "fill": cellFill
                 });
-                vis.displayData.plants -= 10;
+                vis.displayData.Plant -= vis.boxWorth;
             }
         }
-        delete vis.displayData.plants;
+        delete vis.displayData.Plant;
         let animalCounts = [];
         for (let k in vis.displayData) {
             animalCounts.push({"animal": k, "count": vis.displayData[k]});
@@ -159,7 +161,7 @@ class ComparisonVis {
                     "id": cellID,
                     "fill": cellFill
                 });
-                animalCounts[0].count -= 10;
+                animalCounts[0].count -= vis.boxWorth;
                 if (animalCounts[0].count < 0) {
                     animalCounts.shift();
                 }
