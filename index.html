@@ -72,7 +72,7 @@
     <section id="section-8" class="row">
       <h2 class="section-title">Extinction Risk</h2>
       <div class="col col-6 map">
-        <div id="3d-map-chart" class="row">
+        <div id="map-3d-chart" class="row">
 
         </div>
       </div>
@@ -117,11 +117,12 @@
     </section>
 
     <section id="section-13" class="row">
-      <!--   Replace this temporary div   -->
-      <div class="col temp-storyboard-slide color-white">
-        <img src="images/storyboard/Slide13.jpeg" />
+      <h2 class="section-title">Extinct vs Rediscovered Species</h2>
+      <div class="col map">
+        <h3 class="">Rediscovered</h3>
+        <div id="map-flat-chart" class="row"></div>
+        <button type="button" class="btn btn-lg btn-secondary">View Extinct</button>
       </div>
-      <!------------------------------------>
     </section>
 
     <section id="section-14" class="row">
@@ -147,9 +148,13 @@
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
   <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+  <script src="https://d3js.org/topojson.v2.min.js"></script>
+  <script src="https://d3js.org/d3-geo.v1.min.js"></script>
 
   <!-- Our scripts -->
   <script src="js/main.js"></script>
+  <script src="js/map3d.js"></script>
+  <script src="js/mapFlat.js"></script>
   <script src="js/topDownBarchart.js"></script>
 </body>
 </html>

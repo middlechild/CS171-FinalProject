@@ -54,6 +54,10 @@ section {
     padding: 4% 8%;
 }
 
+#section-8 .map #map-3d-chart {
+    height: 100%;
+}
+
 #section-8 .chart {
     padding: 4% 8% 4% 4%;
 }
@@ -155,11 +159,33 @@ section {
 
 
 /** *********************************** **/
-/**             Section 13              **/
+/** Section 13  Extinct vs Rediscovered **/
 /** *********************************** **/
-
 #section-13 {
+    padding-bottom: 4%;
+    margin-bottom: 40px;
+}
 
+#section-13 .map {
+    padding: 0% 8% 4% 8%;
+    height: 600px;
+    text-align: center;
+}
+
+#section-13 .map .btn {
+    width: 200px;
+    margin: 24px;
+}
+
+#section-13 .map #map-flat-chart {
+    height: 100%;
+    border: 1px solid lightgray;
+    max-width: 980px;
+    margin: auto;
+}
+
+#section-13 h3 {
+    text-align: center;
 }
 
 
