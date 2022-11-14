@@ -10,6 +10,16 @@ class ComparisonVis {
         this.animalData = animalData.filter((d) => d.Name !== "Total");
 
         this.animalTypes = [...new Set(this.animalData.map((d) => d.Type))];
+        this.colorMap = {
+            "Plant": "#7fc97f",
+            "Reptile": "#beaed4",
+            "Mammal": "#fdc086",
+            "Bird": "#ffff99",
+            "Amphibian": "#bf5b17",
+            "Other": "#f0027f",
+            "Marine Life": "#386cb0",
+            "none": "none"
+        }
         // TODO: verify these designations
         this.statusLevels = {
             extinct: ["EX", "EW", "CR(PE)", "CR(PEW)"],
@@ -42,24 +52,10 @@ class ComparisonVis {
 
         // Add a group to each side for plants vs animals
         vis.plantGroup = vis.svg.append("g")
-            .attr("width", vis.groupWidth)
-            .attr("height", vis.height)
             .attr("id", "plant-group");
         vis.animalGroup = vis.svg.append("g")
-            .attr("width", vis.groupWidth)
-            .attr("height", vis.height)
             .attr("transform", `translate(${vis.width * 0.51}, 0)`)
             .attr("id", "animal-group");
-
-        // TODO: remove these temporary place holders
-        vis.plantGroup.append("rect")
-            .attr("width", vis.groupWidth)
-            .attr("height", vis.height)
-            .style("fill", "aquamarine");
-        vis.animalGroup.append("rect")
-            .attr("width", vis.groupWidth)
-            .attr("height", vis.height)
-            .style("fill", "pink");
 
         vis.wrangleData();
     }
@@ -109,8 +105,6 @@ class ComparisonVis {
 
         vis.displayData = vis.summaryStats[selectedComparison];
 
-        console.log(vis.displayData);
-
         let animalCount = 0;
         vis.animalTypes.forEach((t) => {
             animalCount += vis.displayData[t];
@@ -121,23 +115,104 @@ class ComparisonVis {
         let boxesNeeded = Math.ceil(maxCount / vis.boxWorth);
 
         // Calculate number of rows/columns
-        let numRows = boxesNeeded > 100 ? boxesNeeded / 10: 10;
-        let numCols = boxesNeeded > 100 ? 10: boxesNeeded / 10;
+        let numRows = boxesNeeded > 100 ? boxesNeeded / vis.boxWorth: vis.boxWorth;
+        let numCols = boxesNeeded > 100 ? vis.boxWorth: boxesNeeded / vis.boxWorth;
+
+        // Calculate box dimensions
+        let maxBoxWidth = (4 * vis.groupWidth)/(5 * numCols - 1);
+        let maxBoxHeight = (4 * vis.height)/(5 * numRows - 1);
+        let boxDim = maxBoxWidth < maxBoxHeight ? maxBoxWidth : maxBoxHeight;
+        let gap = boxDim / 4;
 
         // Transform display data to align with d3 better
-        let plantDisplayData = [...Array(numRows)].map((r) => Array(0));
+        // TODO: move this to wrangle data
+        let plantDisplayData = [];
+        for (let i = 0; i < numRows; i++) {
+            plantDisplayData.push({row: `plant-row${i + 1}`, data: []});
+        }
         for (let i = 0; i < numRows; i++) {
             for (let j = 0; j < numCols; j++) {
-                let cellID = `plant-row${i + 1}-col${j + 1}`
+                let cellID = `plant-row${i + 1}-col${j + 1}`;
                 let cellFill = vis.displayData.plants > 0 ? "Plant": "none";
-                plantDisplayData[i].push({
+                plantDisplayData[i].data.push({
                     "id": cellID,
                     "fill": cellFill
                 });
                 vis.displayData.plants -= 10;
             }
         }
-        console.log(plantDisplayData);
+        delete vis.displayData.plants;
+        let animalCounts = [];
+        for (let k in vis.displayData) {
+            animalCounts.push({"animal": k, "count": vis.displayData[k]});
+        }
+        animalCounts.sort((a, b) => a.count - b.count);
+        let animalDisplayData = [];
+        for (let i = 0; i < numRows; i++) {
+            animalDisplayData.push({row: `animal-row${i + 1}`, data: []});
+        }
+        for (let i = 0; i < numRows; i++) {
+            for (let j = 0; j < numCols; j++) {
+                let cellID = `animal-row${i + 1}-col${j + 1}`;
+                let cellFill = (animalCounts.length > 0) ? animalCounts[0].animal : "none";
+                animalDisplayData[i].data.push({
+                    "id": cellID,
+                    "fill": cellFill
+                });
+                animalCounts[0].count -= 10;
+                if (animalCounts[0].count < 0) {
+                    animalCounts.shift();
+                }
+            }
+        }
 
+        // Create groups for each row
+        vis.plantRows = vis.plantGroup.selectAll(".plant-row")
+            .data(plantDisplayData);
+        vis.plantRowGroups = vis.plantRows.enter()
+            .append("g")
+            .merge(vis.plantRows)
+            .classed("plant-row", true)
+            .attr("id", (d) => d.row)
+            .attr("transform", (d, i) => `translate(0, ${vis.height - ((i + 1) * boxDim)  - (i * gap)})`);
+
+        vis.animalRows = vis.animalGroup.selectAll(".animal-row")
+            .data(animalDisplayData);
+        vis.animalRowGroups = vis.animalRows.enter()
+            .append("g")
+            .merge(vis.animalRows)
+            .classed("animal-row", true)
+            .attr("id", (d) => d.row)
+            .attr("transform", (d, i) => `translate(0, ${vis.height - ((i + 1) * boxDim)  - (i * gap)})`);
+
+
+        // Draw squares for each row
+        vis.plantCells = vis.plantRowGroups.selectAll(".plant-cell")
+            .data(d => d.data);
+        vis.plantCells.enter()
+            .append("rect")
+            .merge(vis.plantCells)
+            .classed("plant-cell", true)
+            .attr("id", (d) => d.id)
+            .attr("x", (d, i) => i * (boxDim + gap))
+            .attr("y", 0)
+            .attr("width", boxDim)
+            .attr("height", boxDim)
+            .style("fill", d => vis.colorMap[d.fill]);
+        vis.plantCells.exit().remove();
+
+        vis.animalCells = vis.animalRowGroups.selectAll(".animal-cell")
+            .data(d => d.data);
+        vis.animalCells.enter()
+            .append("rect")
+            .merge(vis.animalCells)
+            .classed("animal-cell", true)
+            .attr("id", (d) => d.id)
+            .attr("x", (d, i) => i * (boxDim + gap))
+            .attr("y", 0)
+            .attr("width", boxDim)
+            .attr("height", boxDim)
+            .style("fill", d => vis.colorMap[d.fill]);
+        vis.animalCells.exit().remove();
     }
 }
