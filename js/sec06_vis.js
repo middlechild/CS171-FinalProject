@@ -50,16 +50,14 @@ class sec06_barchart {
 
 
         // (Filter, aggregate, modify data)
-        vis.wrangleData();
+        //vis.wrangleData();
     }
 
     /*
      * Data wrangling
      */
     wrangleData() {
-        let vis = this
-
-        vis.data
+        let vis = this;
 
         vis.data.forEach( function(d){
             d.values = +d.values;

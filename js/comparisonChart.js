@@ -55,7 +55,7 @@ class ComparisonVis {
         vis.plantGroup.append("rect")
             .attr("width", vis.groupWidth)
             .attr("height", vis.height)
-            .style("fill", "green");
+            .style("fill", "aquamarine");
         vis.animalGroup.append("rect")
             .attr("width", vis.groupWidth)
             .attr("height", vis.height)
