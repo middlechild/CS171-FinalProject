@@ -46,11 +46,23 @@
     </section>
 
     <section id="section-5" class="row">
-      <!--   Replace this temporary div   -->
-      <div class="col temp-storyboard-slide color-white">
-        <img src="images/storyboard/Slide5.jpeg" />
+      <div class="col-1">
+        <div class="row align-items-center justify-content-right full-height">
+          <div>
+            <p>Species status:</p>
+            <select id="comparison-selector", class="form-select form-select-lg", aria-label=".form-select-lg attribute" onchange="changeComparisonVis()">
+              <option value="extinct" selected>Extinct</option>
+              <option value="threatened">Threatened</option>
+              <option value="both">Both</option>
+            </select>
+          </div>
+        </div>
       </div>
-      <!------------------------------------>
+      <div class="col-11 full-height">
+        <div class="col-12 full-height full-width">
+          <div class="row full-height full-width justify-content-center align-items-center" id="comparisonChart"></div>
+        </div>
+      </div>
     </section>
 
     <section id="section-6" class="row">
@@ -171,6 +183,6 @@
   <!-- Our scripts -->
   <script src="js/sec06_vis.js"></script>
   <script src="js/main.js"></script>
-
+  <script src="js/comparisonChart.js"></script>
 </body>
 </html>
