@@ -1,9 +1,24 @@
 .container-fluid {
     padding: 0;
+    margin: 0;
 }
 
 section {
-    min-height: 400px;
+    height: 100vh;
+    width: 100vw;
+}
+
+.full-height {
+    height: 100%;
+}
+
+.full-width {
+    width: 100%;
+}
+
+#comparison-selector {
+    width: auto;
+    max-width: 100%;
 }
 
 
