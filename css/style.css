@@ -1,11 +1,36 @@
+/** **************************************** **/
+/**                  Fonts                    */
+/** **************************************** **/
+
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&family=Roboto:ital,wght@0,400;0,700;1,400&display=swap');
+
+/** *********************************** **/
+/**               General               **/
+/** *********************************** **/
+
+body {
+    color: #222b33;
+    font-family: Roboto, sans-serif;
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: Oswald, sans-serif;
+    margin-bottom: 1em;
+}
+
 .container-fluid {
     padding: 0;
     margin: 0;
 }
 
+
+/** *********************************** **/
+/**             All Sections            **/
+/** *********************************** **/
+
 section {
-    height: 100vh;
-    width: 100vw;
+    min-height: 300px;
+    border-bottom: 1px solid lightgrey;
 }
 
 .full-height {
@@ -21,13 +46,264 @@ section {
     max-width: 100%;
 }
 
+.section-title {
+    text-align: center;
+    font-size: 36px;
+    padding: 24px 0;
+    background-color: #e6f8ec;
+}
 
+.section-remark {
+    font-size: 48px;
+    margin-bottom: 0;
+    max-width: 920px;
+    margin: auto;
+}
+
+
+/** *********************************** **/
+/**     Section 6 - Extinction Rate     **/
+/** *********************************** **/
+
+#section-5 {
+    height: 80vh;
+    width: 100vw;
+}
+
+#section-5 .section-chart {
+    padding: 4% 8%;
+}
+
+#section-5 #comparison-selector {
+    width: auto;
+    max-width: 100%;
+}
+
+
+/** *********************************** **/
+/**     Section 6 - Extinction Rate     **/
+/** *********************************** **/
+
+#section-6 {
+
+}
+
+#section-6 .section-chart {
+    padding: 4% 8%;
+    min-height: 600px;
+}
+
+#section-6 h5 {
+    text-align: center;
+}
+
+
+/** *********************************** **/
+/**              Section 7              **/
+/** *********************************** **/
+
+
+
+/** *********************************** **/
+/**     Section 8 - Extinction Risk     **/
+/** *********************************** **/
+
+#section-8 .map {
+    padding: 4% 8%;
+}
+
+#section-8 .map #map-3d-chart {
+    height: 100%;
+}
+
+#section-8 .chart {
+    padding: 4% 8% 4% 4%;
+}
+
+#section-8 img {
+    padding: 0;
+    width: 100%;
+}
+
+
+/** *********************************** **/
+/** Section 9 - The Root of the Problem **/
+/** *********************************** **/
+
+#section-9 .tree {
+    padding: 4% 8%;
+}
+
+#section-9 .tree .tree-top img {
+    padding: 0;
+}
+
+#section-9 .tree .tree-root {
+    min-height: 368px;
+    padding: 0;
+}
+
+#section-9 .tree .tree-root svg {
+    padding: 0;
+}
+
+#section-9 .description {
+    padding: 4% 8% 4% 4%;
+}
+
+/** Section 9 Chart **/
+#section-9 .bar {
+    stroke: #6f8191;
+    cursor: pointer;
+}
+
+#section-9 .domain {
+    stroke: none;
+}
+
+#section-9 .tick line {
+    stroke: none;
+}
+
+#section-9 .tick text {
+    text-anchor: end;
+    font-size: 11px;
+}
+
+#section-9 .percent-label {
+    text-anchor: middle;
+}
+
+/** *********************************** **/
+/**             Section 10              **/
+/** *********************************** **/
+
+#section-10 {
+    padding: 12% 8%;
+    background-color: #85c094;
+}
+
+#section-10 .section-remark {
+    color: white;
+}
+
+
+
+/** *********************************** **/
+/**             Section 11              **/
+/** *********************************** **/
+
+#section-11 {
+    padding: 12% 8%;
+    background-color: #e6f8ec;
+}
+
+
+/** *********************************** **/
+/**             Section 12              **/
+/** *********************************** **/
+
+#section-12 {
+    height: 50%;
+    margin: 0;
+}
+
+#section-12 .video-player {
+    margin: 0;
+    padding: 0;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+
+/** *********************************** **/
+/** Section 13  Extinct vs Rediscovered **/
+/** *********************************** **/
+#section-13 {
+    padding-bottom: 4%;
+    margin-bottom: 40px;
+}
+
+#section-13 .map {
+    padding: 0% 8% 4% 8%;
+    height: 600px;
+    text-align: center;
+}
+
+#section-13 .map .btn {
+    width: 200px;
+    margin: 24px;
+}
+
+#section-13 .map #map-flat-chart {
+    height: 100%;
+    border: 1px solid lightgray;
+    max-width: 980px;
+    margin: auto;
+}
+
+#section-13 h3 {
+    text-align: center;
+}
+
+
+/** *********************************** **/
+/**             Section 14              **/
+/** *********************************** **/
+
+#section-14 {
+    padding: 12% 8%;
+    background-color: #e6f8ec;
+}
+
+
+/** *********************************** **/
+/**             Section 15              **/
+/** *********************************** **/
+
+#section-15 {
+    padding: 12% 8%;
+    background-color: #85c094;
+    color: white;
+}
+
+
+/** *********************************** **/
+/**                Charts               **/
+/** *********************************** **/
+
+.tooltip {
+    position: absolute;
+    text-align: center;
+    font: 12px sans-serif;
+}
+
+.tooltip .tooltip-box {
+    border-bottom-left-radius: 36px;
+    border-top-right-radius: 36px;
+    background-color: #222b33;
+    color: white;
+    padding: 20px;
+}
+
+.tooltip .tooltip-box .driver-name {
+    margin-bottom: 0.5em;
+}
+
+.tooltip .tooltip-box .percent-value {
+    color: #85c094;
+    margin-bottom: 0;
+    font-size: 48px;
+}
+
+/** **************************************** **/
 /**  Temporary Styles for Storyboard Slides  **/
 /*  Remove once all sections are implemented  */
+/** **************************************** **/
 
 .temp-storyboard-slide {
     text-align: center;
-    border-bottom: 1px solid lightgrey;
+    /*border-bottom: 1px solid lightgrey;*/
 }
 
 .temp-storyboard-slide.color-green {
@@ -52,30 +328,4 @@ section {
 
 .temp-storyboard-slide img {
     width: 60%;
-}
-
-#sec06-header{
-    background-color: #e6f8ec;
-    font-size: 12px;
-    color: darkgreen;
-}
-
-#sec06-message{
-    font: Calibri;
-    font-size: 12px;
-    color: grey;
-}
-
-#sec06-buttons{
-    font: Calibri;
-    color: grey;
-}
-
-.h2{
-    font: Calibri;
-    color: green;
-}
-
-.button4 {
-    border-radius: 12px;
 }

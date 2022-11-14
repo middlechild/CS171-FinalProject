@@ -4,9 +4,11 @@
 * * * * * * * * * * * * * */
 
 // Initialize global variables
-let sec06_data;
 let comparisonChart,
-    sec06_barchart_vis;
+    sec06_barchart_vis,
+    map3d,
+    mapFlat,
+    rootBarchart;
 
 // Get selection for comparison visualization
 let selectedComparison = document.getElementById("comparison-selector").value;
@@ -40,7 +42,12 @@ let promises = [
         sec06_data = csv;
         console.log(sec06_data);
         console.log(sec06_data[0]);
-    })
+    }),
+    d3.csv("data/extinction-drivers.csv", d => {
+        d.driver = d.driver
+        d.percentage = +d.percentage
+        return d}),
+    d3.json("data/map/world-110m.json")
 ];
 
 Promise.all(promises)
@@ -52,13 +59,17 @@ Promise.all(promises)
     });
 
 // Initialize the page
-function initPage(dataArray) {
+function initPage(data) {
 
     // Log data
     // console.log(dataArray);
 
     // Initialize visualizations
-    comparisonChart = new ComparisonVis("comparisonChart", dataArray[0], dataArray[1]);
+    comparisonChart = new ComparisonVis("comparisonChart", data[0], data[1]);
 
-    sec06_barchart_vis = new sec06_barchart("sec06-vis", sec06_data)
+    sec06_barchart_vis = new sec06_barchart("sec06-vis", data[2])
+
+    map3d = new Map3D('map-3d-chart', data[4]);
+    mapFlat = new MapFlat('map-flat-chart', data[4]);
+    rootBarchart = new TopDownBarchart('root-barchart', data[3]);
 }
