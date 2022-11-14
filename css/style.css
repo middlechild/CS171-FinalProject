@@ -38,3 +38,29 @@ section {
 .temp-storyboard-slide img {
     width: 60%;
 }
+
+#sec06-header{
+    background-color: #e6f8ec;
+    font-size: 12px;
+    color: darkgreen;
+}
+
+#sec06-message{
+    font: Calibri;
+    font-size: 12px;
+    color: grey;
+}
+
+#sec06-buttons{
+    font: Calibri;
+    color: grey;
+}
+
+.h2{
+    font: Calibri;
+    color: green;
+}
+
+.button4 {
+    border-radius: 12px;
+}
