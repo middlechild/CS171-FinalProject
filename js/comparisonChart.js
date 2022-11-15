@@ -77,6 +77,7 @@ class ComparisonVis {
         })
 
         // Tabulate display data for every threat level
+        vis.finalData = {};
         for (let status in vis.statusLevels) {
             // Count and round number of plants at level
             for (let k in vis.plantData) {
@@ -97,96 +98,122 @@ class ComparisonVis {
                     }
                 }
             });
+            // Grab counts for threat level
+            let levelData = vis.summaryStats[status];
+
+            // Calculate whether there are more plants or animals
+            let animalCount = 0;
+            vis.animalTypes.forEach((t) => animalCount += levelData[t]);
+            let maxCount = levelData.Plant > animalCount ? levelData.Plant : animalCount;
+
+            // Calculate how many boxes total are needed
+            let boxesNeeded = Math.ceil(maxCount / vis.boxWorth);
+
+            // Calculate number of rows and columns
+            // Start with ten columns, then check to see if row space will be filled
+            vis.numCols = 10;
+            let rowSpaceFull = false;
+            let boxDim;
+            while (!rowSpaceFull) {
+                vis.numRows = Math.ceil(boxesNeeded / vis.numCols);
+                let maxCellHeight = (4 * vis.height) / (5 * vis.numRows - 1);
+                let maxCellWidth = (4 * vis.groupWidth) / (5 * vis.numCols - 1);
+                if (maxCellWidth >= maxCellHeight) {
+                    vis.numCols += 1;
+                }
+                else {
+                    boxDim = maxCellWidth;
+                    rowSpaceFull = true;
+                }
+            }
+
+            // Transform plant summary stats into d3-friendly data structure
+            let plantDisplayData = [];
+            for (let i = 0; i < vis.numRows; i++) {
+                plantDisplayData.push({row: `plant-row${i + 1}`, data: []});
+                for (let j = 0; j < vis.numCols; j++) {
+                    let cellID = `plant-row${i + 1}-col${j + 1}`;
+                    let cellFill = levelData.Plant > 0 ? "Plant": "none";
+                    plantDisplayData[i].data.push({
+                        "id": cellID,
+                        "fill": cellFill
+                    });
+                    levelData.Plant -= vis.boxWorth;
+                }
+            }
+
+            // Transform animal summary stats into d3-friendly data structure
+            let animalCounts = [];
+            for (let k in levelData) {
+                if (k !== "Plant") {
+                    animalCounts.push({"animal": k, "count": levelData[k]});
+                }
+            }
+            animalCounts.sort((a, b) => a.count - b.count);
+
+            let animalDisplayData = [];
+            for (let i = 0; i < vis.numRows; i++) {
+                animalDisplayData.push({row: `animal-row${i + 1}`, data: []});
+                for (let j = 0; j < vis.numCols; j++) {
+                    // If animal counts is empty, fill in empty squares
+                    if (animalCounts.length == 0) {
+                        let cellID = `animal-row${i + 1}-col${j + 1}`;
+                        let cellFill = "none";
+                        animalDisplayData[i].data.push({
+                            "id": cellID,
+                            "fill": cellFill
+                        });
+                    }
+                    else {
+                        // Get data for cell
+                        let cellID = `animal-row${i + 1}-col${j + 1}`;
+                        let cellFill = (animalCounts.length > 0) ? animalCounts[0].animal : "none";
+                        animalDisplayData[i].data.push({
+                            "id": cellID,
+                            "fill": cellFill
+                        });
+                        // Subtract how much the box is worth from number of species
+                        animalCounts[0].count -= vis.boxWorth;
+
+                        // If number of species less than zero, move to next species
+                        if (animalCounts[0].count < 0) {
+                            animalCounts.shift();
+                        }
+                    }
+                }
+            }
+
+            // Add to display data
+            vis.finalData[status] = {"boxDim": boxDim,  "plants": plantDisplayData, "animals": animalDisplayData};
         }
 
-        // vis.updateVis();
+        vis.updateVis();
     }
 
     updateVis() {
         let vis = this;
 
-        vis.displayData = vis.summaryStats[selectedComparison];
-
-        let animalCount = 0;
-        vis.animalTypes.forEach((t) => {
-            animalCount += vis.displayData[t];
-        });
-        let maxCount = vis.displayData.Plant > animalCount ? vis.displayData.Plant : animalCount;
-
-        // Calculate how many boxes are needed
-        let boxesNeeded = Math.ceil(maxCount / vis.boxWorth);
-
-        // Calculate number of rows/columns
-        let numRows = boxesNeeded > 100 ? boxesNeeded / vis.boxWorth: vis.boxWorth;
-        let numCols = boxesNeeded > 100 ? vis.boxWorth: boxesNeeded / vis.boxWorth;
-
-        // Calculate box dimensions
-        let maxBoxWidth = (4 * vis.groupWidth)/(5 * numCols - 1);
-        let maxBoxHeight = (4 * vis.height)/(5 * numRows - 1);
-        let boxDim = maxBoxWidth < maxBoxHeight ? maxBoxWidth : maxBoxHeight;
-        let gap = boxDim / 4;
-
-        // Transform display data to align with d3 better
-        // TODO: move this to wrangle data
-        let plantDisplayData = [];
-        for (let i = 0; i < numRows; i++) {
-            plantDisplayData.push({row: `plant-row${i + 1}`, data: []});
-        }
-        for (let i = 0; i < numRows; i++) {
-            for (let j = 0; j < numCols; j++) {
-                let cellID = `plant-row${i + 1}-col${j + 1}`;
-                let cellFill = vis.displayData.Plant > 0 ? "Plant": "none";
-                plantDisplayData[i].data.push({
-                    "id": cellID,
-                    "fill": cellFill
-                });
-                vis.displayData.Plant -= vis.boxWorth;
-            }
-        }
-        delete vis.displayData.Plant;
-        let animalCounts = [];
-        for (let k in vis.displayData) {
-            animalCounts.push({"animal": k, "count": vis.displayData[k]});
-        }
-        animalCounts.sort((a, b) => a.count - b.count);
-        let animalDisplayData = [];
-        for (let i = 0; i < numRows; i++) {
-            animalDisplayData.push({row: `animal-row${i + 1}`, data: []});
-        }
-        for (let i = 0; i < numRows; i++) {
-            for (let j = 0; j < numCols; j++) {
-                let cellID = `animal-row${i + 1}-col${j + 1}`;
-                let cellFill = (animalCounts.length > 0) ? animalCounts[0].animal : "none";
-                animalDisplayData[i].data.push({
-                    "id": cellID,
-                    "fill": cellFill
-                });
-                animalCounts[0].count -= vis.boxWorth;
-                if (animalCounts[0].count < 0) {
-                    animalCounts.shift();
-                }
-            }
-        }
+        // Get display data based off of selected threat level
+        vis.displayData = vis.finalData[selectedComparison];
 
         // Create groups for each row
         vis.plantRows = vis.plantGroup.selectAll(".plant-row")
-            .data(plantDisplayData);
+            .data(vis.displayData.plants);
         vis.plantRowGroups = vis.plantRows.enter()
             .append("g")
             .merge(vis.plantRows)
             .classed("plant-row", true)
             .attr("id", (d) => d.row)
-            .attr("transform", (d, i) => `translate(0, ${vis.height - ((i + 1) * boxDim)  - (i * gap)})`);
+            .attr("transform", (d, i) => `translate(0, ${vis.height - ((i + 1) * vis.displayData.boxDim)  - (i * vis.displayData.boxDim / 4)})`);
 
         vis.animalRows = vis.animalGroup.selectAll(".animal-row")
-            .data(animalDisplayData);
+            .data(vis.displayData.animals);
         vis.animalRowGroups = vis.animalRows.enter()
             .append("g")
             .merge(vis.animalRows)
             .classed("animal-row", true)
             .attr("id", (d) => d.row)
-            .attr("transform", (d, i) => `translate(0, ${vis.height - ((i + 1) * boxDim)  - (i * gap)})`);
-
+            .attr("transform", (d, i) => `translate(0, ${vis.height - ((i + 1) * vis.displayData.boxDim)  - (i * vis.displayData.boxDim / 4)})`);
 
         // Draw squares for each row
         vis.plantCells = vis.plantRowGroups.selectAll(".plant-cell")
@@ -196,10 +223,12 @@ class ComparisonVis {
             .merge(vis.plantCells)
             .classed("plant-cell", true)
             .attr("id", (d) => d.id)
-            .attr("x", (d, i) => i * (boxDim + gap))
+            .transition()
+            .duration(750)
+            .attr("x", (d, i) => i * (5 * vis.displayData.boxDim / 4))
             .attr("y", 0)
-            .attr("width", boxDim)
-            .attr("height", boxDim)
+            .attr("width", vis.displayData.boxDim)
+            .attr("height", vis.displayData.boxDim)
             .style("fill", d => vis.colorMap[d.fill]);
         vis.plantCells.exit().remove();
 
@@ -210,10 +239,12 @@ class ComparisonVis {
             .merge(vis.animalCells)
             .classed("animal-cell", true)
             .attr("id", (d) => d.id)
-            .attr("x", (d, i) => i * (boxDim + gap))
+            .transition()
+            .duration(750)
+            .attr("x", (d, i) => i * (5 * vis.displayData.boxDim / 4))
             .attr("y", 0)
-            .attr("width", boxDim)
-            .attr("height", boxDim)
+            .attr("width", vis.displayData.boxDim)
+            .attr("height", vis.displayData.boxDim)
             .style("fill", d => vis.colorMap[d.fill]);
         vis.animalCells.exit().remove();
     }
