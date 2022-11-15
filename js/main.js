@@ -38,15 +38,11 @@ let promises = [
         }
         return d;
     }),
-    d3.csv("data/extinctionRates.csv").then(function(csv){
-        sec06_data = csv;
-        console.log(sec06_data);
-        console.log(sec06_data[0]);
-    }),
+    d3.csv("data/extinctionRates.csv"),
     d3.csv("data/extinction-drivers.csv", d => {
-        d.driver = d.driver
-        d.percentage = +d.percentage
-        return d}),
+        d.percentage = +d.percentage;
+        return d;
+    }),
     d3.json("data/map/world-110m.json")
 ];
 
