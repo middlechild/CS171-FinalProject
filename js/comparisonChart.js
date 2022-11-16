@@ -205,6 +205,7 @@ class ComparisonVis {
             .classed("plant-row", true)
             .attr("id", (d) => d.row)
             .attr("transform", (d, i) => `translate(0, ${vis.height - ((i + 1) * vis.displayData.boxDim)  - (i * vis.displayData.boxDim / 4)})`);
+        vis.plantRows.exit().remove();
 
         vis.animalRows = vis.animalGroup.selectAll(".animal-row")
             .data(vis.displayData.animals);
@@ -214,6 +215,7 @@ class ComparisonVis {
             .classed("animal-row", true)
             .attr("id", (d) => d.row)
             .attr("transform", (d, i) => `translate(0, ${vis.height - ((i + 1) * vis.displayData.boxDim)  - (i * vis.displayData.boxDim / 4)})`);
+        vis.animalRows.exit().remove();
 
         // Draw squares for each row
         vis.plantCells = vis.plantRowGroups.selectAll(".plant-cell")
