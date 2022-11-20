@@ -61,7 +61,7 @@ function initPage(data) {
     // console.log(dataArray);
 
     // Initialize visualizations
-    comparisonChart = new ComparisonVis("comparisonChart", data[0], data[1]);
+    comparisonChart = new ComparisonVis("comparisonChart", "comparison-chart-legend", data[0], data[1]);
 
     sec06_barchart_vis = new sec06_barchart("sec06-vis", data[2])
 

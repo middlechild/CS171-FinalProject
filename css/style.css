@@ -41,11 +41,6 @@ section {
     width: 100%;
 }
 
-#comparison-selector {
-    width: auto;
-    max-width: 100%;
-}
-
 .section-title {
     text-align: center;
     font-size: 36px;
@@ -62,7 +57,7 @@ section {
 
 
 /** *********************************** **/
-/**     Section 6 - Extinction Rate     **/
+/**    Section 5 - Plants vs Animals    **/
 /** *********************************** **/
 
 #section-5 {
@@ -70,13 +65,28 @@ section {
     width: 100vw;
 }
 
-#section-5 .section-chart {
-    padding: 4% 8%;
-}
-
-#section-5 #comparison-selector {
+#comparison-selector {
     width: auto;
     max-width: 100%;
+}
+
+#comparison-chart-selector {
+    height: 25%;
+}
+
+#comparison-chart-selector div {
+    height: auto;
+    margin-left: 10%;
+    margin-top: 10%;
+}
+
+#comparison-chart-selector p {
+    padding: 0;
+    margin: 0;
+}
+
+#comparison-chart-legend {
+    height: 75%;
 }
 
 

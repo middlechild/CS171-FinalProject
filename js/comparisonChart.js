@@ -4,8 +4,9 @@
 
 class ComparisonVis {
 
-    constructor(parentElement, plantData, animalData) {
+    constructor(parentElement, legendElement, plantData, animalData) {
         this.parentElement = parentElement;
+        this.legendElement = legendElement;
         this.plantData = plantData.filter((d) => d.Name === "Total")[0];
         this.animalData = animalData.filter((d) => d.Name !== "Total");
 
@@ -30,7 +31,29 @@ class ComparisonVis {
         // Set how much each box should be worth
         this.boxWorth = 10;
 
+        this.drawLegend();
         this.initVis();
+    }
+
+    drawLegend() {
+        let vis = this;
+        let margin = {top: 0, right: 0, bottom: 10, left: 10};
+        let width = document.getElementById(vis.legendElement).getBoundingClientRect().width - margin.left - margin.right,
+            height = document.getElementById(vis.legendElement).getBoundingClientRect().height - margin.top - margin.bottom;
+
+        let svg = d3.select("#" + vis.legendElement).append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+        svg.append("rect")
+            .attr("width", 20)
+            .attr("height", 20)
+            .style("stroke", "black")
+            .style("stroke-width", 2)
+            .style("fill", "none");
+
     }
 
     initVis() {
