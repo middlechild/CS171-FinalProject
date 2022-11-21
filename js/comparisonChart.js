@@ -13,15 +13,14 @@ class ComparisonVis {
         this.animalTypes = [...new Set(this.animalData.map((d) => d.Type))];
         this.colorMap = {
             "Plant": "#7fc97f",
-            "Reptile": "#beaed4",
-            "Mammal": "#fdc086",
-            "Bird": "#ffff99",
             "Amphibian": "#bf5b17",
-            "Other": "#f0027f",
+            "Bird": "#ffff99",
+            "Mammal": "#fdc086",
             "Marine Life": "#386cb0",
+            "Reptile": "#beaed4",
+            "Other": "#f0027f",
             "none": "none"
         }
-        // TODO: verify these designations
         this.statusLevels = {
             extinct: ["EX", "EW", "CR(PE)", "CR(PEW)"],
             threatened: ["CR", "EN", "VU"]
@@ -37,23 +36,58 @@ class ComparisonVis {
 
     drawLegend() {
         let vis = this;
-        let margin = {top: 0, right: 0, bottom: 10, left: 10};
+        let margin = {top: 0, right: 0, bottom: 20, left: 40};
         let width = document.getElementById(vis.legendElement).getBoundingClientRect().width - margin.left - margin.right,
             height = document.getElementById(vis.legendElement).getBoundingClientRect().height - margin.top - margin.bottom;
 
+        // Create drawing space for legend
         let svg = d3.select("#" + vis.legendElement).append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-        svg.append("rect")
-            .attr("width", 20)
-            .attr("height", 20)
-            .style("stroke", "black")
-            .style("stroke-width", 2)
-            .style("fill", "none");
+        // Calculate legend box dimension based on available space
+        let boxDim = 4 * height / (5 * Object.keys(vis.colorMap).length - 1);
+        let boxGap = boxDim / 4;
 
+        // Add group, rect, and text for each legend element
+        for (let i = -1; i < (Object.keys(vis.colorMap).length - 1); i++) {
+            if (i == -1) {
+                let legendGroup = svg.append("g")
+                    .classed("legend-row-group", true);
+                legendGroup.append("rect")
+                    .classed("legend-box", true)
+                    .attr("width", boxDim)
+                    .attr("height", boxDim)
+                    .style("stroke", "black")
+                    .style("stroke-width", 2)
+                    .style("fill", "none");
+                legendGroup.append("text")
+                    .classed("legend-text", true)
+                    .attr("x", boxDim + boxGap)
+                    .attr("y", boxDim / 2)
+                    .attr("alignment-baseline", "middle")
+                    .text(`1 box = ${vis.boxWorth} species`);
+            }
+            else {
+                let type = Object.keys(vis.colorMap)[i];
+                let legendGroup = svg.append("g")
+                    .classed("legend-row-group", true)
+                    .attr("transform", `translate(0, ${(i + 1) * (boxDim + boxGap)})`)
+                legendGroup.append("rect")
+                    .classed("legend-box", true)
+                    .attr("width", boxDim)
+                    .attr("height", boxDim)
+                    .style("fill", vis.colorMap[type]);
+                legendGroup.append("text")
+                    .classed("legend-text", true)
+                    .attr("x", boxDim + boxGap)
+                    .attr("y", boxDim / 2)
+                    .attr("alignment-baseline", "middle")
+                    .text(type)
+            }
+        }
     }
 
     initVis() {
