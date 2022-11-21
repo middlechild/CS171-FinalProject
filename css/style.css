@@ -160,6 +160,9 @@ section {
 /** *********************************** **/
 /** Section 9 - The Root of the Problem **/
 /** *********************************** **/
+#section-9 {
+    background-color: #f7f7f7;
+}
 
 #section-9 .tree {
     padding: 4% 8%;
@@ -251,8 +254,7 @@ section {
 /** Section 13  Extinct vs Rediscovered **/
 /** *********************************** **/
 #section-13 {
-    padding-bottom: 4%;
-    margin-bottom: 40px;
+    padding-bottom: 8%;
 }
 
 #section-13 .map {
