@@ -8,7 +8,8 @@ let comparisonChart,
     sec06_barchart_vis,
     map3d,
     mapFlat,
-    rootBarchart;
+    rootBarchart,
+    sec06_button_value;
 
 // Get selection for comparison visualization
 let selectedComparison = document.getElementById("comparison-selector").value;
@@ -19,6 +20,11 @@ function changeComparisonVis() {
     comparisonChart.updateVis();
 }
 
+function sec_06_get_button(value) {
+    sec06_button_value = value
+    console.log('button value: ', sec06_button_value)
+    sec06_barchart_vis.wrangleData();
+}
 
 // Load data using promises
 let promises = [
@@ -38,10 +44,10 @@ let promises = [
         }
         return d;
     }),
-    d3.csv("data/extinctionRates.csv").then(function(csv){
-        sec06_data = csv;
-        console.log(sec06_data);
-        console.log(sec06_data[0]);
+    d3.csv("data/extinctionRates.csv", (d) => {
+        d.values = +d.values
+        d.labels = d.labels;
+        return d
     }),
     d3.csv("data/extinction-drivers.csv", d => {
         d.driver = d.driver
@@ -68,6 +74,7 @@ function initPage(data) {
     comparisonChart = new ComparisonVis("comparisonChart", data[0], data[1]);
 
     sec06_barchart_vis = new sec06_barchart("sec06-vis", data[2])
+    console.log(data[2])
 
     map3d = new Map3D('map-3d-chart', data[4]);
     mapFlat = new MapFlat('map-flat-chart', data[4]);

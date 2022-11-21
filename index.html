@@ -69,25 +69,31 @@
       <h2 class="section-title">The Current Extinction Rate Has Reached Unprecedented Levels</h2>
       <div class="col section-chart">
         <div class="row" id="sec06-message">
-          <h5>Extinction rate is measured in Extinctions Per Species Per Million Years (E/MSY)</h5>
+          <h4>Extinction rate is measured in Extinctions Per Species Per Million Years (E/MSY)</h4>
         </div>
         <div class="row" id="sec06-buttons">
           <div class="col"></div>
           <div class="col"></div>
           <div class="col">Timeline: </div>
           <div class="col">
-            <button type="button" class="btn btn-secondary">Base Rate</button>
+            <button type="button" class="btn btn-secondary" onclick="sec_06_get_button('base_rate');">Base Rate</button>
           </div>
           <div class="col">
-            <button type="button" class="btn btn-secondary">Before 1900</button>
+            <button type="button" class="btn btn-secondary" onclick="sec_06_get_button('before_1900');">Before 1900</button>
           </div>
           <div class="col">
-            <button type="button" class="btn btn-secondary">After 1900</button>
+            <button type="button" class="btn btn-secondary" onclick="sec_06_get_button('after_1900');">After 1900</button>
           </div>
           <div class="col"></div>
           <div class="col"></div>
         </div>
-        <div class="row" id="sec06-vis">
+        <div class="row">
+          <div class="col-2"></div>
+          <div class="col-8" id="sec06-vis"></div>
+          <div class="col-2"></div>
+        </div>
+        <div class="row" id="sec06-message2">
+          <h4>The current extinction rate (Extinction Rate After 1900) is roughly 500x the base historical extinction rate.</h4>
         </div>
       </div>
     </section>

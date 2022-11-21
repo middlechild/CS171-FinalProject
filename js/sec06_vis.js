@@ -13,11 +13,13 @@ class sec06_barchart {
 
         let vis = this;
 
-        vis.margin = {top: 40, right: 40, bottom: 40, left: 40};
+        vis.margin = {top: 40, right: 10, bottom: 40, left: 150};
 
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
-        vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
+        vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height + 300 - vis.margin.top - vis.margin.bottom;
 
+        console.log(vis.height)
+        console.log(vis.width)
 
         // SVG drawing area
         vis.svg = d3.select("#" + vis.parentElement).append("svg")
@@ -26,14 +28,13 @@ class sec06_barchart {
             .append("g")
             .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
 
-
         // Scales and axes
         vis.x = d3.scaleLinear()
-            .range([vis.width, 0]);
+            .range([0, vis.width]);
 
         vis.y = d3.scaleBand()
             .range([0, vis.height])
-            .paddingInner(0.1);
+            .padding(0.1);
 
         vis.xAxis = d3.axisBottom()
             .scale(vis.x);
@@ -43,14 +44,14 @@ class sec06_barchart {
 
         vis.xAxisGroup = vis.svg.append("g")
             .attr("class", "x-axis axis")
-            .attr("transform", "translate(0," + vis.width + ")")
+            .attr("transform", "translate(0," + vis.height + ")")
 
         vis.yAxisGroup = vis.svg.append("g")
             .attr("class", "y-axis axis")
 
 
         // (Filter, aggregate, modify data)
-        //vis.wrangleData();
+        vis.wrangleData();
     }
 
     /*
@@ -58,59 +59,66 @@ class sec06_barchart {
      */
     wrangleData() {
         let vis = this;
+        console.log(sec06_button_value)
 
-        vis.data.forEach( function(d){
-            d.values = +d.values;
-            d.labels = +d.labels;
-        })
-        vis.bardata = vis.data
-        console.log(vis.bardata)
+/*        if (sec06_button_value == undefined) {
+            vis.bardata = vis.data[0];
+        }
+        else if (sec06_button_value == "base_rate") {
+            vis.bardata = vis.data[0];
+        }
+        else if (sec06_button_value == "before_1900") {
+            vis.bardata = vis.data.slice(0,2);
+        }
+        else {
+            vis.bardata = vis.data;
+        };*/
+
+        vis.bardata = vis.data;
+
         // Update the visualization
         vis.updateVis();
     }
-
-    /*
-     * The drawing function - should use the D3 update sequence (enter, update, exit)
-     * Function parameters only needed if different kinds of updates are needed
-     */
     updateVis() {
         let vis = this;
 
+        console.log('bar_data', sec06_button_value, vis.bardata)
+
         // Update scales domains
-        vis.y.domain(vis.data.map( function(d) { d.labels;}));
-        vis.x.domain([0, d3.max(vis.data, function(d) { return d.values; })]);
+        vis.x.domain([0, d3.max(vis.bardata, function(d) { return d.values; })])
+
+        vis.y.domain(vis.bardata.map( function(d) { return d.labels;}));
+
 
 
         // Data join
-        vis.bars = vis.svg.selectAll(".bar")
-            .data(vis.data, function(d){ return d.values; });
+        vis.bars = vis.svg.selectAll("myRect")
+            .data(vis.bardata);
 
-        // Enter
-        vis.bars.enter().append("rect")
-            .attr("height", 0)
-            .attr("y", vis.width)
-            .attr("class", "bar")
+        // enter
+        vis.bars.enter()
+            .append("rect")
+            .attr("x", 0)
+            .attr("y", function(d) { return vis.y(d.labels); })
+            .attr("height", vis.y.bandwidth() )
+            .attr("width", function(d) { return vis.x(d.values); })
+            .attr("fill", "#69b3a2")
 
-            // Update
-            .merge(vis.bars)
-            .style("opacity", 0.5)
+        // update
+        .merge(vis.bars)
             .transition()
             .duration(1000)
-            .style("opacity", 1)
-            .attr("x", function(d) { return vis.x(d.values); })
+            .attr("x", 0)
             .attr("y", function(d) { return vis.y(d.labels); })
-            .attr("height", vis.y.bandwidth())
-            .attr("width", function(d) { return vis.width - vis.x(d.values); })
+            .attr("height", vis.y.bandwidth() )
+            .attr("width", function(d) { return vis.x(d.values); });
 
         // Exit
         vis.bars.exit().remove();
 
-
-        //categories.exit().remove();
-
         // Call axis functions with the new domain
-        //vis.svg.select(".x-axis").call(vis.xAxis);
-        //vis.svg.select(".y-axis").call(vis.yAxis);
+        vis.svg.select(".x-axis").call(vis.xAxis);
+        vis.svg.select(".y-axis").call(vis.yAxis);
     }
 }
 
