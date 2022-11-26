@@ -9,17 +9,19 @@ class MapFlat {
         this.parentElement = parentElement;
         this.geoData = geoData;
         this.data = data;
+        this.selectedListValue = "Rediscovered";
 
         // define colors
-        this.colors = ['#136a8a', '#458fc4', '#9ac7eb', '#baf3fd'];
+        this.colors = {
+            rediscovered: ["#6ba9c2", "#136A8A"],
+            extinct: ["#de6388", "#9d0f3a"]
+        }
 
         this.initVis();
     }
 
     initVis() {
         let vis = this;
-        let m0,
-            o0;
 
         vis.margin = {top: 0, right: 20, bottom: 20, left: 20};
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
@@ -40,34 +42,22 @@ class MapFlat {
         vis.path = d3.geoPath()
             .projection(vis.projection);
 
-        // append tooltip
-        // vis.tooltip = d3.select("body").append('div')
-        //     .attr('class', "tooltip")
-        //     .attr('id', 'pieTooltip');
+        // Append tooltip
+        vis.tooltip = d3.select("#" + vis.parentElement).append('div')
+            .attr('class', "tooltip tooltip-small");
 
-        // add legend to map
+        // Add legend to map
         vis.legend = vis.svg.append("g")
             .attr('class', 'legend')
             .attr('transform', `translate(0, ${vis.height - 20})`);
 
-        vis.colorScale = d3.scaleBand()
-            .domain(vis.colors.map( (d, i) => ["Cat 1", "Cat 2", "Cat 3", "Cat 4"][i]))
-            .range([0, 200]);
-
-        vis.legend.selectAll("rect")
-            .data(vis.colors)
-            .enter()
-            .append("rect")
-            .attr("fill", (d, i) => vis.colors[i])
-            .attr("height", 20)
-            .attr("width", vis.colorScale.bandwidth())
-            .attr("x", (d, i) => vis.colorScale.bandwidth() * i)
-            .attr("y", 0);
-
-        vis.legend.append("g")
-            .attr("id", "legend-axis")
-            .attr("class", "axis legend-axis")
-            .call(d3.axisBottom().scale(vis.colorScale));
+        // Add event listener to toggle
+        let toggleValues = document.getElementsByClassName('btn-toggle');
+        Array.from(toggleValues).forEach(function(o) {
+            o.addEventListener('click', function(e) {
+                vis.selectedListValueChange(e);
+            });
+        });
 
         vis.wrangleData();
     }
@@ -75,17 +65,61 @@ class MapFlat {
     wrangleData() {
         let vis = this;
 
-        // Convert  TopoJSON data into GeoJSON data structure
-        vis.world = topojson.feature(vis.geoData, vis.geoData.objects.countries).features;
+        // Get GeoJSON data structure
+        vis.world = vis.geoData.features;
 
-        // create random data structure with information for each land
+        // Filter data
+        let filteredData = [];
+
+        // Iterate over all rows in the data csv
+        vis.data.forEach(row => {
+            // push rows with proper dates into filteredData
+            if (row.List === vis.selectedListValue) {
+                console.log(row.Risk);
+                filteredData.push(row);
+            }
+        });
+
+        //console.log(filteredData);
+
+        // Reset data structure with extinction information for the countries
         vis.countryInfo = {};
+
+        // Prepare country data by grouping all rows
+        let dataByCountry = Array.from(d3.group(filteredData, d => d.Locality), ([key, value]) => ({key, value}))
+
+        //console.log(dataByCountry);
+
+        vis.maxValue  = 0;
+
+        // Merge
+        dataByCountry.forEach(country => {
+            let totalSpecies = country.value.length;
+
+            // populate the final data structure
+            vis.countryInfo[country.key] = {
+                code: country.key,
+                total: totalSpecies // Get number of species (extinct or rediscovered, based on selection)
+            }
+
+            // update max value for selection
+            vis.maxValue = totalSpecies > vis.maxValue ? totalSpecies : vis.maxValue;
+        })
+
+        console.log(vis.countryInfo);
+
+        console.log(vis.maxValue);
 
         vis.updateVis();
     }
 
     updateVis() {
         let vis = this;
+
+        // Update color scale
+        vis.colorScale = d3.scaleLinear()
+            .range(vis.colors[vis.selectedListValue.toLowerCase()])
+            .domain([0, vis.maxValue]);
 
         vis.countries = vis.svg.selectAll(".country")
             .data(vis.world);
@@ -95,15 +129,84 @@ class MapFlat {
             .attr('class', 'country')
             .attr("d", vis.path)
             .merge(vis.countries)
-            .attr("fill", d => vis.colors[Math.floor(Math.random() * 4)])
-            .attr("stroke", "#136A8A")
-            .on('mouseover', function(event, d) { })
-            .on('mouseout', function(event, d){ });
+            .style("cursor", d => {
+                try {
+                    if (vis.countryInfo[d.properties.LEVEL3_COD].total != undefined) {
+                        return 'pointer';
+                    }
+                } catch(e) {
+                    return 'default';
+                }
+            })
+            .attr("fill", d => {
+                try {
+                    return vis.colorScale(vis.countryInfo[d.properties.LEVEL3_COD].total);
+                } catch(e) {
+                    return '#FFFFFF';
+                }
+            })
+            .on('mouseover', function(event, d) {
+                vis.tooltip
+                    .style("opacity", 1)
+                    .style("left", event.pageX + 20 + "px")
+                    .style("top", event.pageY + "px")
+                    .html(`
+                         <div class="tooltip-box">
+                             <h3 class="country-name">${d.properties.LEVEL3_NAM}</h3>
+                             <h4 class="abs-value">${vis.countryInfo[d.properties.LEVEL3_COD].total} ${vis.selectedListValue} Species</h4>
+                         </div>`);
+            })
+            .on('mouseout', function(event, d) {
+                vis.tooltip
+                    .style("opacity", 0)
+                    .style("left", 0)
+                    .style("top", 0)
+                    .html(``);
+            });
 
         vis.countries.exit().remove();
 
-        // update legend
-        vis.legend.selectAll().data(vis.colors)
-            .enter();
+        // Update legend
+        let gradientSteps = [
+            {
+                "color": vis.colors[vis.selectedListValue.toLowerCase()][0],
+                "value": 0
+            },
+            {
+                "color": vis.colors[vis.selectedListValue.toLowerCase()][1],
+                "value": 100
+            }
+        ];
+        let extent = d3.extent(gradientSteps, d => d.value);
+        let linearGradient = vis.legend.append("linearGradient")
+            .attr("id", "gradient");
+
+        linearGradient.selectAll("stop")
+            .data(gradientSteps)
+            .enter()
+            .append("stop")
+            .attr("offset", d => ((d.value - extent[0]) / (extent[1] - extent[0]) * 100) + "%")
+            .attr("stop-color", d => d.color);
+
+        vis.legend.append("rect")
+            .attr("width", vis.width / 5)
+            .attr("height", 20)
+            .style("fill", "url(#gradient)");
+    }
+
+    selectedListValueChange(event) {
+        let vis = this;
+
+        vis.selectedListValue = event.currentTarget.getAttribute("data-value");
+
+        let active = document.querySelector('button.btn-toggle.active');
+        if (active) {
+            active.classList.remove('active');
+        }
+        event.currentTarget.classList.add('active');
+
+        document.querySelector('#section-13 .section-title').innerHTML = vis.selectedListValue + " Species";
+
+        vis.wrangleData();
     }
 }

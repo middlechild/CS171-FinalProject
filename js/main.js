@@ -49,7 +49,9 @@ let promises = [
         d.percentage = +d.percentage;
         return d;
     }),
-    d3.json("data/map/world-110m.json")
+    d3.json("data/map/world-110m.json"),
+    d3.json("data/map/wgsrpd/level3.geojson"),
+    d3.csv("data/extinction-and-rediscovery.csv")
 ];
 
 Promise.all(promises)
@@ -73,6 +75,7 @@ function initPage(data) {
     console.log(data[2])
 
     map3d = new Map3D('map-3d-chart', data[4]);
-    mapFlat = new MapFlat('map-flat-chart', data[4]);
+    mapFlat = new MapFlat('map-flat-chart', data[5], data[6]);
     rootBarchart = new TopDownBarchart('root-barchart', data[3]);
 }
+

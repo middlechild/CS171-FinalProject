@@ -23,6 +23,44 @@ h1, h2, h3, h4, h5 {
     margin: 0;
 }
 
+.btn-check:checked+.btn-secondary,
+.btn-secondary.active,
+.btn-secondary:active,
+.show>.btn-secondary.dropdown-toggle {
+    background-color: #222B32;
+    border-color: #51585e;
+}
+
+
+/** *********************************** **/
+/**                Charts               **/
+/** *********************************** **/
+
+.tooltip {
+    position: absolute;
+    text-align: center;
+    font: 12px sans-serif;
+    width: auto;
+}
+
+.tooltip .tooltip-box {
+    border-bottom-left-radius: 36px;
+    border-top-right-radius: 36px;
+    background-color: #222b33;
+    color: white;
+    padding: 20px;
+}
+
+.tooltip .tooltip-box .driver-name {
+    margin-bottom: 0.5em;
+}
+
+.tooltip .tooltip-box .percent-value {
+    color: #85c094;
+    margin-bottom: 0;
+    font-size: 48px;
+}
+
 
 /** *********************************** **/
 /**             All Sections            **/
@@ -44,8 +82,10 @@ section {
 .section-title {
     text-align: center;
     font-size: 36px;
-    padding: 24px 0;
-    background-color: #e6f8ec;
+    padding: 72px 0 24px 0;
+    //background-color: #e6f8ec;
+    text-decoration-line: underline;
+    text-underline-offset: 18px;
 }
 
 .section-remark {
@@ -62,6 +102,7 @@ section {
 
 #section-2 {
     padding: 12% 8%;
+    text-align: center;
     /*background-color: #e6f8ec;*/
 }
 
@@ -72,6 +113,7 @@ section {
 
 #section-3 {
     padding: 12% 8%;
+    text-align: center;
     /*background-color: #e6f8ec;*/
 }
 
@@ -275,7 +317,7 @@ section {
 
 #section-13 .map .btn {
     width: 200px;
-    margin: 24px;
+    margin-top: 24px;
 }
 
 #section-13 .map #map-flat-chart {
@@ -285,10 +327,28 @@ section {
     margin: auto;
 }
 
+#section-13 .country {
+    stroke: #4b4b4b;
+}
+
 #section-13 h3 {
     text-align: center;
 }
 
+#section-13 .tooltip-small .tooltip-box {
+    background-color: #222b33;
+}
+
+#section-13 .tooltip-small .tooltip-box .country-name {
+    margin-bottom: 0.5em;
+    font-size: 24px;
+}
+
+#section-13 .tooltip-small .tooltip-box .abs-value {
+    color: #85c094;
+    margin-bottom: 0;
+    font-size: 16px;
+}
 
 /** *********************************** **/
 /**             Section 14              **/
@@ -310,34 +370,6 @@ section {
     color: white;
 }
 
-
-/** *********************************** **/
-/**                Charts               **/
-/** *********************************** **/
-
-.tooltip {
-    position: absolute;
-    text-align: center;
-    font: 12px sans-serif;
-}
-
-.tooltip .tooltip-box {
-    border-bottom-left-radius: 36px;
-    border-top-right-radius: 36px;
-    background-color: #222b33;
-    color: white;
-    padding: 20px;
-}
-
-.tooltip .tooltip-box .driver-name {
-    margin-bottom: 0.5em;
-}
-
-.tooltip .tooltip-box .percent-value {
-    color: #85c094;
-    margin-bottom: 0;
-    font-size: 48px;
-}
 
 /** **************************************** **/
 /**  Temporary Styles for Storyboard Slides  **/
