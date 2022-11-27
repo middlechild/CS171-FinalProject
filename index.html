@@ -92,58 +92,64 @@
     </section>
 
     <section id="section-7" class="row">
-      <div class="col col-6 description">
-        <p class="section-statement">According to co-author Dr. Jochen Fründ of the University of Freiburg, “Chelostoma rapunculi is threatened directly, due to climate change, as well as indirectly, due to the disappearance of important food plants such as the harebell.”</p>
-        <p class="section-statement">Animals that closely depend on certain plant species during their entire life cycle appear to be particularly threatened. Therefore, insects will face a higher threat than many bird species, which tend to be more flexible in their food choice.</p>
-        <a class="section-statement" href="https://www.sciencedaily.com/releases/2017/01/170104103920.htm" target="_blank">Learn more about Chelostoma rapunculi.</a>
-      </div>
-      <div class="col col-6 bee">
-        <img src="images/chelostoma-rapunculi.jpg" />
+      <div class="row wrapper">
+        <div class="col col-6 description">
+          <p class="section-statement">According to co-author Dr. Jochen Fründ of the University of Freiburg, “Chelostoma rapunculi is threatened directly, due to climate change, as well as indirectly, due to the disappearance of important food plants such as the harebell.”</p>
+          <p class="section-statement">Animals that closely depend on certain plant species during their entire life cycle appear to be particularly threatened. Therefore, insects will face a higher threat than many bird species, which tend to be more flexible in their food choice.</p>
+          <a class="section-statement" href="https://www.sciencedaily.com/releases/2017/01/170104103920.htm" target="_blank">Learn more about Chelostoma rapunculi.</a>
+        </div>
+        <div class="col col-6 bee">
+          <img src="images/chelostoma-rapunculi.jpg" />
+        </div>
       </div>
     </section>
 
     <section id="section-8" class="row">
       <h2 class="section-title">Seed Plants Extinction Risk</h2>
-      <div class="col col-6 map">
-        <div class="row">
-          <div class="col col-7">
-            <select id='risk-selector' class="form-select form-select-lg mb-3" onchange="map3d.riskChange()">
-              <option value="Extinct" selected>Extinct</option>
-              <option value="Extinct in the wild">Extinct in the wild</option>
-              <option value="Critically endangered">Critically endangered</option>
-              <option value="Endangered">Endangered</option>
-              <option value="Vulnerable">Vulnerable</option>
-              <option value="Least concern">Least concern</option>
-              <option value="Data deficient">Data deficient</option>
-            </select>
+      <div class="row wrapper">
+        <div class="col col-6 map">
+          <div class="row">
+            <div class="col col-7">
+              <select id='risk-selector' class="form-select form-select-lg mb-3" onchange="map3d.riskChange()">
+                <option value="Extinct" selected>Extinct</option>
+                <option value="Extinct in the wild">Extinct in the wild</option>
+                <option value="Critically endangered">Critically endangered</option>
+                <option value="Endangered">Endangered</option>
+                <option value="Vulnerable">Vulnerable</option>
+                <option value="Least concern">Least concern</option>
+                <option value="Data deficient">Data deficient</option>
+              </select>
+            </div>
+            <div class="col col-5">
+              <h4 id="risk-total-species"></h4>
+            </div>
           </div>
-          <div class="col col-5">
-            <h4 id="risk-total-species"></h4>
-          </div>
+          <div id="map-3d-chart" class="row"></div>
         </div>
-        <div id="map-3d-chart" class="row"></div>
-      </div>
-      <div class="col col-6 chart">
-        <img src="images/storyboard/risk-bar-stacks.png">
+        <div class="col col-6 chart">
+          <img src="images/storyboard/risk-bar-stacks.png">
+        </div>
       </div>
     </section>
 
     <section id="section-9" class="row">
       <h2 class="section-title">The Root of the Problem</h2>
-      <div class="col col-6 tree">
-        <div class="row tree-top">
-          <img src="images/tree.png" />
-        </div>
-        <div id="root-barchart" class="row tree-root">
+      <div class="row wrapper">
+        <div class="col col-6 tree">
+          <div class="row tree-top">
+            <img src="images/tree.png" />
+          </div>
+          <div id="root-barchart" class="row tree-root">
 
+          </div>
         </div>
-      </div>
-      <div class="col col-6 description">
-        <h3>This Copy Updates with Tooltip (maybe?)</h3>
-        <p class="section-text">Lorem ipsum dolor sit amet. Donec nibh felis, mattis vel semper facilisis, luctus at massa. Phasellus sollicitudin sed ex ut consequat. Morbi vestibulum et tortor ut commodo. Curabitur et est quis ante euismod consectetur eget ut sapien. Suspendisse at mauris lorem. Sed vulputate, turpis id venenatis molestie, libero libero sollicitudin nunc, nec tincidunt libero ligula ultrices neque. Quisque dapibus viverra odio, vitae laoreet ligula rhoncus id. In cursus pharetra felis eget viverra. Vestibulum pellentesque orci eu neque pretium accumsan.</p>
-        <p class="section-text">Donec in pellentesque odio, tempus semper risus. Donec sit amet augue vel massa vulputate dignissim eu at elit. Duis tincidunt, dolor vitae bibendum semper, tellus diam viverra nunc, sit amet finibus massa felis vitae lectus. Nulla venenatis efficitur quam ut pulvinar. Suspendisse sed iaculis nisl, non fringilla metus.</p>
-        <p>Sed rhoncus aliquam tortor, eget consequat dolor. Mauris vestibulum lectus velit. Pellentesque viverra nisi feugiat quam fringilla, vel tempus mi tristique. Aenean iaculis massa in pulvinar feugiat. Integer gravida libero nec facilisis ullamcorper.</p>
-        <p>Quisque laoreet rutrum tortor, ac ultrices leo vulputate at. Curabitur eget posuere purus, eu gravida arcu.</p>
+        <div class="col col-6 description">
+          <h3>This Copy Updates with Tooltip (maybe?)</h3>
+          <p class="section-text">Lorem ipsum dolor sit amet. Donec nibh felis, mattis vel semper facilisis, luctus at massa. Phasellus sollicitudin sed ex ut consequat. Morbi vestibulum et tortor ut commodo. Curabitur et est quis ante euismod consectetur eget ut sapien. Suspendisse at mauris lorem. Sed vulputate, turpis id venenatis molestie, libero libero sollicitudin nunc, nec tincidunt libero ligula ultrices neque. Quisque dapibus viverra odio, vitae laoreet ligula rhoncus id. In cursus pharetra felis eget viverra. Vestibulum pellentesque orci eu neque pretium accumsan.</p>
+          <p class="section-text">Donec in pellentesque odio, tempus semper risus. Donec sit amet augue vel massa vulputate dignissim eu at elit. Duis tincidunt, dolor vitae bibendum semper, tellus diam viverra nunc, sit amet finibus massa felis vitae lectus. Nulla venenatis efficitur quam ut pulvinar. Suspendisse sed iaculis nisl, non fringilla metus.</p>
+          <p>Sed rhoncus aliquam tortor, eget consequat dolor. Mauris vestibulum lectus velit. Pellentesque viverra nisi feugiat quam fringilla, vel tempus mi tristique. Aenean iaculis massa in pulvinar feugiat. Integer gravida libero nec facilisis ullamcorper.</p>
+          <p>Quisque laoreet rutrum tortor, ac ultrices leo vulputate at. Curabitur eget posuere purus, eu gravida arcu.</p>
+        </div>
       </div>
     </section>
 

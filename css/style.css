@@ -31,6 +31,12 @@ h1, h2, h3, h4, h5 {
     border-color: #51585e;
 }
 
+.wrapper {
+    margin: 0 auto;
+    padding: 0;
+    max-width: 1280px;
+}
+
 
 /** *********************************** **/
 /**                Charts               **/
@@ -236,6 +242,10 @@ a:hover {
 /** *********************************** **/
 /**     Section 8 - Extinction Risk     **/
 /** *********************************** **/
+
+#section-8 {
+    min-height: 800px;
+}
 
 #section-8 .map {
     padding: 4% 8%;
