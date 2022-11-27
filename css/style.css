@@ -61,6 +61,16 @@ h1, h2, h3, h4, h5 {
     font-size: 48px;
 }
 
+.tooltip-small .tooltip-box .country-name {
+    margin-bottom: 0.5em;
+    font-size: 24px;
+}
+
+.tooltip-small .tooltip-box .abs-value {
+    color: #85c094;
+    margin-bottom: 0;
+    font-size: 16px;
+}
 
 /** *********************************** **/
 /**             All Sections            **/
@@ -95,6 +105,12 @@ section {
     margin: auto;
 }
 
+.section-statement {
+    font-size: 32px;
+    margin-bottom: 0;
+    max-width: 920px;
+    margin: auto;
+}
 
 /** *********************************** **/
 /**             Section 2               **/
@@ -185,7 +201,35 @@ section {
 /**              Section 7              **/
 /** *********************************** **/
 
+#section-7 {
+    background-color: #e6f8ec;
+}
 
+#section-7 img {
+    width: 100%;
+}
+
+#section-7 a {
+    color: #85c094;
+}
+
+a:hover {
+    color: #405e48;
+}
+
+#section-7 .description {
+    padding: 8% 0% 8% 8%;
+}
+
+#section-7 .description .section-statement {
+    font-family: Oswald, sans-serif;
+    margin-bottom: 1em;
+    font-size: 24px;
+}
+
+#section-7 .bee {
+    padding: 6% 8% 6% 4%;
+}
 
 /** *********************************** **/
 /**     Section 8 - Extinction Risk     **/
@@ -208,6 +252,13 @@ section {
     width: 100%;
 }
 
+#section-8 .country3d {
+    stroke: #818181;
+}
+
+#section-8 #risk-total-species {
+    margin-top: 5px;
+}
 
 /** *********************************** **/
 /** Section 9 - The Root of the Problem **/
@@ -339,16 +390,16 @@ section {
     background-color: #222b33;
 }
 
-#section-13 .tooltip-small .tooltip-box .country-name {
-    margin-bottom: 0.5em;
-    font-size: 24px;
-}
+/*#section-13 .tooltip-small .tooltip-box .country-name {*/
+/*    margin-bottom: 0.5em;*/
+/*    font-size: 24px;*/
+/*}*/
 
-#section-13 .tooltip-small .tooltip-box .abs-value {
-    color: #85c094;
-    margin-bottom: 0;
-    font-size: 16px;
-}
+/*#section-13 .tooltip-small .tooltip-box .abs-value {*/
+/*    color: #85c094;*/
+/*    margin-bottom: 0;*/
+/*    font-size: 16px;*/
+/*}*/
 
 /** *********************************** **/
 /**             Section 14              **/

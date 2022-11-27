@@ -92,19 +92,36 @@
     </section>
 
     <section id="section-7" class="row">
-      <!--   Replace this temporary div   -->
-      <div class="col temp-storyboard-slide color-light-green">
-        <img src="images/storyboard/Slide7.jpeg" />
+      <div class="col col-6 description">
+        <p class="section-statement">According to co-author Dr. Jochen Fründ of the University of Freiburg, “Chelostoma rapunculi is threatened directly, due to climate change, as well as indirectly, due to the disappearance of important food plants such as the harebell.”</p>
+        <p class="section-statement">Animals that closely depend on certain plant species during their entire life cycle appear to be particularly threatened. Therefore, insects will face a higher threat than many bird species, which tend to be more flexible in their food choice.</p>
+        <a class="section-statement" href="https://www.sciencedaily.com/releases/2017/01/170104103920.htm" target="_blank">Learn more about Chelostoma rapunculi.</a>
       </div>
-      <!------------------------------------>
+      <div class="col col-6 bee">
+        <img src="images/chelostoma-rapunculi.jpg" />
+      </div>
     </section>
 
     <section id="section-8" class="row">
-      <h2 class="section-title">Extinction Risk</h2>
+      <h2 class="section-title">Seed Plants Extinction Risk</h2>
       <div class="col col-6 map">
-        <div id="map-3d-chart" class="row">
-
+        <div class="row">
+          <div class="col col-7">
+            <select id='risk-selector' class="form-select form-select-lg mb-3" onchange="map3d.riskChange()">
+              <option value="Extinct" selected>Extinct</option>
+              <option value="Extinct in the wild">Extinct in the wild</option>
+              <option value="Critically endangered">Critically endangered</option>
+              <option value="Endangered">Endangered</option>
+              <option value="Vulnerable">Vulnerable</option>
+              <option value="Least concern">Least concern</option>
+              <option value="Data deficient">Data deficient</option>
+            </select>
+          </div>
+          <div class="col col-5">
+            <h4 id="risk-total-species"></h4>
+          </div>
         </div>
+        <div id="map-3d-chart" class="row"></div>
       </div>
       <div class="col col-6 chart">
         <img src="images/storyboard/risk-bar-stacks.png">
@@ -147,7 +164,7 @@
     </section>
 
     <section id="section-13" class="row">
-      <h2 class="section-title">Rediscovered Species</h2>
+      <h2 class="section-title">Rediscovered vs Extinct Species</h2>
       <div class="col map">
         <div id="map-flat-chart" class="row"></div>
         <div class="btn-group" id="rediscovered-toggle">
@@ -159,13 +176,13 @@
 
     <section id="section-14" class="row">
       <div class="col">
-        <h2 class="section-remark">Closing remarks…</h2>
+        <h2 class="section-statement">Plants are valuable resources of food, energy, medicine, and building materials. They are also essential to maintaining our planet's clean air. Relying on a handful of plant species makes us vulnerable to climate change and contributes to the endangerment of countless other species. We must make an effort to learn more about plant diversity and take action to protect it before it's too late.</h2>
       </div>
     </section>
 
     <section id="section-15" class="row">
       <div class="col">
-        <h2 class="section-remark">Team Info.</h2>
+        <h2 class="section-remark">[Team Info]</h2>
       </div>
     </section>
   </div>
