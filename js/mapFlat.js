@@ -146,22 +146,28 @@ class MapFlat {
                 }
             })
             .on('mouseover', function(event, d) {
-                vis.tooltip
-                    .style("opacity", 1)
-                    .style("left", event.pageX + 20 + "px")
-                    .style("top", event.pageY + "px")
-                    .html(`
+                try {
+                    if (vis.countryInfo[d.properties.LEVEL3_COD].total != undefined) {
+                        vis.tooltip
+                            .style("opacity", 1)
+                            .style("left", event.pageX + 20 + "px")
+                            .style("top", event.pageY + "px")
+                            .html(`
                          <div class="tooltip-box">
                              <h3 class="country-name">${d.properties.LEVEL3_NAM}</h3>
                              <h4 class="abs-value">${vis.countryInfo[d.properties.LEVEL3_COD].total} ${vis.selectedListValue} Species</h4>
                          </div>`);
+                    }
+                } catch(e) {}
             })
             .on('mouseout', function(event, d) {
-                vis.tooltip
-                    .style("opacity", 0)
-                    .style("left", 0)
-                    .style("top", 0)
-                    .html(``);
+                try {
+                    vis.tooltip
+                        .style("opacity", 0)
+                        .style("left", 0)
+                        .style("top", 0)
+                        .html(``);
+                } catch(e) {}
             });
 
         vis.countries.exit().remove();
@@ -204,8 +210,6 @@ class MapFlat {
             active.classList.remove('active');
         }
         event.currentTarget.classList.add('active');
-
-        document.querySelector('#section-13 .section-title').innerHTML = vis.selectedListValue + " Species";
 
         vis.wrangleData();
     }
