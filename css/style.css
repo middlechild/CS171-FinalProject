@@ -207,6 +207,8 @@ section {
 
 #section-7 img {
     width: 100%;
+    border-bottom-left-radius: 160px;
+    border-top-right-radius: 160px;
 }
 
 #section-7 a {

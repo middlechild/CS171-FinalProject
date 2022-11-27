@@ -9,9 +9,18 @@ class Map3D {
         this.parentElement = parentElement;
         this.geoData = geoData;
         this.data = data;
+        this.selectedRiskValue = "Extinct";
 
         // define colors
-        this.colors = ['#bd7edc', '#de637b', '#f1b826', '#6ae796']
+        this.colors = {
+            "Extinct": ["#63a1de", "#0f489d"],
+            "Extinct in the wild": ["#8983e0", "#6017b9"],
+            "Critically endangered": ["#de6388", "#9d0f3a"],
+            "Endangered": ["#e19b86", "#da5c17"],
+            "Vulnerable": ["#d1e88c", "#a3af35"],
+            "Least concern": ["#9ce7c5", "#0f9d88"],
+            "Data deficient": ["#6ba9c2", "#136A8A"]
+        }
 
         this.initVis();
     }
@@ -51,33 +60,32 @@ class Map3D {
             .attr("d", vis.path);
 
         // append tooltip
-        // vis.tooltip = d3.select("body").append('div')
-        //     .attr('class', "tooltip")
-        //     .attr('id', 'pieTooltip');
+        vis.tooltip = d3.select("#" + vis.parentElement).append('div')
+            .attr('class', "tooltip tooltip-small");
 
         // add legend to map
-        vis.legend = vis.svg.append("g")
-            .attr('class', 'legend')
-            .attr('transform', `translate(0, ${vis.height - 20})`);
-
-        vis.colorScale = d3.scaleBand()
-            .domain(vis.colors.map( (d, i) => ["Cat 1", "Cat 2", "Cat 3", "Cat 4"][i]))
-            .range([0, 200]);
-
-        vis.legend.selectAll("rect")
-            .data(vis.colors)
-            .enter()
-            .append("rect")
-            .attr("fill", (d, i) => vis.colors[i])
-            .attr("height", 20)
-            .attr("width", vis.colorScale.bandwidth())
-            .attr("x", (d, i) => vis.colorScale.bandwidth() * i)
-            .attr("y", 0);
-
-        vis.legend.append("g")
-            .attr("id", "legend-axis")
-            .attr("class", "axis legend-axis")
-            .call(d3.axisBottom().scale(vis.colorScale));
+        // vis.legend = vis.svg.append("g")
+        //     .attr('class', 'legend')
+        //     .attr('transform', `translate(0, ${vis.height - 20})`);
+        //
+        // vis.colorScale = d3.scaleBand()
+        //     .domain(vis.colors.map( (d, i) => ["Cat 1", "Cat 2", "Cat 3", "Cat 4"][i]))
+        //     .range([0, 200]);
+        //
+        // vis.legend.selectAll("rect")
+        //     .data(vis.colors)
+        //     .enter()
+        //     .append("rect")
+        //     .attr("fill", (d, i) => vis.colors[i])
+        //     .attr("height", 20)
+        //     .attr("width", vis.colorScale.bandwidth())
+        //     .attr("x", (d, i) => vis.colorScale.bandwidth() * i)
+        //     .attr("y", 0);
+        //
+        // vis.legend.append("g")
+        //     .attr("id", "legend-axis")
+        //     .attr("class", "axis legend-axis")
+        //     .call(d3.axisBottom().scale(vis.colorScale));
 
         // globe rotation
         vis.svg.call(
@@ -97,7 +105,7 @@ class Map3D {
 
                     // Update the map
                     vis.path = d3.geoPath().projection(vis.projection);
-                    d3.selectAll(".country").attr("d", vis.path)
+                    d3.selectAll(".country3d").attr("d", vis.path)
                     d3.selectAll(".graticule").attr("d", vis.path)
                 })
         )
@@ -108,11 +116,53 @@ class Map3D {
     wrangleData() {
         let vis = this;
 
-        // Convert  TopoJSON data into GeoJSON data structure
-        vis.world = topojson.feature(vis.geoData, vis.geoData.objects.countries).features;
+        // Get GeoJSON data structure
+        vis.world = vis.geoData.features;
 
-        // create random data structure with information for each land
+        // Filter data
+        let filteredData = [];
+        console.log('vis.data');
+        console.log(vis.data);
+        // Iterate over all rows in the data csv
+        vis.data.forEach(row => {
+            // push rows with proper dates into filteredData
+            if (row['Extinction.Risk'] === vis.selectedRiskValue) {
+                console.log('Extinction.Risk' + row['Extinction.Risk']);
+                filteredData.push(row);
+            }
+        });
+        console.log('filteredData');
+        console.log(filteredData);
+
+        // Reset data structure with extinction information for the countries
         vis.countryInfo = {};
+
+        // Prepare country data by grouping all rows
+        let dataByCountry = Array.from(d3.group(filteredData, d => d.Locality), ([key, value]) => ({key, value}))
+        console.log('dataByCountry');
+        console.log(dataByCountry);
+
+        vis.maxValue  = 0;
+        vis.totalSpeciels = 0;
+
+        // Merge
+        dataByCountry.forEach(country => {
+            let countryTotalSpecies = country.value.length;
+            vis.totalSpeciels += countryTotalSpecies;
+
+            // populate the final data structure
+            vis.countryInfo[country.key] = {
+                code: country.key,
+                total: countryTotalSpecies // Get number of species based on selection
+            }
+
+            // update max value for selection
+            vis.maxValue = countryTotalSpecies > vis.maxValue ? countryTotalSpecies : vis.maxValue;
+        })
+
+        console.log(vis.countryInfo);
+
+        console.log(vis.maxValue);
 
         vis.updateVis();
     }
@@ -120,22 +170,97 @@ class Map3D {
     updateVis() {
         let vis = this;
 
-        vis.countries = vis.svg.selectAll(".country")
+        // Update color scale
+        vis.colorScale = d3.scaleLinear()
+            .range(vis.colors[vis.selectedRiskValue])
+            .domain([0, vis.maxValue]);
+
+        vis.countries = vis.svg.selectAll(".country3d")
             .data(vis.world);
 
         vis.countries.enter()
             .append("path")
-            .attr('class', 'country')
+            .attr('class', 'country3d')
             .attr("d", vis.path)
             .merge(vis.countries)
-            .attr("fill", d => vis.colors[Math.floor(Math.random() * 4)])
-            .on('mouseover', function(event, d) { })
-            .on('mouseout', function(event, d){ });
+            .style("cursor", d => {
+                try {
+                    if (vis.countryInfo[d.properties.LEVEL3_COD].total != undefined) {
+                        return 'pointer';
+                    }
+                } catch(e) {
+                    return 'default';
+                }
+            })
+            .attr("fill", d => {
+                try {
+                    return vis.colorScale(vis.countryInfo[d.properties.LEVEL3_COD].total);
+                } catch(e) {
+                    return '#FFFFFF';
+                }
+            })
+            .on('mouseover', function(event, d) {
+                try {
+                    if (vis.countryInfo[d.properties.LEVEL3_COD].total != undefined) {
+                        vis.tooltip
+                            .style("opacity", 1)
+                            .style("left", event.pageX + 20 + "px")
+                            .style("top", event.pageY + "px")
+                            .html(`
+                         <div class="tooltip-box">
+                             <h3 class="country-name">${d.properties.LEVEL3_NAM}</h3>
+                             <h4 class="abs-value">${vis.countryInfo[d.properties.LEVEL3_COD].total} ${vis.selectedListValue} Species</h4>
+                         </div>`);
+                    }
+                } catch(e) {}
+            })
+            .on('mouseout', function(event, d) {
+                try {
+                    vis.tooltip
+                        .style("opacity", 0)
+                        .style("left", 0)
+                        .style("top", 0)
+                        .html(``);
+                } catch(e) {}
+            });
 
         vis.countries.exit().remove();
 
-        // update legend
-        vis.legend.selectAll().data(vis.colors)
-            .enter();
+        // Update count label
+        document.getElementById("risk-total-species").innerText = `${vis.totalSpeciels} Species`
+
+        // Update legend
+        // let gradientSteps = [
+        //     {
+        //         "color": vis.colors[vis.selectedRiskValue.toLowerCase()][0],
+        //         "value": 0
+        //     },
+        //     {
+        //         "color": vis.colors[vis.selectedRiskValue.toLowerCase()][1],
+        //         "value": 100
+        //     }
+        // ];
+        // let extent = d3.extent(gradientSteps, d => d.value);
+        // let linearGradient = vis.legend.append("linearGradient")
+        //     .attr("id", "gradient");
+        //
+        // linearGradient.selectAll("stop")
+        //     .data(gradientSteps)
+        //     .enter()
+        //     .append("stop")
+        //     .attr("offset", d => ((d.value - extent[0]) / (extent[1] - extent[0]) * 100) + "%")
+        //     .attr("stop-color", d => d.color);
+        //
+        // vis.legend.append("rect")
+        //     .attr("width", vis.width / 5)
+        //     .attr("height", 20)
+        //     .style("fill", "url(#gradient)");
+    }
+
+    riskChange(event) {
+        this.selectedRiskValue = document.getElementById("risk-selector").value;
+        console.log(this.selectedRiskValue);
+
+        this.wrangleData();
     }
 }
