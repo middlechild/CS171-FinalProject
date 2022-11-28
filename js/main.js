@@ -70,12 +70,8 @@ function initPage(data) {
 
     // Initialize visualizations
     comparisonChart = new ComparisonVis("comparisonChart", "comparison-chart-legend", data[0], data[1]);
-
     sec06_barchart_vis = new sec06_barchart("sec06-vis", data[2])
-    console.log(data[2])
-
     map3d = new Map3D('map-3d-chart', data[5], data[6]);
     mapFlat = new MapFlat('map-flat-chart', data[5], data[6]);
     rootBarchart = new TopDownBarchart('root-barchart', data[3]);
 }
-

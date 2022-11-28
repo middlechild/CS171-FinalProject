@@ -1,14 +1,15 @@
-/* * * * * * * * * * * * * *
-*   class ComparisonVis    *
-* * * * * * * * * * * * * */
+/*
+ * ComparisonVis - Object for visualization extinction/threatened
+                   species counts for plants and animals.
+ */
 
 class ComparisonVis {
 
-    constructor(parentElement, legendElement, plantData, animalData) {
-        this.parentElement = parentElement;
-        this.legendElement = legendElement;
-        this.plantData = plantData.filter((d) => d.Name === "Total")[0];
-        this.animalData = animalData.filter((d) => d.Name !== "Total");
+    constructor(_parentElement, _legendElement, _plantData, _animalData) {
+        this.parentElement = _parentElement;
+        this.legendElement = _legendElement;
+        this.plantData = _plantData.filter((d) => d.Name === "Total")[0];
+        this.animalData = _animalData.filter((d) => d.Name !== "Total");
 
         this.animalTypes = [...new Set(this.animalData.map((d) => d.Type))];
         this.colorMap = {
@@ -48,57 +49,40 @@ class ComparisonVis {
             .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
         // Calculate legend box dimension based on available space
-        let boxDim = 4 * height / (5 * Object.keys(vis.colorMap).length - 1);
+        let boxDim = (3 / 4) * (4 * height / (5 * Object.keys(vis.colorMap).length - 1));
         let boxGap = boxDim / 4;
 
         // Add group, rect, and text for each legend element
-        for (let i = -1; i < (Object.keys(vis.colorMap).length - 1); i++) {
-            if (i == -1) {
-                let legendGroup = svg.append("g")
-                    .classed("legend-row-group", true);
-                legendGroup.append("rect")
-                    .classed("legend-box", true)
-                    .attr("width", boxDim)
-                    .attr("height", boxDim)
-                    .style("stroke", "black")
-                    .style("stroke-width", 2)
-                    .style("fill", "none");
-                legendGroup.append("text")
-                    .classed("legend-text", true)
-                    .attr("x", boxDim + boxGap)
-                    .attr("y", boxDim / 2)
-                    .attr("alignment-baseline", "middle")
-                    .text(`1 box = ${vis.boxWorth} species`);
-            }
-            else {
-                let type = Object.keys(vis.colorMap)[i];
-                let legendGroup = svg.append("g")
-                    .classed("legend-row-group", true)
-                    .attr("transform", `translate(0, ${(i + 1) * (boxDim + boxGap)})`)
-                legendGroup.append("rect")
-                    .classed("legend-box", true)
-                    .attr("width", boxDim)
-                    .attr("height", boxDim)
-                    .style("fill", vis.colorMap[type]);
-                legendGroup.append("text")
-                    .classed("legend-text", true)
-                    .attr("x", boxDim + boxGap)
-                    .attr("y", boxDim / 2)
-                    .attr("alignment-baseline", "middle")
-                    .text(type)
-            }
+        for (let i = 0; i < (Object.keys(vis.colorMap).length - 1); i++) {
+            let type = Object.keys(vis.colorMap)[i];
+            let legendGroup = svg.append("g")
+                .classed("legend-row-group", true)
+                .attr("transform", `translate(0, ${(i + 1) * (boxDim + boxGap)})`)
+            legendGroup.append("rect")
+                .classed("legend-box", true)
+                .attr("width", boxDim)
+                .attr("height", boxDim)
+                .style("fill", vis.colorMap[type]);
+            legendGroup.append("text")
+                .classed("legend-text", true)
+                .attr("x", boxDim + boxGap)
+                .attr("y", boxDim / 2)
+                .attr("alignment-baseline", "middle")
+                .style("font-size", "0.75em")
+                .text(type)
         }
     }
 
     initVis() {
         let vis = this;
 
+        // Calculate drawing space attributes
         vis.margin = {top: 20, right: 20, bottom: 20, left: 20};
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
         vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
 
         // Calculate dimensions based off of window size and data
-        vis.groupWidth = vis.width * 0.49;
+        vis.groupWidth = vis.width * 0.47;
 
         // Initialize drawing area
         vis.svg = d3.select("#" + vis.parentElement).append("svg")
@@ -113,6 +97,12 @@ class ComparisonVis {
         vis.animalGroup = vis.svg.append("g")
             .attr("transform", `translate(${vis.width * 0.51}, 0)`)
             .attr("id", "animal-group");
+
+        // Create tooltip
+        vis.tooltip = d3.select("body")
+            .append("div")
+            .classed("tooltip", true)
+            .attr("id", "comparison-chart-tooltip");
 
         vis.wrangleData();
     }
@@ -185,17 +175,20 @@ class ComparisonVis {
             }
 
             // Transform plant summary stats into d3-friendly data structure
+            let plantCount = levelData.Plant;
             let plantDisplayData = [];
             for (let i = 0; i < vis.numRows; i++) {
                 plantDisplayData.push({row: `plant-row${i + 1}`, data: []});
                 for (let j = 0; j < vis.numCols; j++) {
                     let cellID = `plant-row${i + 1}-col${j + 1}`;
-                    let cellFill = levelData.Plant > 0 ? "Plant": "none";
+                    // let cellFill = levelData.Plant > 0 ? "Plant": "none";
+                    let cellFill = plantCount > 0 ? "Plant": "none";
                     plantDisplayData[i].data.push({
                         "id": cellID,
                         "fill": cellFill
                     });
-                    levelData.Plant -= vis.boxWorth;
+                    // levelData.Plant -= vis.boxWorth;
+                    plantCount -= vis.boxWorth;
                 }
             }
 
@@ -252,6 +245,7 @@ class ComparisonVis {
 
         // Get display data based off of selected threat level
         vis.displayData = vis.finalData[selectedComparison];
+        vis.displaySummaryStats = vis.summaryStats[selectedComparison];
 
         // Create groups for each row
         vis.plantRows = vis.plantGroup.selectAll(".plant-row")
@@ -280,7 +274,7 @@ class ComparisonVis {
         vis.plantCells.enter()
             .append("rect")
             .merge(vis.plantCells)
-            .classed("plant-cell", true)
+            .classed("comparison-cell plant-cell", true)
             .attr("id", (d) => d.id)
             .transition()
             .delay((d, i) => 1000 * i / vis.displayData.plants[0].data.length)
@@ -290,7 +284,8 @@ class ComparisonVis {
             .attr("y", 0)
             .attr("width", vis.displayData.boxDim)
             .attr("height", vis.displayData.boxDim)
-            .style("fill", d => vis.colorMap[d.fill]);
+            .style("fill", (d) => vis.colorMap[d.fill])
+            .style("fill-opacity", 0.65);
         vis.plantCells.exit().remove();
 
         vis.animalCells = vis.animalRowGroups.selectAll(".animal-cell")
@@ -298,7 +293,7 @@ class ComparisonVis {
         vis.animalCells.enter()
             .append("rect")
             .merge(vis.animalCells)
-            .classed("animal-cell", true)
+            .attr("class", (d) => `comparison-cell animal-cell ${d.fill.toLowerCase().replaceAll(" ", "-")}-cell`)
             .attr("id", (d) => d.id)
             .transition()
             .delay((d, i) => 1000 * i / vis.displayData.animals[0].data.length)
@@ -308,7 +303,57 @@ class ComparisonVis {
             .attr("y", 0)
             .attr("width", vis.displayData.boxDim)
             .attr("height", vis.displayData.boxDim)
-            .style("fill", d => vis.colorMap[d.fill]);
+            .style("fill", d => vis.colorMap[d.fill])
+            .style("fill-opacity", 0.65);
         vis.animalCells.exit().remove();
+
+        // Add tooltip
+        vis.svg.selectAll(".comparison-cell")
+            .on("mouseover", function(event, d) {
+                let className = `.${d.fill.toLowerCase().replaceAll(" ", "-")}-cell`;
+                
+                // Change cell fill opacity
+                vis.svg.selectAll(className)
+                    .style("fill-opacity", 1);
+
+                // Update tooltip
+                let selectionStr = selectedComparison;
+                if (selectedComparison === "both") {
+                    selectionStr = "extinct and threatened";
+                }
+                vis.tooltip.style("opacity", 0.95)
+                    .style("left", event.pageX + 20 + "px")
+                    .style("top", event.pageY + "px")
+                    .html(`
+                        <div class="tooltip-box">
+                          <h3>${d.fill}</h3>
+                          <h4>
+                            <span>${vis.displaySummaryStats[d.fill].toLocaleString()}</span> ${selectionStr} species
+                          </h4>
+                        </div>
+                    `);
+                // Ensure tooltip is within chart area
+                let tooltipRect = document.getElementById("comparison-chart-tooltip").getBoundingClientRect();
+                if (tooltipRect.right > window.innerWidth) {
+                    vis.tooltip.style("left", window.innerWidth - (tooltipRect.width + 30) + "px");
+                }
+                if (tooltipRect.bottom > window.innerHeight) {
+                    vis.tooltip.style("top", event.pageY - tooltipRect.height + "px");
+                }
+
+            })
+            .on("mouseout", function(event, d) {
+                let className = `.${d.fill.toLowerCase().replaceAll(" ", "-")}-cell`;
+
+                // Restore cell fill opacity
+                vis.svg.selectAll(className)
+                    .style("fill-opacity", 0.65);
+
+                // Remove tooltip
+                vis.tooltip.style("opacity", 0)
+                    .style("left", 0)
+                    .style("top", 0)
+                    .html("");
+            });
     }
 }
