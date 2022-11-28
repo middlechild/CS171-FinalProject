@@ -12,13 +12,13 @@ class ComparisonVis {
 
         this.animalTypes = [...new Set(this.animalData.map((d) => d.Type))];
         this.colorMap = {
-            "Plant": "#7fc97f",
-            "Amphibian": "#bf5b17",
-            "Bird": "#ffff99",
-            "Mammal": "#fdc086",
-            "Marine Life": "#386cb0",
-            "Reptile": "#beaed4",
-            "Other": "#f0027f",
+            "plant": "#7fc97f",
+            "amphibian": "#bf5b17",
+            "bird": "#ffff99",
+            "mammal": "#fdc086",
+            "marine-life": "#386cb0",
+            "reptile": "#beaed4",
+            "other": "#f0027f",
             "none": "none"
         }
         this.statusLevels = {
@@ -98,7 +98,7 @@ class ComparisonVis {
         vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
 
         // Calculate dimensions based off of window size and data
-        vis.groupWidth = vis.width * 0.49;
+        vis.groupWidth = vis.width * 0.47;
 
         // Initialize drawing area
         vis.svg = d3.select("#" + vis.parentElement).append("svg")
@@ -185,17 +185,20 @@ class ComparisonVis {
             }
 
             // Transform plant summary stats into d3-friendly data structure
+            let plantCount = levelData.Plant;
             let plantDisplayData = [];
             for (let i = 0; i < vis.numRows; i++) {
                 plantDisplayData.push({row: `plant-row${i + 1}`, data: []});
                 for (let j = 0; j < vis.numCols; j++) {
                     let cellID = `plant-row${i + 1}-col${j + 1}`;
-                    let cellFill = levelData.Plant > 0 ? "Plant": "none";
+                    // let cellFill = levelData.Plant > 0 ? "Plant": "none";
+                    let cellFill = plantCount > 0 ? "Plant": "none";
                     plantDisplayData[i].data.push({
                         "id": cellID,
-                        "fill": cellFill
+                        "fill": cellFill.toLowerCase().replaceAll(" ", "-")
                     });
-                    levelData.Plant -= vis.boxWorth;
+                    // levelData.Plant -= vis.boxWorth;
+                    plantCount -= vis.boxWorth;
                 }
             }
 
@@ -227,7 +230,7 @@ class ComparisonVis {
                         let cellFill = (animalCounts.length > 0) ? animalCounts[0].animal : "none";
                         animalDisplayData[i].data.push({
                             "id": cellID,
-                            "fill": cellFill
+                            "fill": cellFill.toLowerCase().replaceAll(" ", "-")
                         });
                         // Subtract how much the box is worth from number of species
                         animalCounts[0].count -= vis.boxWorth;
@@ -252,6 +255,8 @@ class ComparisonVis {
 
         // Get display data based off of selected threat level
         vis.displayData = vis.finalData[selectedComparison];
+        vis.displaySummaryStats = vis.summaryStats[selectedComparison];
+        console.log(vis.displaySummaryStats);
 
         // Create groups for each row
         vis.plantRows = vis.plantGroup.selectAll(".plant-row")
@@ -280,7 +285,7 @@ class ComparisonVis {
         vis.plantCells.enter()
             .append("rect")
             .merge(vis.plantCells)
-            .classed("plant-cell", true)
+            .classed("comparison-cell plant-cell", true)
             .attr("id", (d) => d.id)
             .transition()
             .delay((d, i) => 1000 * i / vis.displayData.plants[0].data.length)
@@ -290,7 +295,8 @@ class ComparisonVis {
             .attr("y", 0)
             .attr("width", vis.displayData.boxDim)
             .attr("height", vis.displayData.boxDim)
-            .style("fill", d => vis.colorMap[d.fill]);
+            .style("fill", (d) => vis.colorMap[d.fill])
+            .style("fill-opacity", 0.65);
         vis.plantCells.exit().remove();
 
         vis.animalCells = vis.animalRowGroups.selectAll(".animal-cell")
@@ -298,7 +304,7 @@ class ComparisonVis {
         vis.animalCells.enter()
             .append("rect")
             .merge(vis.animalCells)
-            .classed("animal-cell", true)
+            .attr("class", (d) => `comparison-cell ${d.fill}-cell`)
             .attr("id", (d) => d.id)
             .transition()
             .delay((d, i) => 1000 * i / vis.displayData.animals[0].data.length)
@@ -308,7 +314,28 @@ class ComparisonVis {
             .attr("y", 0)
             .attr("width", vis.displayData.boxDim)
             .attr("height", vis.displayData.boxDim)
-            .style("fill", d => vis.colorMap[d.fill]);
+            .style("fill", d => vis.colorMap[d.fill])
+            .style("fill-opacity", 0.65);
         vis.animalCells.exit().remove();
+
+        // Add tooltip
+        vis.svg.selectAll(".comparison-cell")
+            // TODO: use event handler for these
+            .on("mouseover", function(event, d) {
+                let className = `.${d.fill}-cell`;
+                
+                // Change cell fill opacity
+                vis.svg.selectAll(className)
+                    .style("fill-opacity", 1);
+            })
+            .on("mouseout", function(event, d) {
+                let className = `.${d.fill}-cell`;
+
+                // Restore cell fill opacity
+                vis.svg.selectAll(className)
+                    .style("fill-opacity", 0.65);
+            });
     }
+
+    // handleHover()
 }
