@@ -120,6 +120,23 @@ section {
     margin: auto;
 }
 
+
+/** *********************************** **/
+/**             Section 1               **/
+/** *********************************** **/
+
+#section-1 {
+    padding: 12% 8%;
+    background-color: #85c094;
+    color: white;
+    text-align: center;
+    height: 100vh;
+}
+
+#section-1 .col-centered {
+    margin: auto;
+}
+
 /** *********************************** **/
 /**             Section 2               **/
 /** *********************************** **/
@@ -157,9 +174,14 @@ section {
 /**    Section 5 - Plants vs Animals    **/
 /** *********************************** **/
 
+#section-5-intro {
+    border-bottom: none;
+}
+
 #section-5 {
     height: 80vh;
     width: 100vw;
+    padding: 4%;
 }
 
 #comparison-selector {
