@@ -304,7 +304,7 @@ class ComparisonVis {
         vis.animalCells.enter()
             .append("rect")
             .merge(vis.animalCells)
-            .attr("class", (d) => `comparison-cell ${d.fill}-cell`)
+            .attr("class", (d) => `comparison-cell animal-cell ${d.fill}-cell`)
             .attr("id", (d) => d.id)
             .transition()
             .delay((d, i) => 1000 * i / vis.displayData.animals[0].data.length)
