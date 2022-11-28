@@ -5,12 +5,11 @@
 
 class ComparisonVis {
 
-    constructor(_parentElement, _legendElement, _plantData, _animalData, _eventHandler) {
+    constructor(_parentElement, _legendElement, _plantData, _animalData) {
         this.parentElement = _parentElement;
         this.legendElement = _legendElement;
         this.plantData = _plantData.filter((d) => d.Name === "Total")[0];
         this.animalData = _animalData.filter((d) => d.Name !== "Total");
-        this.eventHandler = _eventHandler;
 
         this.animalTypes = [...new Set(this.animalData.map((d) => d.Type))];
         this.colorMap = {
@@ -310,7 +309,6 @@ class ComparisonVis {
 
         // Add tooltip
         vis.svg.selectAll(".comparison-cell")
-            // TODO: use event handler for these
             .on("mouseover", function(event, d) {
                 let className = `.${d.fill.toLowerCase().replaceAll(" ", "-")}-cell`;
                 

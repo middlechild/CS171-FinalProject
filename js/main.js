@@ -68,28 +68,10 @@ function initPage(data) {
     // Log data
     // console.log(dataArray);
 
-    // Create event handler
-    const eventHandler = {
-        bind: (eventName, handler) => {
-            document.body.addEventListener(eventName, handler);
-        },
-        trigger: (eventName, extraParameters) => {
-            document.body.dispatchEvent(new CustomEvent(eventName, {
-                detail: extraParameters
-            }));
-        }
-    }
-
     // Initialize visualizations
-    comparisonChart = new ComparisonVis("comparisonChart", "comparison-chart-legend", data[0], data[1], eventHandler);
+    comparisonChart = new ComparisonVis("comparisonChart", "comparison-chart-legend", data[0], data[1]);
     sec06_barchart_vis = new sec06_barchart("sec06-vis", data[2])
     map3d = new Map3D('map-3d-chart', data[5], data[6]);
     mapFlat = new MapFlat('map-flat-chart', data[5], data[6]);
     rootBarchart = new TopDownBarchart('root-barchart', data[3]);
-
-    // Bind event handler
-    eventHandler.bind("comparisonChartHover", function(event) {
-
-    });
 }
-
