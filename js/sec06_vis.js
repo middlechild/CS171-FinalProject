@@ -59,22 +59,21 @@ class sec06_barchart {
      */
     wrangleData() {
         let vis = this;
-        console.log(sec06_button_value)
+        console.log("wrangledata", sec06_button_value);
 
-/*        if (sec06_button_value == undefined) {
-            vis.bardata = vis.data[0];
-        }
-        else if (sec06_button_value == "base_rate") {
-            vis.bardata = vis.data[0];
+        if (sec06_button_value == "base_rate") {
+            vis.bardata = [vis.data[0]]
         }
         else if (sec06_button_value == "before_1900") {
             vis.bardata = vis.data.slice(0,2);
         }
+        else if (sec06_button_value == "after_1900") {
+            vis.bardata = vis.data;
+        }
         else {
             vis.bardata = vis.data;
-        };*/
+        };
 
-        vis.bardata = vis.data;
 
         // Update the visualization
         vis.updateVis();
@@ -82,20 +81,16 @@ class sec06_barchart {
     updateVis() {
         let vis = this;
 
-        console.log('bar_data', sec06_button_value, vis.bardata)
+        console.log('update_vis', sec06_button_value, vis.bardata)
 
         // Update scales domains
-        vis.x.domain([0, d3.max(vis.bardata, function(d) { return d.values; })])
-
+        vis.x.domain([0, d3.max(vis.bardata, function(d) { return d.values;})]);
         vis.y.domain(vis.bardata.map( function(d) { return d.labels;}));
 
-
-
         // Data join
-        vis.bars = vis.svg.selectAll("myRect")
+        vis.bars = vis.svg.selectAll("rect")
             .data(vis.bardata);
 
-        // enter
         vis.bars.enter()
             .append("rect")
             .attr("x", 0)
@@ -103,15 +98,14 @@ class sec06_barchart {
             .attr("height", vis.y.bandwidth() )
             .attr("width", function(d) { return vis.x(d.values); })
             .attr("fill", "#69b3a2")
-
-        // update
-        .merge(vis.bars)
+            .attr("class", "bar")
+            .merge(vis.bars)
             .transition()
-            .duration(1000)
+            .duration(2500)
             .attr("x", 0)
             .attr("y", function(d) { return vis.y(d.labels); })
             .attr("height", vis.y.bandwidth() )
-            .attr("width", function(d) { return vis.x(d.values); });
+            .attr("width", function(d) { return vis.x(d.values); })
 
         // Exit
         vis.bars.exit().remove();
