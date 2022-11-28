@@ -1,14 +1,16 @@
-/* * * * * * * * * * * * * *
-*   class ComparisonVis    *
-* * * * * * * * * * * * * */
+/*
+ * ComparisonVis - Object for visualization extinction/threatened
+                   species counts for plants and animals.
+ */
 
 class ComparisonVis {
 
-    constructor(parentElement, legendElement, plantData, animalData) {
-        this.parentElement = parentElement;
-        this.legendElement = legendElement;
-        this.plantData = plantData.filter((d) => d.Name === "Total")[0];
-        this.animalData = animalData.filter((d) => d.Name !== "Total");
+    constructor(_parentElement, _legendElement, _plantData, _animalData, _eventHandler) {
+        this.parentElement = _parentElement;
+        this.legendElement = _legendElement;
+        this.plantData = _plantData.filter((d) => d.Name === "Total")[0];
+        this.animalData = _animalData.filter((d) => d.Name !== "Total");
+        this.eventHandler = _eventHandler;
 
         this.animalTypes = [...new Set(this.animalData.map((d) => d.Type))];
         this.colorMap = {
