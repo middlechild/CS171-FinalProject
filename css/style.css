@@ -80,20 +80,6 @@ h1, h2, h3, h4, h5 {
     font-size: 16px;
 }
 
-#comparison-chart-tooltip .tooltip-box h3 {
-    margin: 0;
-    font-size: 30px;
-}
-
-#comparison-chart-tooltip .tooltip-box h4 {
-    margin: 0.5em 0 0 0;
-    font-size: 20px;
-}
-
-#comparison-chart-tooltip .tooltip-box span {
-    color: red;
-}
-
 /** *********************************** **/
 /**             All Sections            **/
 /** *********************************** **/
@@ -199,6 +185,20 @@ section {
 
 #comparison-chart-legend {
     height: 75%;
+}
+
+#comparison-chart-tooltip .tooltip-box h3 {
+    margin: 0;
+    font-size: 30px;
+}
+
+#comparison-chart-tooltip .tooltip-box h4 {
+    margin: 0.5em 0 0 0;
+    font-size: 20px;
+}
+
+#comparison-chart-tooltip .tooltip-box span {
+    color: red;
 }
 
 

@@ -48,45 +48,27 @@ class ComparisonVis {
             .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
         // Calculate legend box dimension based on available space
-        let boxDim = 4 * height / (5 * Object.keys(vis.colorMap).length - 1);
+        let boxDim = (3 / 4) * (4 * height / (5 * Object.keys(vis.colorMap).length - 1));
         let boxGap = boxDim / 4;
 
         // Add group, rect, and text for each legend element
-        for (let i = -1; i < (Object.keys(vis.colorMap).length - 1); i++) {
-            if (i == -1) {
-                let legendGroup = svg.append("g")
-                    .classed("legend-row-group", true);
-                legendGroup.append("rect")
-                    .classed("legend-box", true)
-                    .attr("width", boxDim)
-                    .attr("height", boxDim)
-                    .style("stroke", "black")
-                    .style("stroke-width", 2)
-                    .style("fill", "none");
-                legendGroup.append("text")
-                    .classed("legend-text", true)
-                    .attr("x", boxDim + boxGap)
-                    .attr("y", boxDim / 2)
-                    .attr("alignment-baseline", "middle")
-                    .text(`1 box = ${vis.boxWorth} species`);
-            }
-            else {
-                let type = Object.keys(vis.colorMap)[i];
-                let legendGroup = svg.append("g")
-                    .classed("legend-row-group", true)
-                    .attr("transform", `translate(0, ${(i + 1) * (boxDim + boxGap)})`)
-                legendGroup.append("rect")
-                    .classed("legend-box", true)
-                    .attr("width", boxDim)
-                    .attr("height", boxDim)
-                    .style("fill", vis.colorMap[type]);
-                legendGroup.append("text")
-                    .classed("legend-text", true)
-                    .attr("x", boxDim + boxGap)
-                    .attr("y", boxDim / 2)
-                    .attr("alignment-baseline", "middle")
-                    .text(type)
-            }
+        for (let i = 0; i < (Object.keys(vis.colorMap).length - 1); i++) {
+            let type = Object.keys(vis.colorMap)[i];
+            let legendGroup = svg.append("g")
+                .classed("legend-row-group", true)
+                .attr("transform", `translate(0, ${(i + 1) * (boxDim + boxGap)})`)
+            legendGroup.append("rect")
+                .classed("legend-box", true)
+                .attr("width", boxDim)
+                .attr("height", boxDim)
+                .style("fill", vis.colorMap[type]);
+            legendGroup.append("text")
+                .classed("legend-text", true)
+                .attr("x", boxDim + boxGap)
+                .attr("y", boxDim / 2)
+                .attr("alignment-baseline", "middle")
+                .style("font-size", "0.75em")
+                .text(type)
         }
     }
 
@@ -335,19 +317,19 @@ class ComparisonVis {
                     .style("fill-opacity", 1);
 
                 // Update tooltip
-                // TODO: ensure vis.borders.left <= event.pageX + 20 <= vis.borders.right
-                //       and vis.borders.bottom <= event.pageY <= vis.borders.top
                 let selectionStr = selectedComparison;
                 if (selectedComparison === "both") {
                     selectionStr = "extinct and threatened";
                 }
-                vis.tooltip.style("opacity", 1)
+                vis.tooltip.style("opacity", 0.95)
                     .style("left", event.pageX + 20 + "px")
                     .style("top", event.pageY + "px")
                     .html(`
                         <div class="tooltip-box">
                           <h3>${d.fill}</h3>
-                          <h4>${vis.displaySummaryStats[d.fill].toLocaleString()} ${selectionStr} species</h4>
+                          <h4>
+                            <span>${vis.displaySummaryStats[d.fill].toLocaleString()}</span> ${selectionStr} species
+                          </h4>
                         </div>
                     `);
                 // Ensure tooltip is within chart area
@@ -374,6 +356,4 @@ class ComparisonVis {
                     .html("");
             });
     }
-
-    // handleHover()
 }
