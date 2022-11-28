@@ -187,6 +187,7 @@ section {
     height: 75%;
 }
 
+/* TODO: write media breakpoints for font-size */
 #comparison-chart-tooltip .tooltip-box h3 {
     margin: 0;
     font-size: 30px;
