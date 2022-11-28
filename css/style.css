@@ -55,6 +55,8 @@ h1, h2, h3, h4, h5 {
     background-color: #222b33;
     color: white;
     padding: 20px;
+    height: auto;
+    width: auto;
 }
 
 .tooltip .tooltip-box .driver-name {
@@ -76,6 +78,20 @@ h1, h2, h3, h4, h5 {
     color: #85c094;
     margin-bottom: 0;
     font-size: 16px;
+}
+
+#comparison-chart-tooltip .tooltip-box h3 {
+    margin: 0;
+    font-size: 30px;
+}
+
+#comparison-chart-tooltip .tooltip-box h4 {
+    margin: 0.5em 0 0 0;
+    font-size: 20px;
+}
+
+#comparison-chart-tooltip .tooltip-box span {
+    color: red;
 }
 
 /** *********************************** **/
