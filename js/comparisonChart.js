@@ -12,13 +12,13 @@ class ComparisonVis {
 
         this.animalTypes = [...new Set(this.animalData.map((d) => d.Type))];
         this.colorMap = {
-            "plant": "#7fc97f",
-            "amphibian": "#bf5b17",
-            "bird": "#ffff99",
-            "mammal": "#fdc086",
-            "marine-life": "#386cb0",
-            "reptile": "#beaed4",
-            "other": "#f0027f",
+            "Plant": "#7fc97f",
+            "Amphibian": "#bf5b17",
+            "Bird": "#ffff99",
+            "Mammal": "#fdc086",
+            "Marine Life": "#386cb0",
+            "Reptile": "#beaed4",
+            "Other": "#f0027f",
             "none": "none"
         }
         this.statusLevels = {
@@ -93,6 +93,7 @@ class ComparisonVis {
     initVis() {
         let vis = this;
 
+        // Calculate drawing space attributes
         vis.margin = {top: 20, right: 20, bottom: 20, left: 20};
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
         vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
@@ -113,6 +114,12 @@ class ComparisonVis {
         vis.animalGroup = vis.svg.append("g")
             .attr("transform", `translate(${vis.width * 0.51}, 0)`)
             .attr("id", "animal-group");
+
+        // Create tooltip
+        vis.tooltip = d3.select("body")
+            .append("div")
+            .classed("tooltip", true)
+            .attr("id", "comparison-chart-tooltip");
 
         vis.wrangleData();
     }
@@ -195,7 +202,7 @@ class ComparisonVis {
                     let cellFill = plantCount > 0 ? "Plant": "none";
                     plantDisplayData[i].data.push({
                         "id": cellID,
-                        "fill": cellFill.toLowerCase().replaceAll(" ", "-")
+                        "fill": cellFill
                     });
                     // levelData.Plant -= vis.boxWorth;
                     plantCount -= vis.boxWorth;
@@ -230,7 +237,7 @@ class ComparisonVis {
                         let cellFill = (animalCounts.length > 0) ? animalCounts[0].animal : "none";
                         animalDisplayData[i].data.push({
                             "id": cellID,
-                            "fill": cellFill.toLowerCase().replaceAll(" ", "-")
+                            "fill": cellFill
                         });
                         // Subtract how much the box is worth from number of species
                         animalCounts[0].count -= vis.boxWorth;
@@ -256,7 +263,6 @@ class ComparisonVis {
         // Get display data based off of selected threat level
         vis.displayData = vis.finalData[selectedComparison];
         vis.displaySummaryStats = vis.summaryStats[selectedComparison];
-        console.log(vis.displaySummaryStats);
 
         // Create groups for each row
         vis.plantRows = vis.plantGroup.selectAll(".plant-row")
@@ -304,7 +310,7 @@ class ComparisonVis {
         vis.animalCells.enter()
             .append("rect")
             .merge(vis.animalCells)
-            .attr("class", (d) => `comparison-cell animal-cell ${d.fill}-cell`)
+            .attr("class", (d) => `comparison-cell animal-cell ${d.fill.toLowerCase().replaceAll(" ", "-")}-cell`)
             .attr("id", (d) => d.id)
             .transition()
             .delay((d, i) => 1000 * i / vis.displayData.animals[0].data.length)
@@ -322,18 +328,50 @@ class ComparisonVis {
         vis.svg.selectAll(".comparison-cell")
             // TODO: use event handler for these
             .on("mouseover", function(event, d) {
-                let className = `.${d.fill}-cell`;
+                let className = `.${d.fill.toLowerCase().replaceAll(" ", "-")}-cell`;
                 
                 // Change cell fill opacity
                 vis.svg.selectAll(className)
                     .style("fill-opacity", 1);
+
+                // Update tooltip
+                // TODO: ensure vis.borders.left <= event.pageX + 20 <= vis.borders.right
+                //       and vis.borders.bottom <= event.pageY <= vis.borders.top
+                let selectionStr = selectedComparison;
+                if (selectedComparison === "both") {
+                    selectionStr = "extinct and threatened";
+                }
+                vis.tooltip.style("opacity", 1)
+                    .style("left", event.pageX + 20 + "px")
+                    .style("top", event.pageY + "px")
+                    .html(`
+                        <div class="tooltip-box">
+                          <h3>${d.fill}</h3>
+                          <h4>${vis.displaySummaryStats[d.fill].toLocaleString()} ${selectionStr} species</h4>
+                        </div>
+                    `);
+                // Ensure tooltip is within chart area
+                let tooltipRect = document.getElementById("comparison-chart-tooltip").getBoundingClientRect();
+                if (tooltipRect.right > window.innerWidth) {
+                    vis.tooltip.style("left", window.innerWidth - (tooltipRect.width + 30) + "px");
+                }
+                if (tooltipRect.bottom > window.innerHeight) {
+                    vis.tooltip.style("top", event.pageY - tooltipRect.height + "px");
+                }
+
             })
             .on("mouseout", function(event, d) {
-                let className = `.${d.fill}-cell`;
+                let className = `.${d.fill.toLowerCase().replaceAll(" ", "-")}-cell`;
 
                 // Restore cell fill opacity
                 vis.svg.selectAll(className)
                     .style("fill-opacity", 0.65);
+
+                // Remove tooltip
+                vis.tooltip.style("opacity", 0)
+                    .style("left", 0)
+                    .style("top", 0)
+                    .html("");
             });
     }
 
