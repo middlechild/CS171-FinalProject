@@ -22,46 +22,39 @@
     </section>
 
     <section id="section-2" class="row">
-      <!--   Replace this temporary div   -->
-      <div class="col temp-storyboard-slide color-white">
-        <img src="images/storyboard/Slide2.jpeg" />
+      <div class="col">
+        <h2 class="section-remark">How many endangered species can you name?</h2>
       </div>
-      <!------------------------------------>
     </section>
 
     <section id="section-3" class="row">
-      <!--   Replace this temporary div   -->
-      <div class="col temp-storyboard-slide color-white">
-        <img src="images/storyboard/Slide3.jpeg" />
+      <div class="col">
+        <h2 class="section-remark">How many of those are plant species?</h2>
       </div>
-      <!------------------------------------>
     </section>
 
     <section id="section-4" class="row">
-      <!--   Replace this temporary div   -->
-      <div class="col temp-storyboard-slide color-light-green">
-        <img src="images/storyboard/Slide4.jpeg" />
+      <div class="col">
+        <h2 class="section-remark">Did you know that the number of plant species that have gone extinct in the past 250 years is more than twice the number of mammal, bird, and amphibian extinctions combined?</h2>
       </div>
-      <!------------------------------------>
     </section>
 
     <section id="section-5" class="row">
-      <div class="col-1">
-        <div class="row align-items-center justify-content-right full-height">
+      <div class="col-2">
+        <div class="row" id="comparison-chart-selector">
           <div>
             <p>Species status:</p>
-            <select id="comparison-selector", class="form-select form-select-lg", aria-label=".form-select-lg attribute" onchange="changeComparisonVis()">
+            <select id="comparison-selector" class="form-select form-select-lg", aria-label=".form-select-lg attribute" onchange="changeComparisonVis()">
               <option value="extinct" selected>Extinct</option>
               <option value="threatened">Threatened</option>
               <option value="both">Both</option>
             </select>
           </div>
         </div>
+        <div class="row" id="comparison-chart-legend"></div>
       </div>
-      <div class="col-11 full-height">
-        <div class="col-12 full-height full-width">
+      <div class="col-10 full-height">
           <div class="row full-height full-width justify-content-center align-items-center" id="comparisonChart"></div>
-        </div>
       </div>
     </section>
 

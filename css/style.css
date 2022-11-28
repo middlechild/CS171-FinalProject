@@ -41,11 +41,6 @@ section {
     width: 100%;
 }
 
-#comparison-selector {
-    width: auto;
-    max-width: 100%;
-}
-
 .section-title {
     text-align: center;
     font-size: 36px;
@@ -62,7 +57,38 @@ section {
 
 
 /** *********************************** **/
-/**     Section 6 - Extinction Rate     **/
+/**             Section 2               **/
+/** *********************************** **/
+
+#section-2 {
+    padding: 12% 8%;
+    /*background-color: #e6f8ec;*/
+}
+
+
+/** *********************************** **/
+/**             Section 3               **/
+/** *********************************** **/
+
+#section-3 {
+    padding: 12% 8%;
+    /*background-color: #e6f8ec;*/
+}
+
+
+/** *********************************** **/
+/**             Section 4               **/
+/** *********************************** **/
+
+#section-4 {
+    padding: 12% 8%;
+    background-color: #85c094;
+    color: white;
+}
+
+
+/** *********************************** **/
+/**    Section 5 - Plants vs Animals    **/
 /** *********************************** **/
 
 #section-5 {
@@ -70,13 +96,28 @@ section {
     width: 100vw;
 }
 
-#section-5 .section-chart {
-    padding: 4% 8%;
-}
-
-#section-5 #comparison-selector {
+#comparison-selector {
     width: auto;
     max-width: 100%;
+}
+
+#comparison-chart-selector {
+    height: 25%;
+}
+
+#comparison-chart-selector div {
+    height: auto;
+    margin-left: 10%;
+    margin-top: 10%;
+}
+
+#comparison-chart-selector p {
+    padding: 0;
+    margin: 0;
+}
+
+#comparison-chart-legend {
+    height: 75%;
 }
 
 
@@ -129,6 +170,9 @@ section {
 /** *********************************** **/
 /** Section 9 - The Root of the Problem **/
 /** *********************************** **/
+#section-9 {
+    background-color: #f7f7f7;
+}
 
 #section-9 .tree {
     padding: 4% 8%;
@@ -220,8 +264,7 @@ section {
 /** Section 13  Extinct vs Rediscovered **/
 /** *********************************** **/
 #section-13 {
-    padding-bottom: 4%;
-    margin-bottom: 40px;
+    padding-bottom: 8%;
 }
 
 #section-13 .map {
