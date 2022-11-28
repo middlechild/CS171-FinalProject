@@ -384,12 +384,24 @@ a:hover {
 #section-11 {
     padding: 12% 8%;
     background-color: #e6f8ec;
+    border-bottom: none;
 }
 
 
 /** *********************************** **/
 /**             Section 12              **/
 /** *********************************** **/
+
+
+#section-12-intro {
+    background-color: #e6f8ec;
+    border-bottom: none;
+    padding-bottom: 4%;
+}
+
+#section-12-intro .wrapper {
+    max-width: 940px;
+}
 
 #section-12 {
     height: 50%;
