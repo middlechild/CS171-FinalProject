@@ -208,7 +208,7 @@ section {
 /** *********************************** **/
 
 #section-6 {
-
+    height: 100vh;
 }
 
 #section-6 .section-chart {
@@ -216,8 +216,18 @@ section {
     min-height: 600px;
 }
 
+#sec06-vis {
+    height: 50vh;
+}
+
 #section-6 h4 {
     text-align: center;
+}
+
+#sec06-buttons p {
+    margin: 0;
+    padding: 0;
+    text-align: right;
 }
 
 

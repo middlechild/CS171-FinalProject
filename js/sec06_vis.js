@@ -16,10 +16,7 @@ class sec06_barchart {
         vis.margin = {top: 40, right: 10, bottom: 40, left: 150};
 
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
-        vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height + 300 - vis.margin.top - vis.margin.bottom;
-
-        console.log(vis.height)
-        console.log(vis.width)
+        vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
 
         // SVG drawing area
         vis.svg = d3.select("#" + vis.parentElement).append("svg")
@@ -111,6 +108,7 @@ class sec06_barchart {
         vis.bars.exit().remove();
 
         // Call axis functions with the new domain
+        // TODO: add transition to axes
         vis.svg.select(".x-axis").call(vis.xAxis);
         vis.svg.select(".y-axis").call(vis.yAxis);
     }
