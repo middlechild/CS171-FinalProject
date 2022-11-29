@@ -174,14 +174,26 @@ section {
 /**    Section 5 - Plants vs Animals    **/
 /** *********************************** **/
 
-#section-5-intro {
-    border-bottom: none;
+#section-5 {
+    height: 100vh;
 }
 
-#section-5 {
-    height: 80vh;
-    width: 100vw;
-    padding: 4%;
+#section-5-info {
+    height: 25%;
+}
+
+#section-5-vis {
+    height: 75%;
+}
+
+#section-5 .section-title {
+    margin: 0;
+    padding: 0;
+}
+
+#section-5 .section-text {
+    margin: 0;
+    padding: 0;
 }
 
 #comparison-selector {
