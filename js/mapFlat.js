@@ -13,8 +13,8 @@ class MapFlat {
 
         // define colors
         this.colors = {
-            rediscovered: ["#bbe2f3", "#136A8A"],
-            extinct: ["#efacc0", "#9d0f3a"]
+            rediscovered: ["#6ba9c2", "#136A8A"],
+            extinct: ["#de6388", "#9d0f3a"]
         }
 
         this.initVis();
@@ -52,7 +52,7 @@ class MapFlat {
             .attr('transform', `translate(0, ${vis.height - 20})`);
 
         // Add event listener to toggle
-        let toggleValues = document.getElementsByClassName('btn-toggle');
+        let toggleValues = document.getElementsByClassName('btn-rediscovered-toggle');
         Array.from(toggleValues).forEach(function(o) {
             o.addEventListener('click', function(e) {
                 vis.selectedListValueChange(e);
@@ -75,12 +75,9 @@ class MapFlat {
         vis.data.forEach(row => {
             // push rows with proper dates into filteredData
             if (row.List === vis.selectedListValue) {
-                console.log(row.Risk);
                 filteredData.push(row);
             }
         });
-
-        //console.log(filteredData);
 
         // Reset data structure with extinction information for the countries
         vis.countryInfo = {};
@@ -104,11 +101,7 @@ class MapFlat {
 
             // update max value for selection
             vis.maxValue = totalSpecies > vis.maxValue ? totalSpecies : vis.maxValue;
-        })
-
-        console.log(vis.countryInfo);
-
-        console.log(vis.maxValue);
+        });
 
         vis.updateVis();
     }
@@ -205,7 +198,7 @@ class MapFlat {
 
         vis.selectedListValue = event.currentTarget.getAttribute("data-value");
 
-        let active = document.querySelector('button.btn-toggle.active');
+        let active = document.querySelector('button.btn-rediscovered-toggle.active');
         if (active) {
             active.classList.remove('active');
         }

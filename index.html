@@ -75,20 +75,11 @@
         <div class="row" id="sec06-buttons">
           <div class="col-8 offset-2">
             <div class="row justify-content-center align-items-center">
-              <div class="col-3">
-                <div class="row justify-content-center align-items-center">
-                  <p>Timeline:</p>
+                <div class="btn-group" id="extinction-rate-toggle">
+                  <button type="button" class="btn-toggle btn-extinction-toggle btn btn-lg btn-secondary active" data-value="base">Base Rate</button>
+                  <button type="button" class="btn-toggle btn-extinction-toggle btn btn-lg btn-secondary" data-value="before_1900">Before 1900</button>
+                  <button type="button" class="btn-toggle btn-extinction-toggle btn btn-lg btn-secondary" data-value="after_1900">After 1900</button>
                 </div>
-              </div>
-              <div class="col-3">
-                <button type="button" class="btn btn-secondary" onclick="sec_06_get_button('base_rate');">Base Rate</button>
-              </div>
-              <div class="col-3">
-                <button type="button" class="btn btn-secondary" onclick="sec_06_get_button('before_1900');">Before 1900</button>
-              </div>
-              <div class="col-3">
-                <button type="button" class="btn btn-secondary" onclick="sec_06_get_button('after_1900');">After 1900</button>
-              </div>
             </div>
           </div>
         </div>
@@ -96,7 +87,7 @@
           <div class="col-8 offset-2" id="sec06-vis"></div>
         </div>
         <div class="row" id="sec06-message2">
-          <h4>The current extinction rate (Extinction Rate After 1900) is roughly 500x the base historical extinction rate.</h4>
+          <h4>The current extinction rate (Extinction Rate After 1900) is roughly <span style="color: red;">500x</span> the base historical extinction rate.</h4>
         </div>
       </div>
     </section>
@@ -195,8 +186,8 @@
       <div class="col map">
         <div id="map-flat-chart" class="row"></div>
         <div class="btn-group" id="rediscovered-toggle">
-          <button type="button" class="btn-toggle btn btn-lg btn-secondary active" data-value="Rediscovered" >Rediscovered</button>
-          <button type="button" class="btn-toggle btn btn-lg btn-secondary" data-value="Extinct" >Extinct</button>
+          <button type="button" class="btn-toggle btn-rediscovered-toggle btn btn-lg btn-secondary active" data-value="Rediscovered" >Rediscovered</button>
+          <button type="button" class="btn-toggle btn-rediscovered-toggle btn btn-lg btn-secondary" data-value="Extinct" >Extinct</button>
         </div>
       </div>
     </section>
