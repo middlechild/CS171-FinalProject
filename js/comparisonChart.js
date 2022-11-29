@@ -249,6 +249,14 @@ class ComparisonVis {
         vis.displayData = vis.finalData[selectedComparison];
         vis.displaySummaryStats = vis.summaryStats[selectedComparison];
 
+        // Update the chart message
+        const selectionText = (selectedComparison !== "both") ? selectedComparison : "extinct + threatened";
+        d3.select("#section-5-message__category")
+            .html(selectionText);
+        const animalTypeText = (selectedComparison === "extinct") ? "amphibians, birds, mammals, reptiles, and other non-marine species" : "all animal species";
+        d3.select("#section-5-message__animals")
+            .html(animalTypeText);        
+
         // Create groups for each row
         vis.plantRows = vis.plantGroup.selectAll(".plant-row")
             .data(vis.displayData.plants);
