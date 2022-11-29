@@ -324,10 +324,7 @@ class ComparisonVis {
                 let className = `.${d.fill.toLowerCase().replaceAll(" ", "-")}-cell`;
 
                 // Update tooltip
-                let selectionStr = selectedComparison;
-                if (selectedComparison === "both") {
-                    selectionStr = "extinct and threatened";
-                }
+                const selectionStr = (selectedComparison !== "both") ? selectedComparison : "extinct + threatened";
                 vis.tooltip.style("opacity", 0.95)
                     .style("left", event.pageX + 20 + "px")
                     .style("top", event.pageY + "px")
