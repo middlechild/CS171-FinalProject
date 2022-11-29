@@ -193,7 +193,7 @@ section {
 
 #section-5 .section-text {
     margin: 0;
-    padding: 0;
+    padding: 0 1em;
 }
 
 #comparison-selector {
