@@ -5,6 +5,7 @@ class ExtinctionRateChart {
     constructor(parentElement, data) {
         this.parentElement = parentElement;
         this.data = data;
+        this.selectedTimeValue = "base";
 
         this.initVis();
     }
@@ -39,29 +40,34 @@ class ExtinctionRateChart {
         vis.yAxisGroup = vis.svg.append("g")
             .classed("y-axis axis", true);
 
+        // Add event listener to toggle
+        const toggleValues = document.getElementsByClassName("btn-extinction-toggle");
+        Array.from(toggleValues).forEach((v) => v.addEventListener("click", (e) => vis.selectedTimeChange(e)));
+
         // (Filter, aggregate, modify data)
         vis.wrangleData();
     }
 
-    /*
-     * Data wrangling
-     */
     wrangleData() {
         let vis = this;
 
-        if (sec06_button_value === "base_rate") {
+        if (vis.selectedTimeValue === "base") {
             vis.bardata = [vis.data[0]]
         }
-        else if (sec06_button_value === "before_1900") {
+        else if (vis.selectedTimeValue === "before_1900") {
             vis.bardata = vis.data.slice(0,2);
         }
-        else {
+        else if (vis.selectedTimeValue === "after_1900") {
             vis.bardata = vis.data;
+        }
+        else {
+            throw "Invalid toggle option";
         }
 
         // Update the visualization
         vis.updateVis();
     }
+
     updateVis() {
         let vis = this;
 
@@ -92,13 +98,29 @@ class ExtinctionRateChart {
         vis.bars.exit().remove();
 
         // Call axis functions with the new domain
-        // TODO: add transition to axes
         vis.xAxisGroup.transition()
             .duration(1500)
             .call(vis.xAxis);
         vis.yAxisGroup.transition()
             .duration(1500)
             .call(vis.yAxis);
+    }
+
+    selectedTimeChange(event) {
+        let vis = this;
+
+        // Get selected timeline value
+        vis.selectedTimeValue = event.currentTarget.getAttribute("data-value");
+
+        // Update which toggle button is active
+        let active = document.querySelector("button.btn-extinction-toggle.active");
+        if (active) {
+            active.classList.remove("active");
+        }
+        event.currentTarget.classList.add("active");
+
+        // Wrangle data and update chart
+        vis.wrangleData();
     }
 }
 
