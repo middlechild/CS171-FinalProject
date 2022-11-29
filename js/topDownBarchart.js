@@ -53,9 +53,6 @@ class TopDownBarchart {
 
     wrangleData() {
         let vis = this;
-
-        console.log('data', vis.data);
-
         vis.updateVis();
     }
 

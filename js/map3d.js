@@ -27,8 +27,7 @@ class Map3D {
 
     initVis() {
         let vis = this;
-        let m0,
-            o0;
+        let m0, o0;
 
         vis.margin = {top: 20, right: 20, bottom: 20, left: 20};
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
@@ -121,27 +120,19 @@ class Map3D {
 
         // Filter data
         let filteredData = [];
-        console.log('vis.data');
-        console.log(vis.data);
         // Iterate over all rows in the data csv
         vis.data.forEach(row => {
             // push rows with proper dates into filteredData
             if (row['Extinction.Risk'] === vis.selectedRiskValue) {
-                console.log('Extinction.Risk' + row['Extinction.Risk']);
                 filteredData.push(row);
             }
         });
-        console.log('filteredData');
-        console.log(filteredData);
 
         // Reset data structure with extinction information for the countries
         vis.countryInfo = {};
 
         // Prepare country data by grouping all rows
-        let dataByCountry = Array.from(d3.group(filteredData, d => d.Locality), ([key, value]) => ({key, value}))
-        console.log('dataByCountry');
-        console.log(dataByCountry);
-
+        let dataByCountry = Array.from(d3.group(filteredData, d => d.Locality), ([key, value]) => ({key, value}));
         vis.maxValue  = 0;
         vis.totalSpeciels = 0;
 
@@ -154,15 +145,11 @@ class Map3D {
             vis.countryInfo[country.key] = {
                 code: country.key,
                 total: countryTotalSpecies // Get number of species based on selection
-            }
+            };
 
             // update max value for selection
             vis.maxValue = countryTotalSpecies > vis.maxValue ? countryTotalSpecies : vis.maxValue;
-        })
-
-        console.log(vis.countryInfo);
-
-        console.log(vis.maxValue);
+        });
 
         vis.updateVis();
     }
