@@ -28,8 +28,9 @@ class ComparisonVis {
         };
         this.statusLevels["both"] = this.statusLevels.extinct.concat(this.statusLevels.threatened);
 
-        // Set how much each box should be worth
+        // Set worth and opacity of box
         this.boxWorth = 10;
+        this.boxOpacity = 0.85;
 
         this.drawLegend();
         this.initVis();
@@ -62,7 +63,8 @@ class ComparisonVis {
                 .classed("legend-box", true)
                 .attr("width", boxDim)
                 .attr("height", boxDim)
-                .style("fill", vis.colorMap[type]);
+                .style("fill", vis.colorMap[type])
+                .style("fill-opacity", vis.boxOpacity);
             legendGroup.append("text")
                 .classed("legend-text", true)
                 .attr("x", boxDim + boxGap)
@@ -285,7 +287,7 @@ class ComparisonVis {
             .attr("width", vis.displayData.boxDim)
             .attr("height", vis.displayData.boxDim)
             .style("fill", (d) => vis.colorMap[d.fill])
-            .style("fill-opacity", 0.85);
+            .style("fill-opacity",vis.boxOpacity);
         vis.plantCells.exit().remove();
 
         vis.animalCells = vis.animalRowGroups.selectAll(".animal-cell")
@@ -304,7 +306,7 @@ class ComparisonVis {
             .attr("width", vis.displayData.boxDim)
             .attr("height", vis.displayData.boxDim)
             .style("fill", d => vis.colorMap[d.fill])
-            .style("fill-opacity", 0.85);
+            .style("fill-opacity", vis.boxOpacity);
         vis.animalCells.exit().remove();
 
         // Show tooltip on mouse over
