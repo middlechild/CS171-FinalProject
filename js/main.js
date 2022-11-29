@@ -8,8 +8,7 @@ let comparisonChart,
     extinctionRateChart,
     map3d,
     mapFlat,
-    rootBarchart,
-    sec06_button_value;
+    rootBarchart;
 
 // Get selection for comparison visualization
 let selectedComparison = document.getElementById("comparison-selector").value;
@@ -18,11 +17,6 @@ let selectedComparison = document.getElementById("comparison-selector").value;
 function changeComparisonVis() {
     selectedComparison = document.getElementById("comparison-selector").value;
     comparisonChart.updateVis();
-}
-
-function sec_06_get_button(value) {
-    sec06_button_value = value
-    extinctionRateChart.wrangleData();
 }
 
 // Load data using promises
