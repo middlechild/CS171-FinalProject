@@ -309,6 +309,7 @@ class ComparisonVis {
             .style("fill-opacity", vis.boxOpacity);
         vis.animalCells.exit().remove();
 
+        // TODO: look into more sophisticated event handler
         // Show tooltip on mouse over
         vis.svg.selectAll(".comparison-cell")
             .on("mouseover", function(event, d) {
