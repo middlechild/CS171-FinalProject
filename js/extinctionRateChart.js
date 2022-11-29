@@ -1,5 +1,5 @@
 
-class sec06_barchart {
+class ExtinctionRateChart {
 
     // constructor method to initialize StackedAreaChart object
     constructor(parentElement, data) {
@@ -28,24 +28,16 @@ class sec06_barchart {
         // Scales and axes
         vis.x = d3.scaleLinear()
             .range([0, vis.width]);
-
         vis.y = d3.scaleBand()
             .range([0, vis.height])
             .padding(0.1);
-
-        vis.xAxis = d3.axisBottom()
-            .scale(vis.x);
-
-        vis.yAxis = d3.axisLeft()
-            .scale(vis.y);
-
+        vis.xAxis = d3.axisBottom();
+        vis.yAxis = d3.axisLeft();
         vis.xAxisGroup = vis.svg.append("g")
-            .attr("class", "x-axis axis")
-            .attr("transform", "translate(0," + vis.height + ")")
-
+            .classed("x-axis axis", true)
+            .attr("transform", `translate(0, ${vis.height})`);
         vis.yAxisGroup = vis.svg.append("g")
-            .attr("class", "y-axis axis")
-
+            .classed("y-axis axis", true);
 
         // (Filter, aggregate, modify data)
         vis.wrangleData();
@@ -56,21 +48,16 @@ class sec06_barchart {
      */
     wrangleData() {
         let vis = this;
-        console.log("wrangledata", sec06_button_value);
 
-        if (sec06_button_value == "base_rate") {
+        if (sec06_button_value === "base_rate") {
             vis.bardata = [vis.data[0]]
         }
-        else if (sec06_button_value == "before_1900") {
+        else if (sec06_button_value === "before_1900") {
             vis.bardata = vis.data.slice(0,2);
-        }
-        else if (sec06_button_value == "after_1900") {
-            vis.bardata = vis.data;
         }
         else {
             vis.bardata = vis.data;
-        };
-
+        }
 
         // Update the visualization
         vis.updateVis();
@@ -78,11 +65,11 @@ class sec06_barchart {
     updateVis() {
         let vis = this;
 
-        console.log('update_vis', sec06_button_value, vis.bardata)
-
         // Update scales domains
-        vis.x.domain([0, d3.max(vis.bardata, function(d) { return d.values;})]);
-        vis.y.domain(vis.bardata.map( function(d) { return d.labels;}));
+        vis.x.domain([0, d3.max(vis.bardata, (d) => d.values)]);
+        vis.y.domain(vis.bardata.map((d) => d.labels));
+        vis.xAxis.scale(vis.x);
+        vis.yAxis.scale(vis.y);
 
         // Data join
         vis.bars = vis.svg.selectAll("rect")
@@ -90,27 +77,28 @@ class sec06_barchart {
 
         vis.bars.enter()
             .append("rect")
+            .classed("bar", true)
             .attr("x", 0)
-            .attr("y", function(d) { return vis.y(d.labels); })
-            .attr("height", vis.y.bandwidth() )
-            .attr("width", function(d) { return vis.x(d.values); })
-            .attr("fill", "#69b3a2")
-            .attr("class", "bar")
+            .style("fill", "#69b3a2")          
             .merge(vis.bars)
             .transition()
-            .duration(2500)
+            .duration(1500)
             .attr("x", 0)
-            .attr("y", function(d) { return vis.y(d.labels); })
-            .attr("height", vis.y.bandwidth() )
-            .attr("width", function(d) { return vis.x(d.values); })
+            .attr("y", (d) => vis.y(d.labels))
+            .attr("height", vis.y.bandwidth())
+            .attr("width", (d) => vis.x(d.values));
 
         // Exit
         vis.bars.exit().remove();
 
         // Call axis functions with the new domain
         // TODO: add transition to axes
-        vis.svg.select(".x-axis").call(vis.xAxis);
-        vis.svg.select(".y-axis").call(vis.yAxis);
+        vis.xAxisGroup.transition()
+            .duration(1500)
+            .call(vis.xAxis);
+        vis.yAxisGroup.transition()
+            .duration(1500)
+            .call(vis.yAxis);
     }
 }
 

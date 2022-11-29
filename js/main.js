@@ -5,7 +5,7 @@
 
 // Initialize global variables
 let comparisonChart,
-    sec06_barchart_vis,
+    extinctionRateChart,
     map3d,
     mapFlat,
     rootBarchart,
@@ -22,7 +22,7 @@ function changeComparisonVis() {
 
 function sec_06_get_button(value) {
     sec06_button_value = value
-    sec06_barchart_vis.wrangleData();
+    extinctionRateChart.wrangleData();
 }
 
 // Load data using promises
