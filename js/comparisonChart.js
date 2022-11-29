@@ -70,7 +70,6 @@ class ComparisonVis {
                 .attr("x", boxDim + boxGap)
                 .attr("y", boxDim / 2)
                 .attr("alignment-baseline", "middle")
-                .style("font-size", "0.75em")
                 .text(type)
         }
     }
