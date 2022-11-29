@@ -285,7 +285,7 @@ class ComparisonVis {
             .attr("width", vis.displayData.boxDim)
             .attr("height", vis.displayData.boxDim)
             .style("fill", (d) => vis.colorMap[d.fill])
-            .style("fill-opacity", 0.65);
+            .style("fill-opacity", 0.85);
         vis.plantCells.exit().remove();
 
         vis.animalCells = vis.animalRowGroups.selectAll(".animal-cell")
@@ -304,17 +304,13 @@ class ComparisonVis {
             .attr("width", vis.displayData.boxDim)
             .attr("height", vis.displayData.boxDim)
             .style("fill", d => vis.colorMap[d.fill])
-            .style("fill-opacity", 0.65);
+            .style("fill-opacity", 0.85);
         vis.animalCells.exit().remove();
 
-        // Add tooltip
+        // Show tooltip on mouse over
         vis.svg.selectAll(".comparison-cell")
             .on("mouseover", function(event, d) {
                 let className = `.${d.fill.toLowerCase().replaceAll(" ", "-")}-cell`;
-                
-                // Change cell fill opacity
-                vis.svg.selectAll(className)
-                    .style("fill-opacity", 1);
 
                 // Update tooltip
                 let selectionStr = selectedComparison;
@@ -344,10 +340,6 @@ class ComparisonVis {
             })
             .on("mouseout", function(event, d) {
                 let className = `.${d.fill.toLowerCase().replaceAll(" ", "-")}-cell`;
-
-                // Restore cell fill opacity
-                vis.svg.selectAll(className)
-                    .style("fill-opacity", 0.65);
 
                 // Remove tooltip
                 vis.tooltip.style("opacity", 0)
