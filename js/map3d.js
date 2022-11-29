@@ -13,13 +13,13 @@ class Map3D {
 
         // define colors
         this.colors = {
-            "Extinct": ["#63a1de", "#0f489d"],
-            "Extinct in the wild": ["#8983e0", "#6017b9"],
-            "Critically endangered": ["#de6388", "#9d0f3a"],
-            "Endangered": ["#e19b86", "#da5c17"],
-            "Vulnerable": ["#d1e88c", "#a3af35"],
-            "Least concern": ["#9ce7c5", "#0f9d88"],
-            "Data deficient": ["#6ba9c2", "#136A8A"]
+            "Extinct": ["#c9aef8", "#5c03b0"],
+            "Extinct in the wild": ["#edc4f1", "#9f03b0"],
+            "Critically endangered": ["#f6bfd0", "#86012a"],
+            "Endangered": ["#f5cdc2", "#964112"],
+            "Vulnerable": ["#ebf5cf", "#8c9a11"],
+            "Least concern": ["#b5f5d8", "#048370"],
+            "Data deficient": ["#c6c8c9", "#626565"]
         }
 
         this.initVis();

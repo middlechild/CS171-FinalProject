@@ -13,8 +13,8 @@ class MapFlat {
 
         // define colors
         this.colors = {
-            rediscovered: ["#6ba9c2", "#136A8A"],
-            extinct: ["#de6388", "#9d0f3a"]
+            rediscovered: ["#bbe2f3", "#136A8A"],
+            extinct: ["#efacc0", "#9d0f3a"]
         }
 
         this.initVis();

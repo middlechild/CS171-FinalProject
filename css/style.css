@@ -34,7 +34,7 @@ h1, h2, h3, h4, h5 {
 .wrapper {
     margin: 0 auto;
     padding: 0;
-    max-width: 100vw;
+    max-width: 1280px;
 }
 
 
@@ -102,7 +102,6 @@ section {
     text-align: center;
     font-size: 36px;
     padding: 72px 0 24px 0;
-    background-color: #e6f8ec;
     text-decoration-line: underline;
     text-underline-offset: 18px;
 }
@@ -118,6 +117,23 @@ section {
     font-size: 32px;
     margin-bottom: 0;
     max-width: 920px;
+    margin: auto;
+}
+
+
+/** *********************************** **/
+/**             Section 1               **/
+/** *********************************** **/
+
+#section-1 {
+    padding: 12% 8%;
+    background-color: #85c094;
+    color: white;
+    text-align: center;
+    height: 100vh;
+}
+
+#section-1 .col-centered {
     margin: auto;
 }
 
@@ -158,9 +174,14 @@ section {
 /**    Section 5 - Plants vs Animals    **/
 /** *********************************** **/
 
+#section-5-intro {
+    border-bottom: none;
+}
+
 #section-5 {
     height: 80vh;
     width: 100vw;
+    padding: 4%;
 }
 
 #comparison-selector {
@@ -373,12 +394,24 @@ a:hover {
 #section-11 {
     padding: 12% 8%;
     background-color: #e6f8ec;
+    border-bottom: none;
 }
 
 
 /** *********************************** **/
 /**             Section 12              **/
 /** *********************************** **/
+
+
+#section-12-intro {
+    background-color: #e6f8ec;
+    border-bottom: none;
+    padding-bottom: 4%;
+}
+
+#section-12-intro .wrapper {
+    max-width: 940px;
+}
 
 #section-12 {
     height: 50%;
