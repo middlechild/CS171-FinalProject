@@ -1,6 +1,6 @@
 /*
  * ComparisonVis - Object for visualization extinction/threatened
-                   species counts for plants and animals.
+ *                 species counts for plants and animals.
  */
 
 class ComparisonVis {
@@ -38,20 +38,20 @@ class ComparisonVis {
 
     drawLegend() {
         let vis = this;
-        let margin = {top: 0, right: 0, bottom: 20, left: 40};
-        let width = document.getElementById(vis.legendElement).getBoundingClientRect().width - margin.left - margin.right,
+        const margin = {top: 0, right: 0, bottom: 20, left: 40};
+        const width = document.getElementById(vis.legendElement).getBoundingClientRect().width - margin.left - margin.right,
             height = document.getElementById(vis.legendElement).getBoundingClientRect().height - margin.top - margin.bottom;
 
         // Create drawing space for legend
-        let svg = d3.select("#" + vis.legendElement).append("svg")
+        const svg = d3.select("#" + vis.legendElement).append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
         // Calculate legend box dimension based on available space
-        let boxDim = (3 / 4) * (4 * height / (5 * Object.keys(vis.colorMap).length - 1));
-        let boxGap = boxDim / 4;
+        const boxDim = (3 / 4) * (4 * height / (5 * Object.keys(vis.colorMap).length - 1));
+        const boxGap = boxDim / 4;
 
         // Add group, rect, and text for each legend element
         for (let i = 0; i < (Object.keys(vis.colorMap).length - 1); i++) {
