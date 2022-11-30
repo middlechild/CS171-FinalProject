@@ -14,7 +14,7 @@ class ExtinctionRateChart {
 
         let vis = this;
 
-        vis.margin = {top: 40, right: 10, bottom: 40, left: 150};
+        vis.margin = {top: 20, right: 100, bottom: 20, left: 100};
 
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
         vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
@@ -24,7 +24,7 @@ class ExtinctionRateChart {
             .attr("width", vis.width + vis.margin.left + vis.margin.right)
             .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
             .append("g")
-            .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
+            .attr("transform", `translate(${vis.margin.left}, ${vis.margin.top})`);
 
         // Scales and axes
         vis.x = d3.scaleLinear()
@@ -51,6 +51,19 @@ class ExtinctionRateChart {
     wrangleData() {
         let vis = this;
 
+        // Truncate labels
+        vis.data.forEach((d) => {
+            if (d.labels.split(" ").includes("Base")) {
+                d.labels = "Base rate";
+            }
+            else if (d.labels.split(" ").includes("Before")) {
+                d.labels = "Before 1900";
+            }
+            else if (d.labels.split(" ").includes("After")) {
+                d.labels = "After 1900);"
+            }
+        });
+
         if (vis.selectedTimeValue === "base") {
             vis.bardata = [vis.data[0]]
         }
@@ -59,9 +72,6 @@ class ExtinctionRateChart {
         }
         else if (vis.selectedTimeValue === "after_1900") {
             vis.bardata = vis.data;
-        }
-        else {
-            throw "Invalid toggle option";
         }
 
         // Update the visualization
