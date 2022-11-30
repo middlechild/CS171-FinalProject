@@ -257,27 +257,42 @@ section {
 /**     Section 6 - Extinction Rate     **/
 /** *********************************** **/
 
-#section-6 {
-    height: 100vh;
+#section-6-info {
+    height: 45vh;
+    padding: 0;
+    margin: 0;
 }
 
-#section-6 .section-chart {
-    padding: 4% 8%;
-    min-height: 600px;
+#section-6-info .section-title {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    font-size: 36px;
+    text-decoration-line: underline;
+    text-underline-offset: 18px;
+}
+
+#section-6-info h4 {
+    margin: 0;
+    padding: 0;
+}
+
+#extinction-rate-toggle {
+    margin: 0;
+    padding: 0;
 }
 
 #sec06-vis {
-    height: 50vh;
+    height: 25vh;
 }
 
-#section-6 h4 {
-    text-align: center;
+#section-6-footer {
+    height: 20vh;
 }
 
-#sec06-buttons p {
+#section-6-footer h4 {
     margin: 0;
     padding: 0;
-    text-align: right;
 }
 
 
