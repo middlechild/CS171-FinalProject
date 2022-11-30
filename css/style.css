@@ -286,6 +286,22 @@ section {
     height: 25vh;
 }
 
+#sec06-vis text {
+    font-size: 1.5em;
+}
+
+@media(max-width: 1000px) {
+    #sec06-vis text {
+        font-size: 1.25em;
+    }
+}
+
+@media(max-width: 850px) {
+    #sec06-vis text {
+        font-size: 1em;
+    }
+}
+
 #section-6-footer {
     height: 20vh;
 }

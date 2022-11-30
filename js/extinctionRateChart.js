@@ -60,7 +60,7 @@ class ExtinctionRateChart {
                 d.labels = "Before 1900";
             }
             else if (d.labels.split(" ").includes("After")) {
-                d.labels = "After 1900);"
+                d.labels = "After 1900"
             }
         });
 
