@@ -9,7 +9,7 @@
 /** *********************************** **/
 
 body {
-    color: #222b33;
+    color: #222B32;
     font-family: Roboto, sans-serif;
 }
 
@@ -40,7 +40,9 @@ h1, h2, h3, h4, h5 {
 .em-red {
     color: #9d0f3a;
 }
-
+.em-dark {
+    color: #222B32;
+}
 
 /** *********************************** **/
 /**                Charts               **/
@@ -152,22 +154,51 @@ section {
 #section-2 {
     padding: 12% 8%;
     text-align: center;
-    /*background-color: #e6f8ec;*/
+    background-color: #f7f7f7;
 }
 
+#section-2 h2 {
+    margin-bottom: 1em;
+}
+
+#section-2 .big-leaf-btn {
+    border-bottom-left-radius: 36px;
+    border-top-right-radius: 36px;
+    background-color: #85c094;
+    color: white;
+    padding: 20px;
+    height: auto;
+    min-width: 80px;
+    margin-left: 16px;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#section-2 .big-leaf-btn:hover,
+#section-2 .big-leaf-btn.selected {
+    background-color: #222b33;
+}
 
 /** *********************************** **/
 /**             Section 3               **/
 /** *********************************** **/
 
 #section-3 {
+    height: 0px;
     padding: 12% 8%;
     text-align: center;
-    /*background-color: #e6f8ec;*/
+    display: none;
+    overflow-y: hidden;
+    transition: height 0.4s linear;
 }
 
+#section-3.expanded {
+    display: block;
+    height: 390px;
+}
 
-/** *********************************** **/
+    /** *********************************** **/
 /**             Section 4               **/
 /** *********************************** **/
 
@@ -187,16 +218,11 @@ section {
 }
 
 #section-5-info {
-    height: 25%;
+    height: 180px;
 }
 
 #section-5-vis {
-    height: 75%;
-}
-
-#section-5 .section-title {
-    margin: 0;
-    padding: 0;
+    height: calc(82vh - 180px); /* 82 = 90-8 (to leave some margin at the bottom of the section. */
 }
 
 #section-5 .section-text {
@@ -239,7 +265,7 @@ section {
 }
 
 #comparison-chart-tooltip .tooltip-box span {
-    color: red;
+    color: #9d0f3a;
 }
 
 @media(max-width: 1100px) {
@@ -557,11 +583,10 @@ a:hover {
 /** *********************************** **/
 
 #section-15 {
-    padding: 12% 8%;
+    padding: 0% 8% 4% 8%;
     background-color: #85c094;
     color: white;
 }
-
 
 /** **************************************** **/
 /**  Temporary Styles for Storyboard Slides  **/

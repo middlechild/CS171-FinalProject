@@ -57,9 +57,17 @@ Promise.all(promises)
 
 // Initialize the page
 function initPage(data) {
+    // Add event listener to leaf buttons on section #2
+    let buttons = document.getElementsByClassName("big-leaf-btn");
+    Array.from(buttons).forEach(function(o) {
+        o.addEventListener("click", function(e) {
+            e.target.classList.add("selected");
 
-    // Log data
-    // console.log(dataArray);
+            let section3 = document.getElementById("section-3");
+            section3.classList.add("expanded");
+            section3.scrollIntoView({ behavior: 'smooth', block: 'center'});
+        });
+    });
 
     // Initialize visualizations
     comparisonChart = new ComparisonVis("comparisonChart", "comparison-chart-legend", data[0], data[1]);
@@ -68,3 +76,4 @@ function initPage(data) {
     mapFlat = new MapFlat('map-flat-chart', data[5], data[6]);
     rootBarchart = new TopDownBarchart('root-barchart', data[3]);
 }
+
