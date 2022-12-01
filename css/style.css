@@ -482,6 +482,10 @@ a:hover {
 #section-10 {
     padding: 12% 8%;
     background-color: #85c094;
+    background-image: url(/images/trees2-10-pcnt.png);
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 #section-10 .section-remark {
