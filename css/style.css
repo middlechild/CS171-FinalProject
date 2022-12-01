@@ -583,9 +583,32 @@ a:hover {
 /** *********************************** **/
 
 #section-15 {
-    padding: 0% 8% 4% 8%;
+    padding: 0% 8% 8% 8%;
     background-color: #85c094;
     color: white;
+}
+
+
+#section-15 .wrapper {
+    max-width: 920px;
+}
+
+
+#section-15 .team-info {
+    text-align: center;
+}
+
+#section-15 .team-member img {
+    width: 100%;
+    max-width: 160px;
+    border-bottom-left-radius: 36px;
+    border-top-right-radius: 36px;
+}
+
+#section-15 .team-member .member-name {
+    color: #222B32;
+    font-size: 20px;
+    margin-top: 1em;
 }
 
 /** **************************************** **/
