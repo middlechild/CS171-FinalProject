@@ -131,6 +131,10 @@ section {
     color: white;
     text-align: center;
     height: 100vh;
+    background-image: url(/images/trees-10-pcnt.png);
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 #section-1 .col-centered {
