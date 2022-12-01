@@ -196,7 +196,7 @@ class Map3D {
                             .html(`
                          <div class="tooltip-box">
                              <h3 class="country-name">${d.properties.LEVEL3_NAM}</h3>
-                             <h4 class="abs-value">${vis.countryInfo[d.properties.LEVEL3_COD].total} ${vis.selectedListValue} Species</h4>
+                             <h4 class="abs-value">${vis.countryInfo[d.properties.LEVEL3_COD].total} ${vis.selectedRiskValue} species</h4>
                          </div>`);
                     }
                 } catch(e) {}
