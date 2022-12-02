@@ -32,6 +32,6 @@ class Utils {
     }
 
     getRisk() {
-        return this.risk;
+        return Object.assign({}, this.risk);
     }
 }
