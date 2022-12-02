@@ -8,7 +8,9 @@ let comparisonChart,
     extinctionRateChart,
     map3d,
     mapFlat,
-    rootBarchart;
+    rootBarchart,
+    stackedBarchart,
+    utils;
 
 // Get selection for comparison visualization
 let selectedComparison = document.getElementById("comparison-selector").value;
@@ -57,6 +59,7 @@ Promise.all(promises)
 
 // Initialize the page
 function initPage(data) {
+
     // Add event listener to leaf buttons on section #2
     let buttons = document.getElementsByClassName("big-leaf-btn");
     Array.from(buttons).forEach(function(o) {
@@ -69,11 +72,15 @@ function initPage(data) {
         });
     });
 
+    // Initialize Utils
+    utils = new Utils();
+
     // Initialize visualizations
     comparisonChart = new ComparisonVis("comparisonChart", "comparison-chart-legend", data[0], data[1]);
     extinctionRateChart = new ExtinctionRateChart("sec06-vis", data[2])
     map3d = new Map3D('map-3d-chart', data[5], data[6]);
     mapFlat = new MapFlat('map-flat-chart', data[5], data[6]);
     rootBarchart = new TopDownBarchart('root-barchart', data[3]);
+    stackedBarchart = new StackedBarchart('stacked-chart', data[5], data[6]);
 }
 

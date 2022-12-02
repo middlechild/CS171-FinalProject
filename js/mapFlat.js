@@ -12,10 +12,7 @@ class MapFlat {
         this.selectedListValue = "Rediscovered";
 
         // define colors
-        this.colors = {
-            rediscovered: ["#6ba9c2", "#136A8A"],
-            extinct: ["#de6388", "#9d0f3a"]
-        }
+        this.colors = utils.getColors();
 
         this.initVis();
     }

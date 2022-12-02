@@ -12,15 +12,7 @@ class Map3D {
         this.selectedRiskValue = "Extinct";
 
         // define colors
-        this.colors = {
-            "Extinct": ["#c9aef8", "#5c03b0"],
-            "Extinct in the wild": ["#edc4f1", "#9f03b0"],
-            "Critically endangered": ["#f6bfd0", "#86012a"],
-            "Endangered": ["#f5cdc2", "#964112"],
-            "Vulnerable": ["#ebf5cf", "#8c9a11"],
-            "Least concern": ["#b5f5d8", "#048370"],
-            "Data deficient": ["#c6c8c9", "#626565"]
-        }
+        this.colors = utils.getColors();
 
         this.initVis();
     }
@@ -122,7 +114,7 @@ class Map3D {
         let filteredData = [];
         // Iterate over all rows in the data csv
         vis.data.forEach(row => {
-            // push rows with proper dates into filteredData
+            // push rows with proper risk values into filteredData
             if (row['Extinction.Risk'] === vis.selectedRiskValue) {
                 filteredData.push(row);
             }
