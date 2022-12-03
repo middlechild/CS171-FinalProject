@@ -5,8 +5,9 @@
 
 class TopDownBarchart {
 
-    constructor(parentElement, data) {
+    constructor(parentElement, infoElement, data) {
         this.parentElement = parentElement;
+        this.infoElement = infoElement;
         this.data = data;
 
         this.initVis();
@@ -80,10 +81,34 @@ class TopDownBarchart {
                     .style("top", 0)
                     .html(``);
             })
+            .on("click", function(event, d) {
+                vis.updateSlideText(d);
+            })
             .style("fill", (d, i) => d3.schemeSet3[i])
             .attr("x", (d) => vis.x(d.driver))
             .attr("y", 0)
             .attr("width", vis.x.bandwidth())
             .attr("height", (d) => vis.height - vis.y(d.percentage));
+    }
+
+    updateSlideText(driver) {
+        let vis = this;
+
+        // Get info section and clear contents
+        let infoSection = document.getElementById(vis.infoElement);
+        infoSection.innerHTML = "";
+
+        // Create sub-title elements for driver name
+        let driverTitle = document.createElement("h3");
+        driverTitle.innerText = driver.driver;
+        infoSection.append(driverTitle);
+
+        // Append paragraph for each piece of info
+        driver.info.forEach((i) => {
+            let infoParagraph = document.createElement("p");
+            infoParagraph.className = "section-text";
+            infoParagraph.innerText = i;
+            infoSection.append(infoParagraph);
+        });
     }
 }
