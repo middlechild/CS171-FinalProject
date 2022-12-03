@@ -45,7 +45,7 @@ class Map3D {
         // Make separate drawing spaces for map and legend
         vis.mapGroup = vis.svg.append("g");
         vis.legendGroup = vis.svg.append("g")
-            .attr("transform", `translate(${0.1 * vis.mapDims.width}, ${vis.mapDims.height})`)
+            .attr("transform", `translate(${0.1 * vis.legendDims.width}, ${vis.mapDims.height})`)
             .classed("legend", true);
 
         // Create a projection
