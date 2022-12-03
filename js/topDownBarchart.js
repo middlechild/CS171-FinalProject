@@ -5,8 +5,9 @@
 
 class TopDownBarchart {
 
-    constructor(parentElement, data) {
+    constructor(parentElement, infoElement, data) {
         this.parentElement = parentElement;
+        this.infoElement = infoElement;
         this.data = data;
 
         this.initVis();
@@ -19,36 +20,26 @@ class TopDownBarchart {
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
         vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
 
-        // init drawing area
+        // Initialize drawing area
         vis.svg = d3.select("#" + vis.parentElement).append("svg")
             .attr("width", vis.width + vis.margin.left + vis.margin.right)
             .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
             .append('g')
             .attr('transform', `translate (${vis.margin.left}, ${vis.margin.top})`);
 
-        // tooltip
+        // Create tooltip
         vis.tooltip = d3.select("body").append('div')
             .attr('class', "tooltip")
             .attr('id', 'rootTooltip');
 
-        // set bar spam
-        vis.barspan = vis.height * .6;
-
-        // set up X & Y scales
+        // Define scales
         vis.x = d3.scaleBand()
             .range([0, vis.width])
             .paddingInner(0.1);
-
         vis.y = d3.scaleLinear()
-            .range([vis.barspan, 0]);
+            .range([vis.height, 0]);
 
-        // set up X axis
-        vis.xAxis = vis.svg.append("g")
-            .attr("id", "x-axis")
-            .attr("class", "axis x-axis")
-            .attr("transform", "translate(0," + (vis.barspan + 10) + ")");
-
-        this.wrangleData();
+        vis.wrangleData();
     }
 
     wrangleData() {
@@ -60,20 +51,18 @@ class TopDownBarchart {
         let vis = this;
 
         // Update scales
-        vis.x.domain(vis.data.map( d => d.driver));
+        vis.x.domain(vis.data.map((d) => d.driver));
 
-        let yMax = d3.max(vis.data, d => { return d.percentage; });
+        let yMax = d3.max(vis.data, (d) => d.percentage);
         vis.y.domain([0, yMax]);
 
-        // Update bars
-        let bars = vis.svg.selectAll("rect")
-            .data(vis.data);
-
-        bars.enter()
+        // Create bars
+        vis.svg.selectAll("rect")
+            .data(vis.data)
+            .enter()
             .append("rect")
-            .merge(bars)
-            .attr("class", "bar")
-            .on('mouseover', function(event, d) {
+            .classed("bar", true)
+            .on("mouseover", function(event, d) {
                 vis.tooltip
                     .style("opacity", 1)
                     .style("left", event.pageX + 20 + "px")
@@ -85,44 +74,41 @@ class TopDownBarchart {
                          </div>`);
 
             })
-            .on('mouseout', function(event, d) {
+            .on("mouseout", function(event, d) {
                 vis.tooltip
                     .style("opacity", 0)
                     .style("left", 0)
                     .style("top", 0)
                     .html(``);
             })
-            .attr("fill", (d, i) => d3.schemeSet3[i])
-            .attr("x", d => vis.x(d.driver))
+            .on("click", function(event, d) {
+                vis.updateSlideText(d);
+            })
+            .style("fill", (d, i) => d3.schemeSet3[i])
+            .attr("x", (d) => vis.x(d.driver))
             .attr("y", 0)
             .attr("width", vis.x.bandwidth())
-            .attr("height", d => vis.barspan - vis.y(d.percentage))
+            .attr("height", (d) => vis.height - vis.y(d.percentage));
+    }
 
-        bars.exit().remove();
+    updateSlideText(driver) {
+        let vis = this;
 
-        // Update percent labels
-        // let percentLabels = vis.svg.selectAll("text")
-        //     .data(vis.data);
-        //
-        // percentLabels.enter()
-        //     .append("text")
-        //     .merge(percentLabels)
-        //     .text(d => {
-        //         return d.percentage +"%";
-        //     })
-        //     .attr("class", "percent-label")
-        //     .attr("x", d => {
-        //         return vis.x(d.driver) + 22;
-        //     })
-        //     .attr("y", vis.barspan - 30)
-        //
-        // percentLabels.exit().remove();
+        // Get info section and clear contents
+        let infoSection = document.getElementById(vis.infoElement);
+        infoSection.innerHTML = "";
 
-        // Update X axis
-        vis.xAxis.call(d3.axisBottom().scale(vis.x))
-            .selectAll("text")
-            .attr("y", 0)
-            .attr("dy", 0)
-            .attr("transform", "rotate(-90)");
+        // Create sub-title elements for driver name
+        let driverTitle = document.createElement("h3");
+        driverTitle.innerText = driver.driver;
+        infoSection.append(driverTitle);
+
+        // Append paragraph for each piece of info
+        driver.info.forEach((i) => {
+            let infoParagraph = document.createElement("p");
+            infoParagraph.className = "section-text";
+            infoParagraph.innerText = i;
+            infoSection.append(infoParagraph);
+        });
     }
 }

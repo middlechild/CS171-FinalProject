@@ -40,10 +40,7 @@ let promises = [
         return d;
     }),
     d3.csv("data/extinctionRates.csv"),
-    d3.csv("data/extinction-drivers.csv", d => {
-        d.percentage = +d.percentage;
-        return d;
-    }),
+    d3.json("data/extinction-drivers.json"),
     d3.json("data/map/world-110m.json"),
     d3.json("data/map/wgsrpd/level3.geojson"),
     d3.csv("data/extinction-and-rediscovery.csv")
@@ -59,7 +56,7 @@ Promise.all(promises)
 
 // Initialize the page
 function initPage(data) {
-
+    
     // Add event listener to leaf buttons on section #2
     let buttons = document.getElementsByClassName("big-leaf-btn");
     Array.from(buttons).forEach(function(o) {
@@ -80,7 +77,7 @@ function initPage(data) {
     extinctionRateChart = new ExtinctionRateChart("sec06-vis", data[2])
     map3d = new Map3D('map-3d-chart', data[5], data[6]);
     mapFlat = new MapFlat('map-flat-chart', data[5], data[6]);
-    rootBarchart = new TopDownBarchart('root-barchart', data[3]);
+    rootBarchart = new TopDownBarchart("root-barchart", "root-cause-info", data[3].data);
     stackedBarchart = new StackedBarchart('stacked-chart', data[5], data[6]);
 }
 
