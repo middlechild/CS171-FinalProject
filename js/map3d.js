@@ -172,7 +172,6 @@ class Map3D {
         vis.legendScale.domain([0, vis.maxValue]);
 
         // Update linear gradient for legend
-        // TODO: should we make bottom color white?
         vis.linearGradient.selectAll("stop").remove();
         vis.linearGradient.append("stop")
             .attr("offset", "0%")
@@ -182,7 +181,7 @@ class Map3D {
             .attr("stop-color", vis.colorScale.range()[1]);
         
         // Update legend rectangle fill gradient
-        vis.legendGroup.style("fill", "url(#map-3d-linear-gradient)");
+        vis.legendGroup.select("rect").style("fill", "url(#map-3d-linear-gradient)");
 
         // Add legend axis
         vis.legendAxis.scale(vis.legendScale);
