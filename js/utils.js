@@ -16,6 +16,8 @@ class Utils {
             "extinct": ["#de6388", "#9d0f3a"]
         }
 
+        this.colorsArray = ["#814be0", "#de56ec", "#ee5c89", "#f37655", "#d3f378", "#7ffac2", "#73c7f1"];
+
         this.risk = {
             "Extinct": 0,
             "Extinct in the wild": 0,
@@ -31,7 +33,27 @@ class Utils {
         return this.colors;
     }
 
+    getRiskColorRange() {
+        let range = [];
+        Object.keys(this.risk).forEach(key => {
+            range.push(this.colors[key][0]);
+        });
+        return range;
+    }
+
     getRisk() {
         return Object.assign({}, this.risk);
+    }
+
+    getRiskKeys() {
+        let keys = [];
+        Object.keys(this.risk).forEach(key => {
+            keys.push(key);
+        })
+        return keys;
+    }
+
+    getRiskColorsArray() {
+        return this.colorsArray;
     }
 }
