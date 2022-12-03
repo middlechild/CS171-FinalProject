@@ -38,10 +38,7 @@ let promises = [
         return d;
     }),
     d3.csv("data/extinctionRates.csv"),
-    d3.csv("data/extinction-drivers.csv", d => {
-        d.percentage = +d.percentage;
-        return d;
-    }),
+    d3.json("data/extinction-drivers.json"),
     d3.json("data/map/world-110m.json"),
     d3.json("data/map/wgsrpd/level3.geojson"),
     d3.csv("data/extinction-and-rediscovery.csv")
@@ -59,12 +56,12 @@ Promise.all(promises)
 function initPage(data) {
 
     // Log data
-    // console.log(dataArray);
+    // console.log(data);
 
     // Initialize visualizations
     comparisonChart = new ComparisonVis("comparisonChart", "comparison-chart-legend", data[0], data[1]);
     extinctionRateChart = new ExtinctionRateChart("sec06-vis", data[2])
     map3d = new Map3D('map-3d-chart', data[5], data[6]);
     mapFlat = new MapFlat('map-flat-chart', data[5], data[6]);
-    rootBarchart = new TopDownBarchart('root-barchart', data[3]);
+    rootBarchart = new TopDownBarchart('root-barchart', data[3].data);
 }
