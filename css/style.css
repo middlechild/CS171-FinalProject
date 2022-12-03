@@ -395,8 +395,8 @@ a:hover {
 /**     Section 8 - Extinction Risk     **/
 /** *********************************** **/
 
-#section-8 {
-    min-height: 800px;
+#section-8 .wrapper {
+    min-height: 600px;
 }
 
 #section-8 .map {
@@ -422,6 +422,10 @@ a:hover {
 
 #section-8 #risk-total-species {
     margin-top: 5px;
+}
+
+#section-8 #stacked-chart {
+    height: 80%;
 }
 
 /** *********************************** **/
