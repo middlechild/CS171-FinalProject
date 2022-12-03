@@ -171,8 +171,7 @@ section {
 }
 
 #section-2 .big-leaf-btn {
-    border-bottom-left-radius: 36px;
-    border-top-right-radius: 36px;
+    border-radius: 0px 36px 0px 36px;
     background-color: #85c094;
     color: white;
     padding: 20px;
@@ -182,6 +181,7 @@ section {
     font-size: 24px;
     font-weight: bold;
     cursor: pointer;
+    box-shadow: 1px 2px 3px rgb(0 0 0 / 50%);
 }
 
 #section-2 .big-leaf-btn:hover,
@@ -367,6 +367,7 @@ section {
     width: 100%;
     border-bottom-left-radius: 160px;
     border-top-right-radius: 160px;
+    box-shadow: 1px 2px 3px rgb(0 0 0 / 50%);
 }
 
 #section-7 a {
@@ -456,8 +457,9 @@ a:hover {
     margin-bottom: 2em;
     padding: 4% 4% 4% 4%;
     background-color: #e6f8ec;
-    border-radius: 0.75em;
-    box-shadow: 0 0 0.25em 0.125em gray;
+    border-bottom-left-radius: 36px;
+    border-top-right-radius: 36px;
+    box-shadow: 1px 2px 3px rgb(0 0 0 / 50%);
 }
 
 /** Section 9 Chart **/
@@ -619,6 +621,7 @@ a:hover {
     max-width: 160px;
     border-bottom-left-radius: 36px;
     border-top-right-radius: 36px;
+    box-shadow: 1px 2px 3px rgb(0 0 0 / 50%);
 }
 
 #section-15 .team-member .member-name {
