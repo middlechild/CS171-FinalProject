@@ -50,8 +50,6 @@ class Map3D {
 
         // Create a projection
         vis.projection = d3.geoOrthographic()
-        // vis.projection = d3.geoAzimuthalEqualArea()
-        // vis.projection = d3.geoStereographic()
             .scale(165)
             .translate([vis.width / 2, vis.height / 2]);
 
