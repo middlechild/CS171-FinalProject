@@ -312,31 +312,6 @@ section {
 /**     Section 6 - Extinction Rate     **/
 /** *********************************** **/
 
-#section-6-info {
-    height: 35vh;
-    padding: 0;
-    margin: 0;
-}
-
-#section-6-info .section-title {
-    margin: 0;
-    padding: 0;
-    text-align: center;
-    font-size: 36px;
-    text-decoration-line: underline;
-    text-underline-offset: 18px;
-}
-
-#section-6-info .section-subtitle {
-    max-width: 920px;
-    text-align: center;
-}
-
-#section-6-info h4 {
-    margin: 0;
-    padding: 0;
-}
-
 #section-6 {
     padding: 0% 4% 4%;
 }
