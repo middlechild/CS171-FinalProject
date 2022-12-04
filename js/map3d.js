@@ -175,34 +175,20 @@ class Map3D {
 
         // Add legend axis
         vis.legendAxis.scale(vis.legendScale);
-        vis.legendAxisGroup.transition()
-            .duration(750)
+        vis.legendAxisGroup
+            .transition()
+            .duration(600)
             .call(vis.legendAxis);
 
         // Draw the countries
         vis.countries = vis.mapGroup.selectAll(".country3d")
             .data(vis.world);
+
         vis.countries.enter()
             .append("path")
             .classed("country3d", true)
             .attr("d", vis.path)
             .merge(vis.countries)
-            .style("cursor", (d) => {
-                try {
-                    if (vis.countryInfo[d.properties.LEVEL3_COD].total != undefined) {
-                        return "pointer";
-                    }
-                } catch(e) {
-                    return "default";
-                }
-            })
-            .attr("fill", (d) => {
-                try {
-                    return vis.colorScale(vis.countryInfo[d.properties.LEVEL3_COD].total);
-                } catch(e) {
-                    return "#FFFFFF";
-                }
-            })
             .on("mouseover", function(event, d) {
                 try {
                     if (vis.countryInfo[d.properties.LEVEL3_COD].total != undefined) {
@@ -226,6 +212,24 @@ class Map3D {
                         .style("top", 0)
                         .html(``);
                 } catch(e) {}
+            })
+            .style("cursor", (d) => {
+                try {
+                    if (vis.countryInfo[d.properties.LEVEL3_COD].total != undefined) {
+                        return "pointer";
+                    }
+                } catch(e) {
+                    return "default";
+                }
+            })
+            .transition()
+            .duration(600)
+            .attr("fill", (d) => {
+                try {
+                    return vis.colorScale(vis.countryInfo[d.properties.LEVEL3_COD].total);
+                } catch(e) {
+                    return "#FFFFFF";
+                }
             });
         vis.countries.exit().remove();
 
