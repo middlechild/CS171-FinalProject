@@ -18,6 +18,18 @@ h1, h2, h3, h4, h5 {
     margin-bottom: 1em;
 }
 
+a {
+    color: #405e48;
+}
+
+a:hover {
+    color: #2a4832;
+}
+
+a:visited {
+    color: #6c5785;
+}
+
 .container-fluid {
     padding: 0;
     margin: 0;
@@ -374,7 +386,7 @@ section {
     color: #85c094;
 }
 
-a:hover {
+#section-7 a:hover {
     color: #405e48;
 }
 
