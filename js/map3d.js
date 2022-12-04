@@ -37,12 +37,12 @@ class Map3D {
         // Make separate drawing spaces for map and legend
         vis.mapGroup = vis.svg.append("g");
         vis.legendGroup = vis.svg.append("g")
-            .attr("transform", `translate(${0.1 * vis.legendDims.width}, ${vis.mapDims.height})`)
+            .attr("transform", `translate(${0.1 * vis.legendDims.width}, ${vis.mapDims.height + 24})`)
             .classed("legend", true);
 
         // Create a projection
         vis.projection = d3.geoOrthographic()
-            .scale(165)
+            .scale(155)
             .translate([vis.width / 2, vis.height / 2]);
 
         // Define a geo generator and pass projection

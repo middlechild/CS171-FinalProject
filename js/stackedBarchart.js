@@ -7,12 +7,8 @@ class StackedBarchart {
 
     constructor(parentElement, geoData, data) {
         this.parentElement = parentElement;
-        this.geoData = geoData;
         this.data = data;
-        this.selectedClimateValue = "subtropical";
-
-        // get colors
-        this.colors = utils.COLORS;
+        this.selectedClimateValue = "wet tropical";
 
         this.initVis();
     }
@@ -20,21 +16,58 @@ class StackedBarchart {
     initVis() {
         let vis = this;
 
-        vis.margin = {top: 20, right: 20, bottom: 20, left: 20};
+        vis.margin = {top: 0, right: 20, bottom: 20, left: 20};
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
         vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
 
         // init drawing area
         vis.svg = d3.select("#" + vis.parentElement).append("svg")
-            .attr("width", vis.width)
-            .attr("height", vis.height)
+            .attr("width", vis.width + vis.margin.left + vis.margin.right)
+            .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
             .attr('transform', `translate (${vis.margin.left}, ${vis.margin.top})`);
 
         // append tooltip
         vis.tooltip = d3.select("#" + vis.parentElement).append('div')
             .attr('class', "tooltip tooltip-small");
 
+        //Set up scales
+        vis.x = d3.scaleBand()
+            .range([0, vis.width])
+            .paddingInner(0.1);
+
+        vis.y = d3.scaleLinear()
+            .range([vis.height - 90, 0]);
+
+        // Get colors
+        vis.solidColors = utils.getSolidColors();
+
+        // Update color legends
+        let riskLegend = document.getElementById("risk-labels");
+        Object.keys(utils.getRisk()).forEach(key => {
+            let li = document.createElement("li");
+            li.textContent = key;
+
+            let span = document.createElement("span");
+            span.className = 'color-box';
+            span.style.backgroundColor = this.solidColors[key];
+
+            li.prepend(span);
+            riskLegend.append(li);
+        });
+
+        // Set up stack method
+        vis.stack = d3.stack()
+            .keys(utils.getRiskKeys())
+            .order(d3.stackOrderNone);
+
+        // set up X axis
+        vis.xAxis = vis.svg.append("g")
+            .attr("id", "x-axis")
+            .attr("class", "axis x-axis")
+            .attr("transform", "translate(0," + (vis.height - 80) + ")");
+
         vis.wrangleData();
+        vis.climateChange(null);
     }
 
     wrangleData() {
@@ -84,7 +117,7 @@ class StackedBarchart {
 
         // Sort by Critically endangered and only keep top 10
         let sortedFamilies = familiesArray.sort((a, b) => {
-            return b.risk["Critically endangered"] - a.risk["Critically endangered"];
+            return b.risk["Extinct"] - a.risk["Extinct"];
         }).filter((d, i) => { return i < 10 });
 
         vis.climateInfo.families = sortedFamilies;
@@ -95,6 +128,7 @@ class StackedBarchart {
     }
 
     updateVis() {
+        console.log('updateVis');
         let vis = this;
 
         // List of subgroups
@@ -103,53 +137,40 @@ class StackedBarchart {
         console.log(">>>>>>>> ");
         console.log(subgroups);
 
-        //Set up stack method
-        let stack = d3.stack()
-            .keys(utils.getRiskKeys())
-            .order(d3.stackOrderNone);
+        // Data stacked
+        vis.series = vis.stack(d3.map(vis.climateInfo.families, function(d) { return(d.risk) }));
+        console.log("-------- ****** ");
+        console.log(vis.series);
 
-        //Data, stacked
-        let series = stack(d3.map(vis.climateInfo.families, function(d) {return(d.risk)}));
-        console.log("-------- ");
-        console.log(series);
-
-        //Set up scales
-        let xScale = d3.scaleBand()
+        // Update scales
+        vis.x = d3.scaleBand()
             .domain(d3.range(vis.climateInfo.families.length))
             .range([0, vis.width])
-            .paddingInner(0.05);
+            .paddingInner(0.1);
 
-        let yScale = d3.scaleLinear()
+        vis.y = d3.scaleLinear()
             .domain([0,
                 d3.max(vis.climateInfo.families, function(d) {
                     let value = 1;
                      utils.getRiskKeys().forEach(risk => {
-                         console.log("$$$$$$$$$$ ");
-                         // console.log(d.risk[risk]);
                          value += d.risk[risk];
                      })
-                    console.log(value);
                     return value;
                 })
             ])
-            .range([vis.height, 0]);  // <-- Flipped vertical scale
-
-        //Easy colors accessible via a 10-step ordinal scale
-        let colors = d3.scaleOrdinal()
-            .domain(subgroups)
-            .range(utils.getRiskColorsArray());
+            .range([vis.height - 90, 0]);  // Flipped vertical scale
 
         // Add a group for each row of data
         vis.groups = vis.svg.selectAll(".bar-group")
-            .data(series);
+            .data(vis.series);
 
         vis.groups.enter()
             .append("g")
-            .attr('class', 'bar-group')
-            .style("fill", function(d, i) {
-                return colors(i);
-            })
-            .merge(vis.groups);
+            .merge(vis.groups)
+            .attr("class", "bar-group")
+            .style("fill", function(d) {
+                return vis.solidColors[d.key];
+            });
 
         vis.groups.exit().remove();
 
@@ -159,30 +180,19 @@ class StackedBarchart {
 
         vis.rects.enter()
             .append("rect")
-            .attr('class', 'bar-section')
             .merge(vis.rects)
-            .attr("x", function(d, i) {
-                return xScale(i);
-            })
-            .attr("y", function(d) {
-                return yScale(d[1]);  // <-- Changed y value
-            })
-            .attr("height", function(d) {
-                return yScale(d[0]) - yScale(d[1]);  // <-- Changed height value
-            })
-            .attr("width", xScale.bandwidth())
+            .attr('class', 'bar-section')
             .on('mouseover', function(event, d) {
                 try {
-                    //console.log(d);
+                    // console.log(d);
                     vis.tooltip
                         .style("opacity", 1)
                         .style("left", event.pageX + 20 + "px")
                         .style("top", event.pageY + "px")
-                        // .html(`
-                        //  <div class="tooltip-box">
-                        //      <h3 class="country-name">${d.properties.LEVEL3_NAM}</h3>
-                        //      <h4 class="abs-value">${vis.countryInfo[d.properties.LEVEL3_COD].total} ${vis.selectedRiskValue} species</h4>
-                        //  </div>`);
+                        .html(`
+                         <div class="tooltip-box">
+                             <h3 class="country-name">${d[1] - d[0]} species</h3>
+                         </div>`);
                 } catch(e) {}
             })
             .on('mouseout', function(event, d) {
@@ -193,9 +203,32 @@ class StackedBarchart {
                         .style("top", 0)
                         .html(``);
                 } catch(e) {}
-            });
+            })
+            .transition()
+            .duration(600)
+            .attr("x", function(d, i) {
+                return vis.x(i);
+            })
+            .attr("y", function(d) {
+                return vis.y(d[1]);
+            })
+            .attr("height", function(d) {
+                return vis.y(d[0]) - vis.y(d[1]);
+            })
+            .attr("width", vis.x.bandwidth());
 
         vis.rects.exit().remove();
+
+        // Update X axis
+        vis.xAxis.call(d3.axisBottom().scale(vis.x))
+            .selectAll("text")
+            .text(function(d, i) {
+                return subgroups[d].name;
+            })
+            .attr("y", 0)
+            .attr("dy", 0)
+            .attr("text-anchor", "end")
+            .attr("transform", "rotate(-75)");
     }
 
     climateChange(event) {

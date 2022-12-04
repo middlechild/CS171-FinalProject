@@ -113,6 +113,9 @@
       <div class="row wrapper">
         <div class="col col-6 map">
           <div class="row">
+            <h4 class="section-subtitle">Regional Distribution:</h4>
+          </div>
+          <div class="row">
             <div class="col col-7">
               <select id="risk-selector" class="form-select form-select-lg mb-3" onchange="map3d.riskChange()">
                 <option value="Extinct" selected>Extinct</option>
@@ -132,20 +135,22 @@
         </div>
         <div class="col col-6 chart">
           <div class="row">
+            <h4 class="section-subtitle">Risk by Climate (Top 10 Plant Families):</h4>
+          </div>
+          <div class="row">
             <div class="col col-7">
               <select id='climate-selector' class="form-select form-select-lg mb-3" onchange="stackedBarchart.climateChange()">
-                <option value="wet tropical">Wet Tropical</option>
-                <option value="tropical general" selected>Tropical General</option>
+                <option value="wet tropical" selected>Wet Tropical</option>
+                <option value="tropical general">Tropical General</option>
                 <option value="subtropical">Subtropical</option>
                 <option value="temperate">Temperate</option>
                 <option value="desert/dry shrubland">Desert/Dry Shrubland</option>
                 <option value="seasonally dry tropical">Seasonally Dry Tropical</option>
-                <option value="subalpine/subarctic">Subalpine/Subarctic</option>
-                <option value="montane tropical">Montane Tropical</option>
               </select>
             </div>
             <div class="col col-5">
-              <h4 id="risk-total-species2"></h4>
+              <ul id="risk-labels">
+              </ul>
             </div>
           </div>
           <div id="stacked-chart" class="row"></div>

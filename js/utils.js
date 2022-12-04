@@ -5,18 +5,26 @@
 class Utils {
     constructor() {
         this.colors = {
-            "Extinct": ["#c9aef8", "#5c03b0"],
-            "Extinct in the wild": ["#edc4f1", "#9f03b0"],
-            "Critically endangered": ["#f6bfd0", "#86012a"],
-            "Endangered": ["#f5cdc2", "#964112"],
-            "Vulnerable": ["#ebf5cf", "#8c9a11"],
-            "Least concern": ["#b5f5d8", "#048370"],
-            "Data deficient": ["#c6c8c9", "#626565"],
-            "rediscovered": ["#6ba9c2", "#136A8A"],
-            "extinct": ["#de6388", "#9d0f3a"]
+            "Extinct": ["#f4c3f5", "#875088"],
+            "Extinct in the wild": ["#fadfed", "#91687d"],
+            "Critically endangered": ["#f6a89f", "#dc5041"],
+            "Endangered": ["#fadab6", "#ee9a3e"],
+            "Vulnerable": ["#ddf8b0", "#6b9423"],
+            "Least concern": ["#cafaee", "#388170"],
+            "Data deficient": ["#eeeded", "#545454"],
+            "rediscovered": ["#abd5e7", "#136A8A"],
+            "extinct": ["#f6c9d7", "#af0a3c"]
         }
 
-        this.colorsArray = ["#814be0", "#de56ec", "#ee5c89", "#f37655", "#d3f378", "#7ffac2", "#73c7f1"];
+        this.solidColors = {
+            "Extinct": "#bc80bd",
+            "Extinct in the wild": "#fccde5",
+            "Critically endangered": "#fb8072",
+            "Endangered": "#fdb462",
+            "Vulnerable": "#b3de69",
+            "Least concern": "#8dd3c2",
+            "Data deficient": "#d9d9d9"
+        }
 
         this.risk = {
             "Extinct": 0,
@@ -31,6 +39,10 @@ class Utils {
 
     getColors() {
         return this.colors;
+    }
+
+    getSolidColors() {
+        return this.solidColors;
     }
 
     getRiskColorRange() {
@@ -51,9 +63,5 @@ class Utils {
             keys.push(key);
         })
         return keys;
-    }
-
-    getRiskColorsArray() {
-        return this.colorsArray;
     }
 }
