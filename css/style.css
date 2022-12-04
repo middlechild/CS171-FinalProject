@@ -158,7 +158,7 @@ section {
     color: white;
     text-align: center;
     height: 100vh;
-    background-image: url(/images/trees-10-pcnt.png);
+    background-image: url(https://middlechild.github.io/CS171-FinalProject/images/trees-10-pcnt.png);
     background-position: top;
     background-repeat: no-repeat;
     background-size: cover;
@@ -524,7 +524,7 @@ section {
 #section-10 {
     padding: 12% 8%;
     background-color: #85c094;
-    background-image: url(/images/trees2-10-pcnt.png);
+    background-image: url(https://middlechild.github.io/CS171-FinalProject/images/trees2-10-pcnt.png);
     background-position: top;
     background-repeat: no-repeat;
     background-size: cover;
