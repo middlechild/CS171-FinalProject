@@ -12,15 +12,6 @@ let comparisonChart,
     stackedBarchart,
     utils;
 
-// Get selection for comparison visualization
-let selectedComparison = document.getElementById("comparison-selector").value;
-
-// Function for changing comparison visualization
-function changeComparisonVis() {
-    selectedComparison = document.getElementById("comparison-selector").value;
-    comparisonChart.updateVis();
-}
-
 // Load data using promises
 let promises = [
     d3.csv("data/plantae-redlist-categories.csv", (d) => {
