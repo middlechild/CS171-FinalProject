@@ -10,6 +10,7 @@ class ComparisonVis {
         this.legendElement = _legendElement;
         this.plantData = _plantData.filter((d) => d.Name === "Total")[0];
         this.animalData = _animalData.filter((d) => d.Name !== "Total");
+        this.selectedStatus = "extinct";
 
         this.animalTypes = [...new Set(this.animalData.map((d) => d.Type))];
         this.colorMap = {
@@ -245,14 +246,14 @@ class ComparisonVis {
         let vis = this;
 
         // Get display data based off of selected threat level
-        vis.displayData = vis.finalData[selectedComparison];
-        vis.displaySummaryStats = vis.summaryStats[selectedComparison];
+        vis.displayData = vis.finalData[vis.selectedStatus];
+        vis.displaySummaryStats = vis.summaryStats[vis.selectedStatus];
 
         // Update the chart message
-        const selectionText = (selectedComparison !== "both") ? selectedComparison : "extinct + threatened";
+        const selectionText = (vis.selectedStatus !== "both") ? vis.selectedStatus : "extinct + threatened";
         d3.select("#section-5-message__category")
             .html(selectionText);
-        const animalTypeText = (selectedComparison === "extinct") ? "amphibians, birds, mammals, reptiles, and other non-marine species" : "all animal species";
+        const animalTypeText = (vis.selectedStatus === "extinct") ? "amphibians, birds, mammals, reptiles, and other non-marine species" : "all animal species";
         d3.select("#section-5-message__animals")
             .html(animalTypeText);        
 
@@ -323,7 +324,7 @@ class ComparisonVis {
                 let className = `.${d.fill.toLowerCase().replaceAll(" ", "-")}-cell`;
 
                 // Update tooltip
-                const selectionStr = (selectedComparison !== "both") ? selectedComparison : "extinct + threatened";
+                const selectionStr = (vis.selectedStatus !== "both") ? vis.selectedStatus : "extinct + threatened";
                 vis.tooltip.style("opacity", 0.95)
                     .style("left", event.pageX + 20 + "px")
                     .style("top", event.pageY + "px")
@@ -354,5 +355,11 @@ class ComparisonVis {
                     .style("top", 0)
                     .html("");
             });
+    }
+
+    changeStatus() {
+        let vis = this;
+        vis.selectedStatus = document.getElementById("comparison-selector").value;
+        vis.updateVis();
     }
 }

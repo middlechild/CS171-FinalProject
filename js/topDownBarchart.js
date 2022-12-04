@@ -24,13 +24,13 @@ class TopDownBarchart {
         vis.svg = d3.select("#" + vis.parentElement).append("svg")
             .attr("width", vis.width + vis.margin.left + vis.margin.right)
             .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
-            .append('g')
-            .attr('transform', `translate (${vis.margin.left}, ${vis.margin.top})`);
+            .append("g")
+            .attr("transform", `translate (${vis.margin.left}, ${vis.margin.top})`);
 
         // Create tooltip
-        vis.tooltip = d3.select("body").append('div')
-            .attr('class', "tooltip")
-            .attr('id', 'rootTooltip');
+        vis.tooltip = d3.select("body").append("div")
+            .attr("class", "tooltip")
+            .attr("id", "root-tooltip");
 
         // Define scales
         vis.x = d3.scaleBand()
