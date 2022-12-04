@@ -219,7 +219,7 @@ section {
     height: 390px;
 }
 
-    /** *********************************** **/
+/** *********************************** **/
 /**             Section 4               **/
 /** *********************************** **/
 
@@ -327,9 +327,18 @@ section {
     text-underline-offset: 18px;
 }
 
+#section-6-info .section-subtitle {
+    max-width: 920px;
+    text-align: center;
+}
+
 #section-6-info h4 {
     margin: 0;
     padding: 0;
+}
+
+#section-6 {
+    padding: 0% 4% 4%;
 }
 
 #extinction-rate-toggle {
@@ -355,6 +364,11 @@ section {
     #sec06-vis text {
         font-size: 1em;
     }
+}
+
+#sec-6-buttons {
+    margin-top: 24px;
+    margin-bottom: 24px;
 }
 
 #section-6-footer {

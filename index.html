@@ -69,26 +69,29 @@
     </section>
 
     <section id="section-6" class="row">
-      <div class="row justify-content-center align-items-center text-center" id="section-6-info">
+      <div class="row wrapper" id="section-6-info">
         <h2 class="section-title">The Current Extinction Rate Has Reached Unprecedented Levels</h2>
-        <h4>Extinction rate is measured in Extinctions Per Species Per Million Years (E/MSY)</h4>
+        <div class="row align-items-center text-center">
+          <h4 class="section-subtitle">Extinction rate is measured in Extinctions Per Species Per Million Years (E/MSY)</h4>
+        </div>
         <div class="row" id="sec-6-buttons">
           <div class="col-8 offset-2">
             <div class="row justify-content-center align-items-center">
-                <div class="btn-group" id="extinction-rate-toggle">
-                  <button type="button" class="btn-toggle btn-extinction-toggle btn btn-lg btn-secondary active" data-value="base">Base Rate</button>
-                  <button type="button" class="btn-toggle btn-extinction-toggle btn btn-lg btn-secondary" data-value="before_1900">Before 1900</button>
-                  <button type="button" class="btn-toggle btn-extinction-toggle btn btn-lg btn-secondary" data-value="after_1900">After 1900</button>
-                </div>
+              <div class="btn-group" id="extinction-rate-toggle">
+                <button type="button" class="btn-toggle btn-extinction-toggle btn btn-lg btn-secondary active" data-value="base">Base Rate</button>
+                <button type="button" class="btn-toggle btn-extinction-toggle btn btn-lg btn-secondary" data-value="before_1900">Before 1900</button>
+                <button type="button" class="btn-toggle btn-extinction-toggle btn btn-lg btn-secondary" data-value="after_1900">After 1900</button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="row align-items-center justify-content-center">
-        <div class="col-10 offset-1 wrapper" id="sec06-vis"></div>
-      </div>
-      <div class="row align-items-center text-center" id="section-6-footer">
-        <h4>The current extinction rate (Extinction Rate After 1900) is roughly <span class="em-red">500x</span> the base historical extinction rate.</h4>
+
+        <div class="row align-items-center justify-content-center">
+          <div class="col-10 offset-1 wrapper" id="sec06-vis"></div>
+        </div>
+        <div class="row align-items-center text-center" id="section-6-footer">
+          <h4 class="section-subtitle">The current extinction rate (Extinction Rate After 1900) is roughly <span class="em-red">500x</span> the base historical extinction rate.</h4>
+        </div>
       </div>
     </section>
 
