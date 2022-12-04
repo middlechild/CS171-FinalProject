@@ -76,12 +76,12 @@ class Map3D {
             .attr("x", 0)
             .attr("y", 0)
             .attr("width", 0.8 * vis.legendDims.width)
-            .attr("height", 0.75 * vis.legendDims.height);
+            .attr("height", 0.4 * vis.legendDims.height);
 
         // Create legend axis and group
         vis.legendAxisGroup = vis.legendGroup.append("g")
             .classed("legend-axis", true)
-            .attr("transform", `translate(0, ${0.75 * vis.legendDims.height})`);
+            .attr("transform", `translate(0, ${0.4 * vis.legendDims.height})`);
         vis.legendScale = d3.scaleLinear()
             .range([0, 0.8 * vis.legendDims.width]);
         vis.legendAxis = d3.axisBottom();
