@@ -57,4 +57,4 @@ Information about datafiles used and a description of their categories can be fo
 
 - Chelostoma rapunculi image: [https://bugguide.net](https://bugguide.net/node/view/1430409)
 
-- GoeJSON files from the International Working Group on Taxonomic Databases for Plant Sciences (TDWG) were used for the map visualizations. [https://github.com/tdwg/wgsrpd](https://github.com/tdwg/wgsrpd)
+- GeoJSON files from the International Working Group on Taxonomic Databases for Plant Sciences (TDWG) were used for the map visualizations. [https://github.com/tdwg/wgsrpd](https://github.com/tdwg/wgsrpd)
