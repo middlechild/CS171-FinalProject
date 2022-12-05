@@ -48,10 +48,12 @@ This project can run on any web server, and does not require special commands or
 Information about datafiles used and a description of their categories can be found in `docs/data_description.xlsx`
 
 #### Useful Links:
-Link to final project: [https://middlechild.github.io/CS171-FinalProject/](https://middlechild.github.io/CS171-FinalProject/)
+- [Public URL](https://middlechild.github.io/CS171-FinalProject/)
+- [Process Book](https://docs.google.com/document/d/1fKJScwvRm_ZZFIwys5lseXKH_AZN5b0TP0vHnneCaZc/)
+- [Presentation Video](https://drive.google.com/file/d/1qiifPojThBBSbrJjAq3XQGqWVs2vpc3L/view?usp=sharing)
 
 #### Additional Resources:
-- Vector images from: [https://svgsilh.com](https://svgsilh.com/image/1302194.html)
+- Vector images: [https://svgsilh.com](https://svgsilh.com/image/1302194.html)
 
 - Chelostoma rapunculi image: [https://bugguide.net](https://bugguide.net/node/view/1430409)
 
