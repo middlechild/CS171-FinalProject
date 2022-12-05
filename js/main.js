@@ -68,6 +68,5 @@ function initPage(data) {
     map3d = new Map3D('map-3d-chart', data[4], data[5]);
     mapFlat = new MapFlat('map-flat-chart', data[4], data[5]);
     rootBarchart = new TopDownBarchart("root-barchart", "root-cause-info", data[3].data);
-    stackedBarchart = new StackedBarchart('stacked-chart', data[4], data[5]);
+    stackedBarchart = new StackedBarchart('stacked-chart', data[5]);
 }
-
