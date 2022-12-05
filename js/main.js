@@ -32,7 +32,6 @@ let promises = [
     }),
     d3.csv("data/extinctionRates.csv"),
     d3.json("data/extinction-drivers.json"),
-    d3.json("data/map/world-110m.json"),
     d3.json("data/map/wgsrpd/level3.geojson"),
     d3.csv("data/extinction-and-rediscovery.csv")
 ];
@@ -66,9 +65,8 @@ function initPage(data) {
     // Initialize visualizations
     comparisonChart = new ComparisonVis("comparisonChart", "comparison-chart-legend", data[0], data[1]);
     extinctionRateChart = new ExtinctionRateChart("sec06-vis", data[2])
-    map3d = new Map3D('map-3d-chart', data[5], data[6]);
-    mapFlat = new MapFlat('map-flat-chart', data[5], data[6]);
+    map3d = new Map3D('map-3d-chart', data[4], data[5]);
+    mapFlat = new MapFlat('map-flat-chart', data[4], data[5]);
     rootBarchart = new TopDownBarchart("root-barchart", "root-cause-info", data[3].data);
-    stackedBarchart = new StackedBarchart('stacked-chart', data[5], data[6]);
+    stackedBarchart = new StackedBarchart('stacked-chart', data[5]);
 }
-

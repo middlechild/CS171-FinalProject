@@ -5,7 +5,7 @@
 
 class StackedBarchart {
 
-    constructor(parentElement, geoData, data) {
+    constructor(parentElement, data) {
         this.parentElement = parentElement;
         this.data = data;
         this.selectedClimateValue = "wet tropical";
@@ -128,19 +128,13 @@ class StackedBarchart {
     }
 
     updateVis() {
-        console.log('updateVis');
         let vis = this;
 
         // List of subgroups
         let subgroups = vis.climateInfo.families;
 
-        console.log(">>>>>>>> ");
-        console.log(subgroups);
-
         // Data stacked
         vis.series = vis.stack(d3.map(vis.climateInfo.families, function(d) { return(d.risk) }));
-        console.log("-------- ****** ");
-        console.log(vis.series);
 
         // Update scales
         vis.x = d3.scaleBand()
@@ -184,7 +178,6 @@ class StackedBarchart {
             .attr('class', 'bar-section')
             .on('mouseover', function(event, d) {
                 try {
-                    // console.log(d);
                     vis.tooltip
                         .style("opacity", 1)
                         .style("left", event.pageX + 20 + "px")
