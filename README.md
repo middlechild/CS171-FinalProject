@@ -10,7 +10,7 @@ For this project we used the d3 and Bootstrap libraries.
 #### Run project locally:
 This project can run on any web server, and does not require special commands or compiling steps —just like any other lab/homework. If WebStorm is available, open the project and right-click on `index.html -> Run.` Internally, WebStorm will start its own web server for serving the project files.
 
-#### Overview of the html, js, and css files:
+#### Overview of the HTML, JS, and CSS files:
 
 * `index.html`:
   This file contains the basic HTML layout for our page. External JS and CSS files are loaded.
